@@ -1,50 +1,38 @@
 export const MatirPayLogo = () => (
   <svg
-    width="180"
-    height="48"
-    viewBox="0 0 180 48"
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    role="img"
-    aria-label="MatirPay logo"
   >
-    <title>MatirPay</title>
-
-    {/* Icon */}
-    <g transform="translate(4,4)">
-      <rect x="0" y="0" width="40" height="40" rx="12" fill="#0EA5E9" />
-      <path
-        d="M8 26 C8 18, 14 18, 16 22
-           C18 26, 22 26, 24 22
-           C26 18, 32 18, 32 26"
-        fill="none"
-        stroke="white"
-        strokeWidth="3.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M20 12 v14" stroke="white" strokeWidth="3.2" strokeLinecap="round" />
-      <path d="M16 18 h8" stroke="white" strokeWidth="2" strokeLinecap="round" />
-      <path d="M16 22 h8" stroke="white" strokeWidth="2" strokeLinecap="round" />
-      <path
-        d="M30 10 C34 10, 36 14, 32 16 C28 16, 26 12, 30 10 Z"
-        fill="#86EFAC"
-        opacity="0.9"
-      />
-    </g>
-
-    {/* Wordmark */}
-    <g
-      fontFamily="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial"
-      fontWeight="700"
-      fontSize="22"
-      fill="#0F172A"
-      transform="translate(52,31)"
-    >
-      <text>Matir</text>
-      <text x="64" fill="#0EA5E9">
-        Pay
-      </text>
-    </g>
+    <path
+      d="M16.6584 40H15.3817C12.0653 40 10.07 39.9994 8.54581 39.7159L17.3668 28.0344L16.6584 40Z"
+      fill="#3B82F6"
+    />
+    <path
+      d="M31.2482 39.7514C29.7502 39.9988 27.7875 40 24.6183 40H23.109L22.397 28.0309L31.2482 39.7514Z"
+      fill="#3B82F6"
+    />
+    <path
+      d="M39.6715 31.6708C39.6071 31.9773 39.5313 32.2655 39.4389 32.5426C38.8337 34.3567 37.7712 35.9522 36.3867 37.1982L26.44 26.044L39.6715 31.6708Z"
+      fill="#3B82F6"
+    />
+    <path
+      d="M3.48544 37.0792C2.16397 35.8511 1.14739 34.3 0.56108 32.5426C0.459551 32.2382 0.375253 31.921 0.307173 31.5803L13.3239 26.0458L3.48544 37.0792Z"
+      fill="#3B82F6"
+    />
+    <path
+      d="M40 24.6183C40 25.7428 39.9968 26.7154 39.9858 27.5692L28.1729 23.006H40V24.6183Z"
+      fill="#3B82F6"
+    />
+    <path
+      d="M11.5962 23.006L0.0106534 27.4805C0.000706106 26.6481 0 25.704 0 24.6183V23.006H11.5962Z"
+      fill="#3B82F6"
+    />
+    <path
+      d="M24.6183 0C28.7807 0 30.862 0.000553673 32.5426 0.56108C35.7979 1.64713 38.3529 4.20208 39.4389 7.45739C39.9994 9.13798 40 11.2193 40 15.3817V20.016H27.5089L36.5181 16.1861L33.8459 14.4123L25.1048 17.7876L29.2081 12.358L26.2571 11.5501L21.7259 16.6282L21.3885 10.9091H18.3825L18.0398 16.6282L13.5121 11.5501L10.5629 12.358L14.6609 17.7859L5.92507 14.4123L3.25284 16.1861L12.2603 20.016H0V15.3817C0 11.2193 0.000553673 9.13798 0.56108 7.45739C1.64713 4.20208 4.20208 1.64713 7.45739 0.56108C9.13798 0.000553673 11.2193 0 15.3817 0H24.6183Z"
+      fill="#3B82F6"
+    />
   </svg>
 );

@@ -1,15 +1,13 @@
-import { MatirPayLogo } from "./components/module/logo"
-import { Button } from "./components/ui/button"
+import { Outlet } from "react-router"
+import CommonLayout from "./components/layout/commonLayout"
 
 
 function App() {
 
   return (
-   <>
-   <h1>This matirPay</h1>
-   <Button>Click me</Button>
-   <MatirPayLogo/>
-   </>
+   <CommonLayout>
+    <Outlet/>
+   </CommonLayout>
   )
 }
 
