@@ -27,5 +27,8 @@ export const router = createBrowserRouter([
                 Component:PricingPage
             },
         ]
+    },
+    {
+        path:"auth/login"
     }
 ])
