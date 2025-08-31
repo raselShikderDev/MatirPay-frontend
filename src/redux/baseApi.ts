@@ -7,6 +7,6 @@ import axiosBaseQuery from './axiosBaseQuery'
 export const baseApi = createApi({
   reducerPath: 'matirPayBaseApi',
   baseQuery: axiosBaseQuery(),
-  tagTypes:["USER"],
+  tagTypes:["USER", "TRANSACTION"],
   endpoints: () => ({}),
   })
