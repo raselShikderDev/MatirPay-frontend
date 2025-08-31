@@ -112,7 +112,7 @@ export default function Navbar() {
               LogOut
             </Button>
             <Button asChild className="text-sm cursor-pointer">
-              <Link to="/sign-in">LogIn</Link>
+              <Link to="/signin">LogIn</Link>
             </Button>
         </div>
       </div>

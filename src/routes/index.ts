@@ -1,5 +1,7 @@
 import App from "@/App";
 import AboutPage from "@/pages/aboutPage";
+import Login from "@/pages/authentications/loginPage";
+import VerifyPage from "@/pages/authentications/verifyPage";
 import ContactPage from "@/pages/contactPage";
 import HomePage from "@/pages/homePage";
 import PricingPage from "@/pages/pricingPage";
@@ -29,6 +31,15 @@ export const router = createBrowserRouter([
         ]
     },
     {
-        path:"auth/login"
-    }
+        path:"signin",
+        Component:Login
+    },
+    {
+        path:"signup",
+        Component:Login
+    },
+    {
+        path:"verify",
+        Component:VerifyPage
+    },
 ])

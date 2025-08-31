@@ -4,7 +4,6 @@ import { useId, useState } from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 
 export default function PasswordToggler({...feild}) {
   const id = useId()
@@ -14,7 +13,6 @@ export default function PasswordToggler({...feild}) {
 
   return (
     <div className="*:not-first:mt-2">
-      <Label htmlFor={id}>Show/hide password input</Label>
       <div className="relative">
         <Input
           id={id}
