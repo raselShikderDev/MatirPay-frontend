@@ -18,6 +18,7 @@ import PasswordToggler from "@/components/passwordToggler";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import type { ILogin } from "@/types";
 import { toast } from "sonner";
+import { LoadingSpinner } from "@/components/loading";
 
 interface Login1Props {
   heading?: string;
@@ -126,6 +127,10 @@ const Login = ({
       }
     }
   };
+
+  if (isLoading) {
+    return <LoadingSpinner/>
+  }
 
   return (
     <section className="bg-muted h-screen">

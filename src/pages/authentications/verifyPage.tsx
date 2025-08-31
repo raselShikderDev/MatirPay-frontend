@@ -1,3 +1,4 @@
+import { LoadingSpinner } from "@/components/loading";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,8 +22,11 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { cn } from "@/lib/utils";
-import { useSendVerifyOtpMutation, useVerifyOtpMutation } from "@/redux/features/auth/auth.api";
-import type { ISendOtp, verifyOTP } from "@/types";
+import {
+  useSendVerifyOtpMutation,
+  useVerifyOtpMutation,
+} from "@/redux/features/auth/auth.api";
+import type { ISendOtp, IVerifyOtp } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -35,10 +39,10 @@ const VerifyPage = () => {
   const navigator = useNavigate();
   const [email] = useState(location.state);
   const [confrimed, setConfrimed] = useState<boolean>(false);
-  const [timer, setTimer] = useState<number>(5);
+  const [timer, setTimer] = useState<number>(60 * 5);
 
   const [sendOtp, { isLoading }] = useSendVerifyOtpMutation();
-  const [verifyOtp] = useVerifyOtpMutation();
+  const [verifyOtp, { isLoading: vericationLoading }] = useVerifyOtpMutation();
 
   // OTP zod schema
   const formSchema = z.object({
@@ -74,11 +78,11 @@ const VerifyPage = () => {
       const res = await sendOtp(data).unwrap();
       // eslint-disable-next-line no-console
       console.log(res);
-      
+
       if (res.success) {
         const toastId = toast.loading("Sending OTP");
         toast.success("OTP successfully sent", { id: toastId });
-        setTimer(5);
+        setTimer(60 * 5);
         setConfrimed(true);
       }
     } catch (error) {
@@ -97,22 +101,21 @@ const VerifyPage = () => {
 
   // handling otp verification by handleOtpSubmit
   const handleOtpSubmit = async (data: z.infer<typeof formSchema>) => {
-    
-    const paylaod: verifyOTP = {
+    const paylaod: IVerifyOtp = {
       email: email,
       otp: data.otp,
     };
-        // eslint-disable-next-line no-console
-console.log(paylaod);
+    // eslint-disable-next-line no-console
+    console.log(paylaod);
     try {
       const res = await verifyOtp(paylaod).unwrap();
       // eslint-disable-next-line no-console
       console.log(res);
-      
+
       if (res.success) {
         const toastId = toast.loading("Verifying OTP");
         toast.success("OTP successfully verified", { id: toastId });
-        navigator("/")
+        navigator("/");
       }
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -120,6 +123,10 @@ console.log(paylaod);
       toast.error("OTP verifying failed");
     }
   };
+
+  if (vericationLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="grid place-content-center h-screen">
@@ -158,7 +165,7 @@ console.log(paylaod);
                       <FormDescription className="w-fit">
                         Please enter the one-time password sent to your phone.
                       </FormDescription>
-                      <div className="text-center">
+                      <div className="text-center py-2.5 space-y-5">
                         <Button
                           onClick={handleSendOtp}
                           disabled={timer !== 0}
@@ -169,9 +176,15 @@ console.log(paylaod);
                           type="button"
                           variant={"link"}
                         >
-                          Resend OTP :
+                          Resend OTP
                         </Button>
-                        {timer}
+                        <p className={timer ? "block" : "hidden" }>
+                          <span className="text-muted-foreground">
+                            You can resend OTP in 
+                          </span>
+                          {" "}{timer}{" "}
+                          <span className="text-muted-foreground">seconds</span>
+                        </p>
                       </div>
                     </FormItem>
                   )}

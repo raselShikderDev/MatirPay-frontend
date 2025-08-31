@@ -1,26 +1,53 @@
 import { Button } from "@/components/ui/button";
-import {Link} from "react-router"
+import { Link } from "react-router";
 
 import React from "react";
 import { MatirPayLogo } from "../module/logo";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "../ui/navigation-menu";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "../ui/navigation-menu";
 import { ModeToggle } from "../mode-toggle";
+import {
+  authApi,
+  useGetMeQuery,
+  useLogOutMutation,
+} from "@/redux/features/auth/auth.api";
+import { toast } from "sonner";
+import { useAppDispatch } from "@/redux/hooks";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
-  { href: "/", label: "Home",},
-  { href: "/about", label: "About"},
-  { href: "/contact", label: "Contact"},
-  { href: "/pricing", label: "Pricing"},
-
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+  { href: "/pricing", label: "Pricing" },
 ];
 
 export default function Navbar() {
-
+  const { data } = useGetMeQuery(null);
+  const [logOut] = useLogOutMutation();
+  const dispatch = useAppDispatch();
 
   const handleLogout = async () => {
-    
+    try {
+      const res = await logOut(null).unwrap();
+      // eslint-disable-next-line no-console
+      console.log(res);
+
+      if (res.success) {
+        const toastId = toast.loading("Loggin Out");
+        toast.success("Successfully logout", { id: toastId });
+        dispatch(authApi.util.resetApiState());
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      toast.error("logout failed");
+    }
   };
 
   return (
@@ -79,22 +106,21 @@ export default function Navbar() {
           </Popover>
           {/* Main nav */}
           <div className="flex items-center gap-6">
-            
-              <MatirPayLogo />
-            
+            <MatirPayLogo />
+
             {/* Navigation menu */}
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
                   <React.Fragment key={index}>
-                      <NavigationMenuItem>
-                        <NavigationMenuLink
-                          asChild
-                          className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                        >
-                          <Link to={link.href}>{link.label}</Link>
-                        </NavigationMenuLink>
-                      </NavigationMenuItem>
+                    <NavigationMenuItem>
+                      <NavigationMenuLink
+                        asChild
+                        className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                      >
+                        <Link to={link.href}>{link.label}</Link>
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
                   </React.Fragment>
                 ))}
               </NavigationMenuList>
@@ -104,6 +130,7 @@ export default function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-2">
           <ModeToggle />
+          {data?.data.email ? (
             <Button
               onClick={handleLogout}
               variant={"outline"}
@@ -111,9 +138,11 @@ export default function Navbar() {
             >
               LogOut
             </Button>
+          ) : (
             <Button asChild className="text-sm cursor-pointer">
               <Link to="/signin">LogIn</Link>
             </Button>
+          )}
         </div>
       </div>
     </header>

@@ -15,21 +15,17 @@ export interface ILogin{
 }
 
 
- export interface verifyOTP {
+ export interface IVerifyOtp {
   email: string
   otp: string
 }
 
- type TRole = "USER" | "ADMIN" | "SUPER_ADMIN" | "AGENT"
+ export type TRole = "USER" | "ADMIN" | "SUPER_ADMIN" | "AGENT"
 
  type TStatus ="ACTIVE" | "DEACTIVE" | "SUSPENDED" | "BLOCKED"
 
 
-
-export interface ILogInRespone {
-  accessToken: string;
-  refreshToken: string;
-  user: {
+ export interface IUser{
     _id: string;
     name: string;
     email: string;
@@ -46,4 +42,24 @@ export interface ILogInRespone {
     updatedAt: string;
     walletId: string;
   };
+
+
+export interface ILogInRespone {
+  accessToken: string;
+  refreshToken: string;
+  user: IUser;
 }
+
+
+export interface ISignUp{
+  name: string;
+  email: string;
+  password: string;
+  role: "USER" | "AGENT";
+  phone: string;
+  address: string;
+}
+
+
+
+
