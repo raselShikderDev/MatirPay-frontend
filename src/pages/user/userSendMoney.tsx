@@ -11,10 +11,13 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Wallet, DollarSign } from "lucide-react";
+import { SendConfirmationModal } from "@/components/sendConfirmationModal";
+import { ransactiontype } from "@/constrants/constrants";
 
 export default function UserSendMoney() {
-  const [walletId, setWalletId] = useState("");
-  const [amount, setAmount] = useState("");
+  const [walletId, setWalletId] = useState<unknown | null>(null);
+  const [amount, setAmount] = useState<unknown | null>(null);
+
 
   const handleSendMoney = () => {
     if (!walletId || !amount) {
@@ -25,9 +28,14 @@ export default function UserSendMoney() {
     // Here you would call your API to send money
     alert(`Sent $${amount} to Wallet ID: ${walletId}`);
 
-    setWalletId("");
-    setAmount("");
+    setWalletId(null);
+    setAmount(null);
   };
+
+
+
+  
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
@@ -71,13 +79,14 @@ export default function UserSendMoney() {
           </div>
 
           {/* Send Button */}
+          {amount && walletId && (<SendConfirmationModal onConfirm={()=> handleSendMoney()} data={{amount, walletId, type:ransactiontype.sendMoney}} >
           <Button
-            onClick={handleSendMoney}
             className="mt-2 w-full cursor-pointer h-12 transition"
             variant={"default"}
           >
             Send Money
           </Button>
+          </SendConfirmationModal>)}
         </CardContent>
       </Card>
     </div>
