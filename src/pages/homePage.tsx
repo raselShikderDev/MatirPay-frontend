@@ -1,10 +1,13 @@
+import { Faq } from "@/components/module/homePage/faq";
+import { Hero } from "@/components/module/homePage/hero";
 
 const HomePage = () => {
 
   return (
-    <div>
-      <h1>This is the home page</h1>
-    </div>
+    <>
+     <Hero/>
+     <Faq/>
+    </>
   );
 };
 
