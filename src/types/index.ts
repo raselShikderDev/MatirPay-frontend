@@ -1,6 +1,9 @@
 import type { ComponentType } from "react";
 
-export type { ISendOtp, ILogin, IVerifyOtp, ILogInRespone, TRole, IUser} from "@/types/auth.type";
+export type { ISendOtp, ILogin, IVerifyOtp, ILogInRespone, TRole, IUser, } from "@/types/auth.type";
+export type {TansactionType} from "@/types/transactionstypes"
+
+
 
 export interface IResponse<T> {
   statusCode: number;
@@ -8,7 +11,6 @@ export interface IResponse<T> {
   message: string;
   data: T;
 }
-
 
 export interface ISidebarItems {
   title: string;

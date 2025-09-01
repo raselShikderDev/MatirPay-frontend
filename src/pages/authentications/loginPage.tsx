@@ -79,7 +79,7 @@ const formZodSchema = z.object({
 const Login = ({
   heading = "Login",
   signupText = "Need an account?",
-  signupUrl = "/sign-up",
+  signupUrl = "/signup",
 }: Login1Props) => {
   // Hooks
   const [logIn, { isLoading }] = useLoginMutation();
@@ -133,14 +133,14 @@ const Login = ({
   }
 
   return (
-    <section className="bg-muted h-screen">
+    <section className="bg-muted h-screen dark:bg-blue-950/50">
       <div className="flex h-full items-center justify-center">
         {/* Logo */}
         <div className="flex flex-col items-center gap-6 lg:justify-start">
           <Link to={"/"}>
             <MatirPayLogo />
           </Link>
-          <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-5 py-8 shadow-md">
+          <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-5 py-8 shadow-md dark:bg-gray-900">
             {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
             <Form {...form}>
               <form
