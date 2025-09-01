@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,79 +7,191 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Wallet, DollarSign } from "lucide-react";
+import { useForm } from "react-hook-form";
+import z from "zod";
+import { userTransactionZodSchema } from "@/schema/userSchmea";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useUserCashOutMutation } from "@/redux/features/wallet/wallet.api";
+import { SendConfirmationModal } from "@/components/sendConfirmationModal";
+import { ransactiontype } from "@/constrants/constrants";
+import { DollarSign, Wallet } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import type { TansactionType } from "@/types";
+import ConfirmationMessage, {
+  type TransactionDetails,
+} from "@/components/confrimMessage";
 
+interface IPayload {
+  amount: number;
+  toWallet: string;
+}
 
+const CashOutPage = () => {
+  const [userCashOut, { isLoading }] = useUserCashOutMutation();
+  const [payload, setPayload] = useState<IPayload | null>(null);
+  const [confirmMessage, setConfirmMessage] =
+    useState<TransactionDetails | null>(null);
+  const [confirmStatus, setConfirmStatus] = useState<boolean>(false);
+  const [isShowForm, setIsShowForm] = useState<boolean>(true);
 
-export default function CashOutPage() {
-  const [walletId, setWalletId] = useState("");
-  const [amount, setAmount] = useState("");
+  const form = useForm<z.infer<typeof userTransactionZodSchema>>({
+    resolver: zodResolver(userTransactionZodSchema),
+    mode: "onChange",
+    defaultValues: {
+      amount: "",
+      toWallet: "",
+    },
+  });
 
-  const handleCashOut = () => {
-    if (!walletId || !amount) {
-      alert("Please fill in all fields!");
-      return;
+  const handleSendMoney = async () => {
+    if (!payload) return;
+    try {
+      const res = await userCashOut(payload).unwrap();
+      // eslint-disable-next-line no-console
+      console.log(...res.data);
+      if (res.success) {
+        setConfirmMessage(res.data[0]);
+        setConfirmStatus(res.success);
+        setIsShowForm(false);
+        form.reset()
+        const toastId = toast.loading("Cash Out processing...");
+        toast.success("Cash Out successfully done", { id: toastId });
+      }
+    } catch (error: unknown) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      form.reset()
+      setIsShowForm(false);
+      toast.error("Cash Out falied");
     }
+  };
 
-    // Here you would call your API to perform cash out
-    alert(`Cashed out $${amount} from Wallet ID: ${walletId}`);
-    setWalletId("");
-    setAmount("");
+  const onsubmit = (value: z.infer<typeof userTransactionZodSchema>) => {
+    // eslint-disable-next-line no-console
+    console.log(value);
+    const payload: IPayload = {
+      amount: Number(value.amount),
+      toWallet: value.toWallet,
+    };
+    setPayload(payload);
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <Card className="w-full max-w-md rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-800">
-        <CardHeader>
-          <CardTitle className="text-xl">Cash Out</CardTitle>
-          <CardDescription>
-            Enter your wallet ID and the amount you want to cash out.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          {/* Wallet ID Field */}
-          <div className="flex flex-col gap-1 relative">
-            <Label htmlFor="walletId">Wallet ID</Label>
-            <div className="relative">
-              <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <Input
-                id="walletId"
-                placeholder="Enter your wallet ID"
-                value={walletId}
-                onChange={(e) => setWalletId(e.target.value)}
-                className="w-full pl-10"
-              />
-            </div>
-          </div>
+        {!isShowForm && (
+          <ConfirmationMessage
+            transaction={confirmStatus ? confirmMessage : null}
+            status={confirmStatus}
+            setIsShowForm={()=> setIsShowForm(true)}
+          />
+        )}
 
-          {/* Amount Field */}
-          <div className="flex flex-col gap-1 relative">
-            <Label htmlFor="amount">Amount</Label>
-            <div className="relative">
-              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <Input
-                id="amount"
-                type="number"
-                placeholder="Enter amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                className="w-full pl-10"
-              />
-            </div>
-          </div>
+        {isShowForm && (
+          <>
+            <CardHeader>
+              <CardTitle className="text-xl">Cash Out</CardTitle>
+              <CardDescription>
+                Enter your wallet ID and the amount you want to cash out.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-4">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onsubmit)}
+                  className="w-full space-y-6"
+                >
+                  <FormField
+                    control={form.control}
+                    name="toWallet"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Wallet ID</FormLabel>
+                        <div className="relative">
+                          <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                          <FormControl>
+                            <Input
+                              required
+                              className="w-full pl-10"
+                              placeholder="Enter recipient wallet ID"
+                              {...field}
+                            />
+                          </FormControl>
+                        </div>
 
-          {/* Cash Out Button */}
-          <Button
-            className="mt-2 w-full cursor-pointer h-12 transition"
-            variant={"default"}
-            onClick={handleCashOut}
-          >
-            Cash Out
-          </Button>
-        </CardContent>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="amount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Amount</FormLabel>
+                        <div className="flex flex-col gap-1 relative">
+                          <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                          <FormControl>
+                            <Input
+                              required
+                              className="w-full pl-10"
+                              placeholder="Enter amount"
+                              {...field}
+                            />
+                          </FormControl>
+                        </div>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {payload ? (
+                    <SendConfirmationModal
+                      onConfirm={() => handleSendMoney()}
+                      data={{
+                        amount: payload.amount,
+                        walletId: payload.toWallet,
+                        type: ransactiontype.cashOut as TansactionType,
+                      }}
+                    >
+                      <Button
+                        className="cursor-pointer dark:text-white"
+                        type="submit"
+                        variant={"default"}
+                        disabled={isLoading}
+                      >
+                        Cash Out
+
+                      </Button>
+                    </SendConfirmationModal>
+                  ) : (
+                    <Button
+                      disabled={isLoading}
+                      className="cursor-pointer dark:text-white"
+                      type="submit"
+                      variant={"default"}
+                    >
+                      Cash Out
+
+                    </Button>
+                  )}
+                </form>
+              </Form>
+            </CardContent>
+          </>
+        )}
       </Card>
     </div>
   );
-}
+};
+
+export default CashOutPage;

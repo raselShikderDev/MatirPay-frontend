@@ -29,8 +29,8 @@ interface Login1Props {
   heading?: string;
   buttonText?: string;
   googleText?: string;
-  signupText?: string;
-  signupUrl?: string;
+  sinInText?: string;
+  signInUrl?: string;
 }
 
 const formZodSchema = z
@@ -78,8 +78,8 @@ const formZodSchema = z
 
 const SignupPage = ({
   heading = "Sign Up",
-  signupText = "Already have an account?",
-  signupUrl = "/signin",
+  sinInText = "Already have an account?",
+  signInUrl = "/signin",
 }: Login1Props) => {
   // Hooks
   const navigator = useNavigate();
@@ -133,7 +133,7 @@ const SignupPage = ({
   // }
 
   return (
-    <section className="bg-muted h-screen">
+    <section className="bg-muted h-screen dark:bg-blue-950/50">
       <div className="flex h-full items-center justify-center">
         {/* Logo */}
         <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-20 lg:justify-start">
@@ -144,10 +144,10 @@ const SignupPage = ({
             </Link>
 
             {/* Text and link centered */}
-            <div className="text-muted-foreground flex items-center gap-1 text-sm">
-              <p>{signupText}</p>
+            <div className="text-muted-foreground flex items-center gap-1 text-sm ">
+              <p>{sinInText}</p>
               <Link
-                to={signupUrl}
+                to={signInUrl}
                 className="text-primary font-medium hover:underline"
               >
                 SignIn
@@ -156,7 +156,7 @@ const SignupPage = ({
           </div>
 
           <div className="">
-            <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-5 py-10 shadow-md">
+            <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-5 py-10 shadow-md dark:bg-gray-900">
               {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
               <Form {...form}>
                 <form

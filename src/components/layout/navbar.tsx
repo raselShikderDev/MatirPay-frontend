@@ -41,15 +41,15 @@ export default function Navbar() {
   });
 
   return (
-    <header className="border-b px-4">
+    <header className="border-b px-4 sticky z-50 top-0 bg-gray-50 dark:bg-gray-950 ">
       <div className="mx-auto container flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">
           {/* Mobile menu trigger */}
           <Popover>
-            <PopoverTrigger asChild>
+            <PopoverTrigger className="cursor-pointer" asChild>
               <Button
-                className="group size-8 md:hidden"
+                className="group size-8 cursor-pointer md:hidden"
                 variant="ghost"
                 size="icon"
               >
@@ -132,7 +132,7 @@ export default function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-2 h-10">
           {/* Mode Toggle */}
-          <ModeToggle />
+          <ModeToggle  />
 
           {/* User Avatar / Log In */}
           {data?.data.email ? (

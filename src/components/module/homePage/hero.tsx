@@ -2,10 +2,12 @@ import { Star } from "lucide-react";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 
 interface Hero7Props {
   heading?: string;
   description?: string;
+  subdesription?:string;
   button?: {
     text: string;
     url: string;
@@ -21,11 +23,12 @@ interface Hero7Props {
 }
 
 const Hero = ({
-  heading = "Your All-in-One Digital Wallet with MatirPay",
-  description = "Secure, fast, and user-friendly — MatirPay is built with modern technologies and UI which will give you seamless financial control. Send, receive, and manage your money with ease.",
+  heading = `Your All-in-One Digital Wallet with MatirPay`,
+  description = `Secure, fast, and user-friendly — MatirPay is built with modern technologies and UI which will give you seamless financial control`,
+  subdesription =" Send, receive, and manage your money with ease.",
   button = {
-    text: "Explore Our Features",
-    url: "#",
+    text: "Explore Our Pricing",
+    url: "/pricing",
   },
   reviews = {
     count: 200,
@@ -60,11 +63,11 @@ const Hero = ({
         <div className="mx-auto flex max-w-5xl flex-col gap-6">
           <h1 className="text-3xl font-extrabold lg:text-6xl">{heading}</h1>
           <p className="text-muted-foreground text-balance lg:text-lg">
-            {description}
+            {description} <br />{subdesription}
           </p>
         </div>
         <Button asChild size="lg" className="mt-10">
-          <a href={button.url}>{button.text}</a>
+          <Link to={button.url}>{button.text}</Link>
         </Button>
         <div className="mx-auto mt-10 flex w-fit flex-col items-center gap-4 sm:flex-row">
           <span className="mx-4 inline-flex items-center -space-x-4">

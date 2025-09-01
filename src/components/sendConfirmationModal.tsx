@@ -9,13 +9,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import type { TansactionType } from "@/types"
 import type { ReactNode } from "react"
 
+
+interface ISendMoneyCOnfirmationData{
+  amount: number,
+  walletId: string,
+  type: TansactionType,
+}
 
 interface IProps{
     children:ReactNode,
     onConfirm:()=> void,
-    data:unknown,
+    data:ISendMoneyCOnfirmationData,
 }
 
 
@@ -23,13 +30,12 @@ interface IProps{
 //  <ChildComponent onButtonClick={handleClick} />
 
 export function SendConfirmationModal({children, onConfirm, data}:IProps) {
+console.log("Data wating for confirmation", data)
   const handleConfrim = ()=>{
       onConfirm()
       // eslint-disable-next-line no-console
       console.log("Successfully send :", data)
   }
-        // eslint-disable-next-line no-console
-  console.log("children", children)
  
   return (
     <AlertDialog>
@@ -41,10 +47,10 @@ export function SendConfirmationModal({children, onConfirm, data}:IProps) {
           <AlertDialogTitle>Confirm Payment</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to send this payment?
-            <ul className="mt-4 space-y-1 text-sm text-left">
-              <li><strong>Amount:</strong></li>
-              <li><strong>Payment Type:</strong> cash out</li>
-              <li><strong>Receiver Wallet:</strong>757973276jdkhdg</li>
+            <ul className="mt-4 space-y-1.5 text-sm text-left">
+              <li><strong>Amount:</strong>{data.amount}</li>
+              <li><strong>Payment Type:</strong>{data.type}</li>
+              <li><strong>Receiver Wallet:</strong>{data.walletId}</li>
             </ul>
           </AlertDialogDescription>
         </AlertDialogHeader>
