@@ -14,8 +14,23 @@ import { useEffect, useState } from "react";
 import type { TransactionDetails } from "@/types";
 import formatTrxId from "@/utils/trxIdTransfrom";
 import formatDate from "@/utils/dateFormate";
-
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { HistoryFilterFormSchema } from "@/schema/userSchmea";
+import type z from "zod";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import {
+  transactionTypeText,
+  TtransactionTypeValueBackend,
+} from "@/constrants/constrants";
 
 export default function AllTransactions() {
   const { data, isLoading, isError } = useGetMyTransactionQuery(null);
@@ -29,8 +44,12 @@ export default function AllTransactions() {
     }
   }, [data]);
 
-  if (isError) {
-    return <ErrorAlert />;
+  const form = useForm<z.infer<typeof HistoryFilterFormSchema>>({
+    resolver: zodResolver(HistoryFilterFormSchema),
+  });
+  function onSubmit(data: z.infer<typeof HistoryFilterFormSchema>) {
+    // eslint-disable-next-line no-console
+    console.log(data);
   }
 
   // eslint-disable-next-line no-console
@@ -38,8 +57,58 @@ export default function AllTransactions() {
 
   return (
     <div className="p-4 w-full max-w-6xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Transaction History</h2>
+      <div className=" w-full flex justify-between">
+        <div className="justify-items-start">
+          <h2 className="text-2xl font-bold mb-4">Transaction History</h2>
+        </div>
+        <div>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="w-2/3 flex-col space-y-6"
+            >
+              <FormField
+                control={form.control}
+                name="filter"
+                render={({ field }) => (
+                  <FormItem>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl className="flex-1">
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value={TtransactionTypeValueBackend.cashIn}>
+                          {transactionTypeText.cashIn}
+                        </SelectItem>
+                        <SelectItem
+                          value={TtransactionTypeValueBackend.cashOut}
+                        >
+                          {transactionTypeText.cashOut}
+                        </SelectItem>
+                        <SelectItem
+                          value={TtransactionTypeValueBackend.sendMoney}
+                        >
+                          {transactionTypeText.sendMoney}
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+              <Button className="inline-block" variant={"default"} type="submit">
+                Filter
+              </Button>
+            </form>
+          </Form>
+        </div>
+      </div>
       <div className="rounded-md border">
+        {isError && <ErrorAlert />}
         {isLoading ? (
           <LoadingSpinner />
         ) : (
@@ -81,7 +150,6 @@ export default function AllTransactions() {
                       <span className="block text-gray-700 dark:text-gray-300">
                         {tx.fromWallet === tx._id ? tx.toWallet : tx.fromWallet}
                       </span>
-                      
                     </div>
                   </TableCell>
                   <TableCell className="text-sm text-gray-600 dark:text-gray-400">

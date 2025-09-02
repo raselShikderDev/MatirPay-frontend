@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import { useUserSendMoneyMutation } from "@/redux/features/wallet/wallet.api";
 import { SendConfirmationModal } from "@/components/sendConfirmationModal";
-import { ransactiontype } from "@/constrants/constrants";
+import { transactionTypeText } from "@/constrants/constrants";
 import { DollarSign, Wallet } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -62,14 +62,14 @@ const UserSendMoney = () => {
         setConfirmMessage(res.data[0]);
         setConfirmStatus(res.success);
         setIsShowForm(false);
-        form.reset()
+        form.reset();
         const toastId = toast.loading("Sending Money processing...");
         toast.success("Send Money successfully done", { id: toastId });
       }
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
       console.error(error);
-      form.reset()
+      form.reset();
       setIsShowForm(false);
       toast.error("Send Money falied");
     }
@@ -92,7 +92,7 @@ const UserSendMoney = () => {
           <ConfirmationMessage
             transaction={confirmStatus ? confirmMessage : null}
             status={confirmStatus}
-            setIsShowForm={()=> setIsShowForm(true)}
+            setIsShowForm={() => setIsShowForm(true)}
           />
         )}
 
@@ -160,7 +160,7 @@ const UserSendMoney = () => {
                       data={{
                         amount: payload.amount,
                         walletId: payload.toWallet,
-                        type: ransactiontype.sendMoney as TansactionType,
+                        type: transactionTypeText.sendMoney as TansactionType,
                       }}
                     >
                       <Button

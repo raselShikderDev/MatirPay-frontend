@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import { useUserCashOutMutation } from "@/redux/features/wallet/wallet.api";
 import { SendConfirmationModal } from "@/components/sendConfirmationModal";
-import { ransactiontype } from "@/constrants/constrants";
+import { transactionTypeText } from "@/constrants/constrants";
 import { DollarSign, Wallet } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -62,14 +62,14 @@ const CashOutPage = () => {
         setConfirmMessage(res.data[0]);
         setConfirmStatus(res.success);
         setIsShowForm(false);
-        form.reset()
+        form.reset();
         const toastId = toast.loading("Cash Out processing...");
         toast.success("Cash Out successfully done", { id: toastId });
       }
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
       console.error(error);
-      form.reset()
+      form.reset();
       setIsShowForm(false);
       toast.error("Cash Out falied");
     }
@@ -92,7 +92,7 @@ const CashOutPage = () => {
           <ConfirmationMessage
             transaction={confirmStatus ? confirmMessage : null}
             status={confirmStatus}
-            setIsShowForm={()=> setIsShowForm(true)}
+            setIsShowForm={() => setIsShowForm(true)}
           />
         )}
 
@@ -160,7 +160,7 @@ const CashOutPage = () => {
                       data={{
                         amount: payload.amount,
                         walletId: payload.toWallet,
-                        type: ransactiontype.cashOut as TansactionType,
+                        type: transactionTypeText.cashOut as TansactionType,
                       }}
                     >
                       <Button
@@ -170,7 +170,6 @@ const CashOutPage = () => {
                         disabled={isLoading}
                       >
                         Cash Out
-
                       </Button>
                     </SendConfirmationModal>
                   ) : (
@@ -181,7 +180,6 @@ const CashOutPage = () => {
                       variant={"default"}
                     >
                       Cash Out
-
                     </Button>
                   )}
                 </form>
