@@ -14,28 +14,18 @@ import { useEffect, useState } from "react";
 import type { TransactionDetails } from "@/types";
 import formatTrxId from "@/utils/trxIdTransfrom";
 import formatDate from "@/utils/dateFormate";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { HistoryFilterFormSchema } from "@/schema/userSchmea";
-import type z from "zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import TransactionTypeFilter from "@/components/module/transactionTypeFilter";
+import { useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
-import {
-  transactionTypeText,
-  TtransactionTypeValueBackend,
-} from "@/constrants/constrants";
 
 export default function AllTransactions() {
-  const { data, isLoading, isError } = useGetMyTransactionQuery(null);
   const [alltransactions, setAlltransactions] = useState<TransactionDetails[]>(
     []
+  );
+  const [searchParams, setSearchParams] = useSearchParams();
+  const type = searchParams.get("type") || undefined;
+  const { data, isLoading, isError } = useGetMyTransactionQuery(
+    type ? { type: type } : {}
   );
 
   useEffect(() => {
@@ -44,16 +34,13 @@ export default function AllTransactions() {
     }
   }, [data]);
 
-  const form = useForm<z.infer<typeof HistoryFilterFormSchema>>({
-    resolver: zodResolver(HistoryFilterFormSchema),
-  });
-  function onSubmit(data: z.infer<typeof HistoryFilterFormSchema>) {
+  const handleFilterClear = () => {
+    const params = new URLSearchParams();
+    params.delete("type");
+    setSearchParams(params);
     // eslint-disable-next-line no-console
-    console.log(data);
-  }
-
-  // eslint-disable-next-line no-console
-  alltransactions.map((transaction) => console.log(transaction));
+    console.log("paramsa cleared");
+  };
 
   return (
     <div className="p-4 w-full max-w-6xl mx-auto">
@@ -61,50 +48,17 @@ export default function AllTransactions() {
         <div className="justify-items-start">
           <h2 className="text-2xl font-bold mb-4">Transaction History</h2>
         </div>
-        <div>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="w-2/3 flex-col space-y-6"
+        <div className="flex gap-3">
+          <TransactionTypeFilter />
+          <div>
+            <Button
+              className="cursor-pointer"
+              variant={"destructive"}
+              onClick={handleFilterClear}
             >
-              <FormField
-                control={form.control}
-                name="filter"
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl className="flex-1">
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value={TtransactionTypeValueBackend.cashIn}>
-                          {transactionTypeText.cashIn}
-                        </SelectItem>
-                        <SelectItem
-                          value={TtransactionTypeValueBackend.cashOut}
-                        >
-                          {transactionTypeText.cashOut}
-                        </SelectItem>
-                        <SelectItem
-                          value={TtransactionTypeValueBackend.sendMoney}
-                        >
-                          {transactionTypeText.sendMoney}
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                )}
-              />
-              <Button className="inline-block" variant={"default"} type="submit">
-                Filter
-              </Button>
-            </form>
-          </Form>
+              clear
+            </Button>
+          </div>
         </div>
       </div>
       <div className="rounded-md border">
@@ -133,7 +87,7 @@ export default function AllTransactions() {
                       variant="outline"
                       className={
                         tx.type === "CASH_IN"
-                          ? "bg-green-100 text-green-700 border-green-200"
+                          ? "bg-green-50 text-green-700 border-green-200"
                           : tx.type === "CASH_OUT"
                           ? "bg-red-100 text-red-700 border-red-200"
                           : "bg-blue-100 text-blue-700 border-blue-200"

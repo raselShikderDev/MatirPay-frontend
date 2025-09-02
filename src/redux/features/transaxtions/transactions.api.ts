@@ -20,7 +20,7 @@ export const transactionsApi = baseApi.injectEndpoints({
       transformResponse: (response: IResponse<TransactionDetails[]>) =>
         response.data,
     }),
-    getMyTransaction: builder.query<TransactionDetails[], null>({
+    getMyTransaction: builder.query<TransactionDetails[], { type?: string }>({
       query: (params) => ({
         url: "/transactions/",
         method: "GET",
