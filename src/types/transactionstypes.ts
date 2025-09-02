@@ -4,4 +4,20 @@ export const ransactiontype ={
     cashIn: "Cash In",
 }
 
+export type TInitiatedByType = "USER" | "AGENT"
+
+
 export type TansactionType = "Send Money" | "Cash Out" | "Cash In"
+
+
+export interface TransactionDetails {
+  _id: string;
+  user: string;
+  amount: number;
+  type: "SEND_MONEY" | "CASH_OUT" | "CASH_IN"; 
+  initiatedBy: TInitiatedByType; 
+  fromWallet: string;
+  toWallet: string;
+  createdAt: string; 
+  updatedAt: string;
+}

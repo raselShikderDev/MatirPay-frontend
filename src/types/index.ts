@@ -1,7 +1,7 @@
 import type { ComponentType } from "react";
 
-export type { ISendOtp, ILogin, IVerifyOtp, ILogInRespone, TRole, IUser, } from "@/types/auth.type";
-export type {TansactionType} from "@/types/transactionstypes"
+export type { ISendOtp, ILogin, IVerifyOtp, ILogInRespone, TRole, IUser,  } from "@/types/auth.type";
+export type {TansactionType, TransactionDetails} from "@/types/transactionstypes"
 
 
 

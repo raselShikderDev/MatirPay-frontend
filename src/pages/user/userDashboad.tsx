@@ -1,3 +1,6 @@
+import { ErrorAlert } from "@/components/error";
+import { LoadingSpinner } from "@/components/loading";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -5,17 +8,40 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useGetMyRecentTransactionQuery } from "@/redux/features/transaxtions/transactions.api";
+import type { TransactionDetails } from "@/types";
+import formatDate from "@/utils/dateFormate";
+import formatTrxId from "@/utils/trxIdTransfrom";
 import { Send, Wallet } from "lucide-react"; // Lucide icons
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-
-const transactions = [
-  { id: "TXN001", type: "Received", amount: 500, date: "2025-09-01" },
-  { id: "TXN002", type: "Sent", amount: 200, date: "2025-08-30" },
-  { id: "TXN003", type: "Cash Out", amount: 1000, date: "2025-08-28" },
-];
 
 export default function UserDashboard() {
   const navigator = useNavigate();
+  const { data, isLoading, isError } = useGetMyRecentTransactionQuery(null);
+  const [alltransactions, setAlltransactions] = useState<TransactionDetails[]>(
+    []
+  );
+
+  
+
+  useEffect(() => {
+    if (data) {
+      setAlltransactions(data ?? []);
+    }
+  }, [data]);
+
+   // eslint-disable-next-line no-console
+  alltransactions.map((transaction) => console.log(transaction));
+
   return (
     <div className="flex flex-col min-h-screen p-4 bg-gray-50 dark:bg-gray-900">
       {/* Balance Card */}
@@ -68,46 +94,66 @@ export default function UserDashboard() {
       </div>
 
       {/* Transaction Table */}
-      <div className="overflow-x-auto w-full">
-        <table className="min-w-full bg-white dark:bg-gray-800 rounded-xl shadow-md">
-          <thead className="bg-gray-100 dark:bg-gray-700">
-            <tr>
-              <th className="py-2 px-4 text-left text-gray-600 dark:text-gray-300">
-                Transaction ID
-              </th>
-              <th className="py-2 px-4 text-left text-gray-600 dark:text-gray-300">
-                Type
-              </th>
-              <th className="py-2 px-4 text-left text-gray-600 dark:text-gray-300">
-                Amount
-              </th>
-              <th className="py-2 px-4 text-left text-gray-600 dark:text-gray-300">
-                Date
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((tx) => (
-              <tr
-                key={tx.id}
-                className="border-b last:border-b-0 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-              >
-                <td className="py-2 px-4 font-mono text-gray-700 dark:text-gray-300">
-                  {tx.id}
-                </td>
-                <td className="py-2 px-4 text-gray-700 dark:text-gray-300">
-                  {tx.type}
-                </td>
-                <td className="py-2 px-4 font-semibold text-gray-900 dark:text-gray-100">
-                  ${tx.amount}
-                </td>
-                <td className="py-2 px-4 text-gray-500 dark:text-gray-400 text-sm">
-                  {tx.date}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="p-4 mt-3 w-full max-w-6xl mx-auto">
+        <h2 className="text-2xl font-bold mb-4"> Recent transaction History</h2>
+        <div className="rounded-md border">
+          {isError && <ErrorAlert />}
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Trx ID</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Wallet Involved</TableHead>
+                  <TableHead>Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {alltransactions.map((tx) => (
+                  <TableRow key={tx._id}>
+                    <TableCell className="font-mono text-xs text-gray-700 dark:text-gray-300">
+                      {formatTrxId(tx._id)}
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant="outline"
+                        className={
+                          tx.type === "CASH_IN"
+                            ? "bg-green-100 text-green-700 border-green-200"
+                            : tx.type === "CASH_OUT"
+                            ? "bg-red-100 text-red-700 border-red-200"
+                            : "bg-blue-100 text-blue-700 border-blue-200"
+                        }
+                      >
+                        {tx.type === "CASH_IN" && "Cash In"}
+                        {tx.type === "CASH_OUT" && "Cash Out"}
+                        {tx.type === "SEND_MONEY" && "Send Money"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="font-semibold">
+                      ${tx.amount}
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-sm">
+                        <span className="block text-gray-700 dark:text-gray-300">
+                          {tx.fromWallet === tx._id
+                            ? tx.toWallet
+                            : tx.fromWallet}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm text-gray-600 dark:text-gray-400">
+                      {formatDate(tx.createdAt)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </div>
       </div>
     </div>
   );
