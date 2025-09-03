@@ -9,10 +9,10 @@ import {
   NavigationMenuList,
 } from "../ui/navigation-menu";
 import { ModeToggle } from "../mode-toggle";
-import { useGetMeQuery } from "@/redux/features/auth/auth.api";
 import { Roles } from "@/constrants/constrants";
 import React from "react";
 import AvatarOptionsIcon from "../avatarsOptionsicon";
+import { useGetMeQuery } from "@/redux/features/users/users.api";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [

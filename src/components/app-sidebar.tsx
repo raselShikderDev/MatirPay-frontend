@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Link } from "react-router";
 import getSidebarItems from "@/utils/getSidebarItems";
-import { useGetMeQuery } from "@/redux/features/auth/auth.api";
 import type { TRole } from "@/types";
+import { useGetMeQuery } from "@/redux/features/users/users.api";
 
 // This is sample data.
 

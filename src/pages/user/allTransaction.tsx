@@ -151,7 +151,9 @@ export default function AllTransactions() {
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
-                className="cursor-pointer"
+                className={`cursor-pointer ${
+                  currentpage === 1 && "pointer-events-none"
+                }`}
                 onClick={() => setCurrentpage((prev) => Math.max(prev - 1, 1))}
                 href="#"
               />
@@ -164,7 +166,9 @@ export default function AllTransactions() {
             </PaginationItem>
             <PaginationItem>
               <PaginationNext
-                className="cursor-pointer"
+                className={`cursor-pointer ${
+                  currentpage === meta.totalPages && "pointer-events-none"
+                }`}
                 onClick={() =>
                   setCurrentpage((prev) =>
                     prev < meta.totalPages ? prev + 1 : prev
