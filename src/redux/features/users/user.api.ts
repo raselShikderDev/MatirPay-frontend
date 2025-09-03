@@ -1,63 +1,74 @@
 import { baseApi } from "@/redux/baseApi";
+import type { IResponse, IUser, TRole } from "@/types";
+
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    approveAgent: builder.mutation({
-      query: (id) => ({
-        url: `/users/agent-approve/:${id}`,
-        method: "POST",
+    updateUser: builder.mutation<IResponse<IUser>, null>({
+      query: (payload) => ({
+        url: "/users/update-user",
+        method: "PATCH",
+        data: payload,
       }),
     }),
-    toggleAgentStatus: builder.mutation({
-      query: (id) => ({
-        url: `/users/agent-approve/:${id}`,
-        method: "POST",
-      }),
-    }),
-    getAllUser: builder.query({
+
+    getMe: builder.query<IResponse<IUser>, null>({
       query: () => ({
-        url: "/users/all-user",
+        url: "/users/me",
         method: "GET",
       }),
       providesTags: ["USER"],
-    //   transformResponse: (response: IResponse<TransactionDetails[]>) =>
-    //     response.data,
     }),
-    getSingelUser: builder.query({
+    approveAgent: builder.mutation<IResponse<null>, {id:string}>({
+      query: (id) => ({
+        url: `/users/agent-approve/:${id}`,
+        method: "POST",
+      }),
+    }),
+    toggleAgentStatus: builder.mutation<IResponse<null>, {id:string}>({
+      query: (id) => ({
+        url: `/users/agent-approve/:${id}`,
+        method: "POST",
+      }),
+    }),
+    getAllUser: builder.query<IResponse<IUser[]>, { role?:TRole; page?: number }>({
+      query: (params) => ({
+        url: "/users/all-user",
+        method: "GET",
+        params,
+      }),
+      providesTags: ["USER"],
+    }),
+    getSingelUser: builder.query<IResponse<IUser>, {id:string}>({
       query: (id) => ({
         url: `/users/:${id}`,
         method: "GET",
       }),
       providesTags: ["USER"],
     }),
-    getSingelAgent: builder.query({
+    getSingelAgent: builder.query<IResponse<IUser>, {id:string}>({
       query: (id) => ({
         url: `/users/agents/:${id}`,
         method: "GET",
       }),
       providesTags: ["USER"],
-    //   transformResponse: (response: IResponse<TransactionDetails[]>) =>
-    //     response.data,
     }),
-    getAllAgents: builder.query({
+    getAllAgents: builder.query<IResponse<IUser[]>, null>({
       query: () => ({
         url: "/users/all-agents",
         method: "GET",
       }),
       providesTags: ["USER"],
-    //   transformResponse: (response: IResponse<TransactionDetails[]>) =>
-    //     response.data,
     }),
-    // getMyTransaction: builder.query<IResponse<TransactionDetails[]>,{ type?: string; page?: number }>({
-    //   query: (params) => ({
-    //     url: "/transactions/",
-    //     method: "GET",
-    //     params,
-    //   }),
-    //   providesTags: ["TRANSACTION"],
-    // }),
   }),
 });
 
-export const { useGetAllUserQuery, useGetAllAgentsQuery, useApproveAgentMutation, useToggleAgentStatusMutation, useGetSingelAgentQuery } =
-  userApi;
+export const {
+  useGetAllUserQuery,
+  useGetAllAgentsQuery,
+  useApproveAgentMutation,
+  useToggleAgentStatusMutation,
+  useGetSingelAgentQuery,
+  useGetMeQuery,
+  useUpdateUserMutation,
+} = userApi;

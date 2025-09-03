@@ -23,8 +23,8 @@ import {
 } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
 import { toast } from "sonner";
-import { useGetMeQuery } from "@/redux/features/users/users.api";
 import { Roles } from "@/constrants/constrants";
+import { useGetMeQuery } from "@/redux/features/users/user.api";
 
 export default function AvatarOptionsIcon() {
   const navigate = useNavigate()

@@ -24,9 +24,12 @@ import { walletIdZodSchema } from "@/schema/adminSchema";
 import { useState } from "react";
 import { useApproveAgentMutation } from "@/redux/features/users/user.api";
 import { ApprovalConfirmationModal } from "@/components/approvalConfirmationModal";
+import ApprovedMessage from "@/components/approvedMessage";
+import { LoadingSpinner } from "@/components/loading";
 
 const AgentApprovePage = () => {
   const [payload, setPayload] = useState<string | null>(null);
+    const [confirmStatus, setConfirmStatus] = useState<boolean>(false);
   const [isShowForm, setIsShowForm] = useState<boolean>(true);
   const [approveAgent] = useApproveAgentMutation();
   const form = useForm<z.infer<typeof walletIdZodSchema>>({
@@ -48,6 +51,7 @@ const AgentApprovePage = () => {
       if (res.success) {
         form.reset();
         setIsShowForm(false)
+        setConfirmStatus(res.success)
         const toastId = toast.loading("Approving agent is processing...");
         toast.success("Agent successfully Approved", { id: toastId });
       }
@@ -69,6 +73,7 @@ const AgentApprovePage = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <Card className="w-full max-w-md rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-800">
+        {isLoading && !isShowForm && <LoadingSpinner />}
         {!isShowForm && (
           <ApprovedMessage
             status={confirmStatus}

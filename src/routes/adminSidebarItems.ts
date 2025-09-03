@@ -1,4 +1,5 @@
 // import AllUsers from "@/pages/admin/allUsers";
+import AllUsers from "@/pages/admin/allUsers";
 import { DashboardAdmin } from "@/pages/admin/dashboardAdmin";
 import UpdateProfilePage from "@/pages/universelPages/profileUpdatePage";
 import AllTransactions from "@/pages/user/allTransaction";
@@ -14,6 +15,11 @@ export const adminSidebarItems:ISidebarItems[] = [
         title: "dashboard",
         url: "dashboard",
         Component: DashboardAdmin,
+      },
+      {
+        title: "Users & Agents",
+        url: "users",
+        Component: AllUsers,
       },
       {
         title: "Transactions",

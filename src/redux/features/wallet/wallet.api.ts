@@ -16,6 +16,13 @@ export const walletApi = baseApi.injectEndpoints({
         data: payload,
       }),
     }),
+    userCashIn: builder.mutation({
+      query: (payload) => ({
+        url: "/wallet/user-cash-out",
+        method: "POST",
+        data: payload,
+      }),
+    }),
     // getMyTransaction: builder.query({
     //   query: (params) => ({
     //     url: "/transactions/",
@@ -27,4 +34,4 @@ export const walletApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useUserSendMoneyMutation, useUserCashOutMutation } = walletApi
+export const { useUserSendMoneyMutation, useUserCashOutMutation, useUserCashInMutation } = walletApi

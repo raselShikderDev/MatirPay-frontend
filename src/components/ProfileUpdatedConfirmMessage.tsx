@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle } from "lucide-react";
 
 
-export default function ApprovedMessage({
+export default function ProfileUpdatedConfirmMessage({
   status, 
   setIsShowForm,
 }: {

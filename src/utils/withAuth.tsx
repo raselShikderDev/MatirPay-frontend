@@ -1,5 +1,5 @@
 import { LoadingSpinner } from "@/components/loading";
-import { useGetMeQuery } from "@/redux/features/users/users.api";
+import { useGetMeQuery } from "@/redux/features/users/user.api";
 import type { TRole } from "@/types";
 import { useEffect, type ComponentType } from "react";
 import { useNavigate } from "react-router";

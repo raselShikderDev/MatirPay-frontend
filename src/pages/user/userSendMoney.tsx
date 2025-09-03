@@ -29,6 +29,7 @@ import type { TansactionType } from "@/types";
 import ConfirmationMessage, {
   type TransactionDetails,
 } from "@/components/confrimMessage";
+import { LoadingSpinner } from "@/components/loading";
 
 interface IPayload {
   amount: number;
@@ -88,6 +89,7 @@ const UserSendMoney = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <Card className="w-full max-w-md rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-800">
+        {isLoading && !isShowForm && <LoadingSpinner />}
         {!isShowForm && (
           <ConfirmationMessage
             transaction={confirmStatus ? confirmMessage : null}
