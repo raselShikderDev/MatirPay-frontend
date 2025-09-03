@@ -31,7 +31,7 @@ export default function UserDashboard() {
     []
   );
 
-  
+  // need to get my wallet balance to update balance and status and need create api
 
   useEffect(() => {
     if (data) {
@@ -54,7 +54,6 @@ export default function UserDashboard() {
             className="text-3xl font-extrabold mt-1"
             style={{ color: "oklch(0.488 0.243 264.376)" }}
           >
-            $1,250
           </p>
           <CardDescription className="text-gray-400 dark:text-gray-500 text-sm mt-1">
             Updated just now

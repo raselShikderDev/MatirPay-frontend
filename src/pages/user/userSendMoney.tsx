@@ -64,7 +64,7 @@ const UserSendMoney = () => {
         setIsShowForm(false);
         form.reset();
         const toastId = toast.loading("Sending Money processing...");
-        toast.success("Send Money successfully done", { id: toastId });
+        toast.success("Send Money successfully processed", { id: toastId });
       }
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
@@ -101,7 +101,7 @@ const UserSendMoney = () => {
             <CardHeader>
               <CardTitle className="text-xl">Send Money</CardTitle>
               <CardDescription>
-                Enter wallet ID and amount to send money securely.
+                Enter recipient wallet ID and amount to Send money.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">

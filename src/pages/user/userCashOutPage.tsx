@@ -64,7 +64,7 @@ const CashOutPage = () => {
         setIsShowForm(false);
         form.reset();
         const toastId = toast.loading("Cash Out processing...");
-        toast.success("Cash Out successfully done", { id: toastId });
+        toast.success("Cash Out successfully processed", { id: toastId });
       }
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
@@ -101,7 +101,7 @@ const CashOutPage = () => {
             <CardHeader>
               <CardTitle className="text-xl">Cash Out</CardTitle>
               <CardDescription>
-                Enter your wallet ID and the amount you want to cash out.
+                Enter recipient wallet ID and the amount you want to cash out.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
