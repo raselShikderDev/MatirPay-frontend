@@ -63,15 +63,15 @@ const AgentCashInPage = () => {
         setConfirmStatus(res.success);
         setIsShowForm(false);
         form.reset();
-        const toastId = toast.loading("Cash Out processing...");
-        toast.success("Cash Out successfully done", { id: toastId });
+        const toastId = toast.loading("Cash In processing...");
+        toast.success("Cash In successfully processed", { id: toastId });
       }
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
       console.error(error);
       form.reset();
       setIsShowForm(false);
-      toast.error("Cash Out falied");
+      toast.error("Cash In falied");
     }
   };
 
@@ -101,7 +101,7 @@ const AgentCashInPage = () => {
             <CardHeader>
               <CardTitle className="text-xl">Cash In</CardTitle>
               <CardDescription>
-                Enter wallet ID and the amount you want to cash In.
+               Enter recipient wallet ID and the amount you want to cash In.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">

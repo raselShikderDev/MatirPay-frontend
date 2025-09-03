@@ -67,6 +67,9 @@ export default function AllTransactions() {
   // console.log(currentpage);
   // console.log(alltransactions);
 
+
+
+
   return (
     <div>
       <div className="p-4 w-full max-w-6xl mx-auto">
@@ -157,7 +160,12 @@ export default function AllTransactions() {
               />
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink>1</PaginationLink>
+              {
+                Array.from({length:meta.totalPages}, (_, index)=> index).map((page)=>{
+                  return <PaginationLink key={page}>{page}</PaginationLink>
+                })
+              }
+              
             </PaginationItem>
             <PaginationItem>
               <PaginationEllipsis />

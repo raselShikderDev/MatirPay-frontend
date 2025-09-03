@@ -25,7 +25,7 @@ export type TransactionDetails = {
 
 export default function ConfirmationMessage({
   transaction,
-  status, // "success" | "failed"
+  status, 
   setIsShowForm,
 }: {
   transaction: TransactionDetails | null;

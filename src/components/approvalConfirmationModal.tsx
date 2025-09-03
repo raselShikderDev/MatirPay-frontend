@@ -9,32 +9,25 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import type { TansactionType } from "@/types"
 import type { ReactNode } from "react"
 
 
-interface ISendMoneyCOnfirmationData{
-  amount: number,
-  walletId: string,
-  type: TansactionType,
-}
 
 interface IProps{
     children:ReactNode,
     onConfirm:()=> void,
-    data:ISendMoneyCOnfirmationData,
 }
 
 
+// How to send the function call
+//  <ChildComponent onButtonClick={handleClick} />
 
+export function ApprovalConfirmationModal({children, onConfirm}:IProps) {
 
-export function SendConfirmationModal({children, onConfirm, data}:IProps) {
-// eslint-disable-next-line no-console
-console.log("Data wating for confirmation", data)
   const handleConfrim = ()=>{
       onConfirm()
       // eslint-disable-next-line no-console
-      console.log("Successfully send :", data)
+      console.log("Successfully Approved Agent")
   }
  
   return (
@@ -44,14 +37,9 @@ console.log("Data wating for confirmation", data)
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm Payment</AlertDialogTitle>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to send this payment?
-            <ul className="mt-4 space-y-1.5 text-sm text-left">
-              <li><strong>Amount:</strong>{data.amount}</li>
-              <li><strong>Payment Type:</strong>{data.type}</li>
-              <li><strong>Receiver Wallet:</strong>{data.walletId}</li>
-            </ul>
+           This action cannot be undone. This will grant approval and allow the agent to perform actions.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
