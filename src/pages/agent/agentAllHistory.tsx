@@ -27,7 +27,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-export default function AgentAllTransactions() {
+export default function AllTransactions() {
   const [meta, setMeta] = useState<{ totalPages: number; page: number }>({
     totalPages: 1,
     page: 1,
@@ -66,6 +66,9 @@ export default function AgentAllTransactions() {
 
   // console.log(currentpage);
   // console.log(alltransactions);
+
+
+
 
   return (
     <div>
@@ -157,7 +160,12 @@ export default function AgentAllTransactions() {
               />
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink>1</PaginationLink>
+              {
+                Array.from({length:meta.totalPages}, (_, index)=> index).map((page)=>{
+                  return <PaginationLink key={page}>{page}</PaginationLink>
+                })
+              }
+              
             </PaginationItem>
             <PaginationItem>
               <PaginationEllipsis />

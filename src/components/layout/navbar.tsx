@@ -12,7 +12,7 @@ import { ModeToggle } from "../mode-toggle";
 import { Roles } from "@/constrants/constrants";
 import React from "react";
 import AvatarOptionsIcon from "../avatarsOptionsicon";
-import { useGetMeQuery } from "@/redux/features/users/users.api";
+import { useGetMeQuery } from "@/redux/features/users/user.api";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [

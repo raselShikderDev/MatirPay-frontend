@@ -12,38 +12,33 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import {
-  transactionTypeText,
-  TtransactionTypeValueBackend,
-} from "@/constrants/constrants";
 import { useEffect } from "react";
 
-const TransactionTypeFilter = () => {
+const UsersRoleFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const type = searchParams.get("type") ;
+  const role = searchParams.get("role");
 
   const form = useForm<z.infer<typeof HistoryFilterFormSchema>>({
     resolver: zodResolver(HistoryFilterFormSchema),
-    defaultValues:{
-        filter: ""
-    }
+    defaultValues: {
+      filter: "",
+    },
   });
 
   useEffect(() => {
-    form.reset({ filter: type || "" });
-  }, [form, type]);
+    form.reset({ filter: role || "" });
+  }, [form, role]);
 
   function onSubmit(data: z.infer<typeof HistoryFilterFormSchema>) {
     // // eslint-disable-next-line no-console
     // console.log(data);
     const params = new URLSearchParams();
-    params.set("type", data.filter);
+    params.set("role", data.filter);
     setSearchParams(params);
     // eslint-disable-next-line no-console
-    console.log("params setted: ", params.get("type"));
+    console.log("Filtering: ", params.get("role"));
   }
-
   
   return (
     <>
@@ -55,27 +50,15 @@ const TransactionTypeFilter = () => {
               name="filter"
               render={({ field }) => (
                 <FormItem>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl className="">
                       <SelectTrigger className="cursor-pointer">
-                        <SelectValue placeholder="Select type" />
+                        <SelectValue placeholder="Select role" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value={TtransactionTypeValueBackend.cashIn}>
-                        {transactionTypeText.cashIn}
-                      </SelectItem>
-                      <SelectItem value={TtransactionTypeValueBackend.cashOut}>
-                        {transactionTypeText.cashOut}
-                      </SelectItem>
-                      <SelectItem
-                        value={TtransactionTypeValueBackend.sendMoney}
-                      >
-                        {transactionTypeText.sendMoney}
-                      </SelectItem>
+                      <SelectItem value={"AGENT"}>Agent</SelectItem>
+                      <SelectItem value={"USER"}>User</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItem>
@@ -95,4 +78,4 @@ const TransactionTypeFilter = () => {
   );
 };
 
-export default TransactionTypeFilter;
+export default UsersRoleFilter;

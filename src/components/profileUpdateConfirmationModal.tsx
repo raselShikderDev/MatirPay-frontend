@@ -9,32 +9,31 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import type { TansactionType } from "@/types"
 import type { ReactNode } from "react"
 
 
-interface ISendMoneyCOnfirmationData{
-  amount: number,
-  walletId: string,
-  type: TansactionType,
+interface IUpdateProfileConfirmationData{
+  name: number,
+  phone: string,
+  address: string,
 }
 
 interface IProps{
     children:ReactNode,
     onConfirm:()=> void,
-    data:ISendMoneyCOnfirmationData,
+    data:IUpdateProfileConfirmationData,
 }
 
 
 
 
-export function SendConfirmationModal({children, onConfirm, data}:IProps) {
+export function ProfileUpdateConfirmationModal({children, onConfirm, data}:IProps) {
 // eslint-disable-next-line no-console
 console.log("Data wating for confirmation", data)
   const handleConfrim = ()=>{
       onConfirm()
       // eslint-disable-next-line no-console
-      console.log("Successfully send :", data)
+      console.log("Successfully Updated :", data)
   }
  
   return (
@@ -46,11 +45,11 @@ console.log("Data wating for confirmation", data)
         <AlertDialogHeader>
           <AlertDialogTitle>Confirm Payment</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to send this payment?
+            Are you sure you want to update profile by following details?
             <ul className="mt-4 space-y-1.5 text-sm text-left">
-              <li><strong>Amount: </strong>{data.amount}</li>
-              <li><strong>Payment Type: </strong>{data.type}</li>
-              <li><strong>Receiver Wallet: </strong>{data.walletId}</li>
+              <li><strong>Name: </strong>{data.name}</li>
+              <li><strong>Phone: </strong>{data.phone}</li>
+              <li><strong>Address: </strong>{data.address}</li>
             </ul>
           </AlertDialogDescription>
         </AlertDialogHeader>

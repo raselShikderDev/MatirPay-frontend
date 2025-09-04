@@ -19,7 +19,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useUserCashOutMutation } from "@/redux/features/wallet/wallet.api";
 import { SendConfirmationModal } from "@/components/sendConfirmationModal";
 import { transactionTypeText } from "@/constrants/constrants";
 import { DollarSign, Wallet } from "lucide-react";
@@ -29,6 +28,8 @@ import type { TansactionType } from "@/types";
 import ConfirmationMessage, {
   type TransactionDetails,
 } from "@/components/confrimMessage";
+import { useUserCashInMutation } from "@/redux/features/wallet/wallet.api";
+import { LoadingSpinner } from "@/components/loading";
 
 interface IPayload {
   amount: number;
@@ -36,7 +37,7 @@ interface IPayload {
 }
 
 const AgentCashInPage = () => {
-  const [userCashOut, { isLoading }] = useUserCashOutMutation();
+  const [userCashOut, { isLoading }] = useUserCashInMutation();
   const [payload, setPayload] = useState<IPayload | null>(null);
   const [confirmMessage, setConfirmMessage] =
     useState<TransactionDetails | null>(null);
@@ -63,15 +64,15 @@ const AgentCashInPage = () => {
         setConfirmStatus(res.success);
         setIsShowForm(false);
         form.reset();
-        const toastId = toast.loading("Cash Out processing...");
-        toast.success("Cash Out successfully done", { id: toastId });
+        const toastId = toast.loading("Cash In processing...");
+        toast.success("Cash In successfully processed", { id: toastId });
       }
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
       console.error(error);
       form.reset();
       setIsShowForm(false);
-      toast.error("Cash Out falied");
+      toast.error("Cash In falied");
     }
   };
 
@@ -88,6 +89,7 @@ const AgentCashInPage = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <Card className="w-full max-w-md rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-800">
+         {isLoading && <LoadingSpinner />}
         {!isShowForm && (
           <ConfirmationMessage
             transaction={confirmStatus ? confirmMessage : null}
@@ -101,7 +103,7 @@ const AgentCashInPage = () => {
             <CardHeader>
               <CardTitle className="text-xl">Cash In</CardTitle>
               <CardDescription>
-                Enter wallet ID and the amount you want to cash In.
+               Enter recipient wallet ID and the amount you want to cash In.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">

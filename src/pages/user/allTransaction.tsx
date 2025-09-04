@@ -152,22 +152,34 @@ export default function AllTransactions() {
             <PaginationItem>
               <PaginationPrevious
                 className={`cursor-pointer ${
-                  currentpage === 1 && "pointer-events-none"
+                  currentpage === 1 && "pointer-events-none text-gray-500"
                 }`}
                 onClick={() => setCurrentpage((prev) => Math.max(prev - 1, 1))}
                 href="#"
               />
             </PaginationItem>
-            <PaginationItem>
-              <PaginationLink>1</PaginationLink>
-            </PaginationItem>
+            {Array.from({ length: meta.totalPages }, (_, index) => index + 1).map(
+              (page) => {
+                return (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      className={`cursor-pointer`}
+                      isActive={currentpage === page}
+                      onClick={() => setCurrentpage(page)}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              }
+            )}
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
             <PaginationItem>
               <PaginationNext
                 className={`cursor-pointer ${
-                  currentpage === meta.totalPages && "pointer-events-none"
+                  currentpage === meta.totalPages && "pointer-events-none text-gray-500"
                 }`}
                 onClick={() =>
                   setCurrentpage((prev) =>
