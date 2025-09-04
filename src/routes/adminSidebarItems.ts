@@ -1,9 +1,7 @@
-// import AllUsers from "@/pages/admin/allUsers";
 import AgentApprovePage from "@/pages/admin/agentApprovePage";
 import AllUsers from "@/pages/admin/allUsers";
 import { DashboardAdmin } from "@/pages/admin/dashboardAdmin";
 import AgentSuspendPage from "@/pages/admin/suspendAgentPage";
-import UpdateProfilePage from "@/pages/universelPages/profileUpdatePage";
 import AllTransactions from "@/pages/user/allTransaction";
 import type { ISidebarItems } from "@/types";
 
@@ -37,11 +35,6 @@ export const adminSidebarItems:ISidebarItems[] = [
         title: "Transactions",
         url: "transactions",
         Component: AllTransactions,
-      },
-      {
-        title: "Update Profile",
-        url: "update-profile",
-        Component: UpdateProfilePage,
       },
     ],
   },

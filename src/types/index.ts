@@ -7,6 +7,8 @@ export type {
   ILogInRespone,
   TRole,
   IUser,
+  IUpdateUser,
+  IUpdatePassword,
 } from "@/types/auth.type";
 export type {
   TansactionType,

@@ -33,6 +33,8 @@ export interface ILogin{
     isDeleted: boolean;
     status: TStatus
     isVerified: boolean;
+    phone:string;
+    address:string;
     auths: {
       provider: "Credentials" | "Google";
       providerId: string;
@@ -60,6 +62,15 @@ export interface ISignUp{
   address: string;
 }
 
+export interface IUpdateUser{
+  name: string;
+  phone: string;
+  address: string;
+}
 
+export interface IUpdatePassword{
+  oldPassword: string;
+  newPassowrd:string;
+}
 
 

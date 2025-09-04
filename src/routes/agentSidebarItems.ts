@@ -1,7 +1,6 @@
 import AgentAllTransactions from "@/pages/agent/agentAllHistory";
 import AgentCashInPage from "@/pages/agent/agentCashInpage";
 import AgentDashboard from "@/pages/agent/agentDashBoard";
-import UpdateProfilePage from "@/pages/universelPages/profileUpdatePage";
 import type { ISidebarItems } from "@/types";
 
 
@@ -25,11 +24,7 @@ export const agentSidebarItems:ISidebarItems[] = [
         url: "transactions",
         Component: AgentAllTransactions,
       },
-      {
-        title: "Update Profile",
-        url: "update-profile",
-        Component: UpdateProfilePage,
-      },
+      
     ],
   },
 ];

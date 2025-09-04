@@ -1,6 +1,7 @@
 import {
   BoltIcon,
   ChevronDownIcon,
+  Lock,
   LogOutIcon,
   User,
 } from "lucide-react";
@@ -17,23 +18,26 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
-import {
-  authApi,
-  useLogOutMutation,
-} from "@/redux/features/auth/auth.api";
+import { authApi, useLogOutMutation } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
 import { toast } from "sonner";
-import { Roles } from "@/constrants/constrants";
+// import { Roles } from "@/constrants/constrants";
 import { useGetMeQuery } from "@/redux/features/users/user.api";
 
+
+
 export default function AvatarOptionsIcon() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [logOut] = useLogOutMutation();
   const dispatch = useAppDispatch();
   const { data } = useGetMeQuery(null);
   const user = data?.data;
 
-  const link = data?.data.role === Roles.user && "user" || data?.data.role === Roles.admin || Roles.superAdmin && "admin" || data?.data.role === Roles.agent && "agent"
+  // const link =
+  //   (data?.data.role === Roles.user && "user") ||
+  //   data?.data.role === Roles.admin ||
+  //   (Roles.superAdmin && "admin") ||
+  //   (data?.data.role === Roles.agent && "agent");
 
   const handleLogout = async () => {
     try {
@@ -79,7 +83,25 @@ export default function AvatarOptionsIcon() {
           <DropdownMenuItem>
             <BoltIcon size={16} className="opacity-60" aria-hidden="true" />
             <span>
-              <Button variant={"ghost"} className="cursor-pointer" onClick={()=> navigate(`/${link}/update-profile`)}>Update user</Button>
+              <Button
+                variant={"ghost"}
+                className="cursor-pointer"
+                onClick={() => navigate(`/update-profile`)}
+              >
+                Update user
+              </Button>
+            </span>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Lock size={16} className="opacity-60" aria-hidden="true" />
+            <span>
+              <Button
+                variant={"ghost"}
+                className="cursor-pointer"
+                onClick={() => navigate(`/change-password`)}
+              >
+                Change Password
+              </Button>
             </span>
           </DropdownMenuItem>
         </DropdownMenuGroup>

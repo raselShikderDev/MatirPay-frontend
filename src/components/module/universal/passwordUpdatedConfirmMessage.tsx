@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -9,10 +8,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
 
-export default function ProfileUpdatedConfirmMessage({
+export default function PasswordUpdatedConfirmMessage({
   status, 
   setIsShowForm,
 }: {
@@ -40,14 +40,14 @@ export default function ProfileUpdatedConfirmMessage({
             )}
             <DialogTitle>
               {status === true
-                ? "Successfully profile updated"
-                : "Updating profile Failed"}
+                ? "Successfully password updated"
+                : "Updating password Failed"}
             </DialogTitle>
           </div>
           <DialogDescription>
             {status === true
-              ? "Your profile successfully updated by new details in"
-              : "Faild to update profile"}
+              ? "Your password successfully updated by new details in"
+              : "Faild to update password"}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

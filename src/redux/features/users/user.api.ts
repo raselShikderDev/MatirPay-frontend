@@ -1,9 +1,9 @@
 import { baseApi } from "@/redux/baseApi";
-import type { IResponse, IUser, TRole } from "@/types";
+import type { IResponse, IUpdateUser, IUser, TRole } from "@/types";
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    updateUser: builder.mutation<IResponse<IUser>, null>({
+    updateUser: builder.mutation<IResponse<IUser>, IUpdateUser>({
       query: (payload) => ({
         url: "/users/update-user",
         method: "PATCH",

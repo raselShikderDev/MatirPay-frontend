@@ -16,6 +16,8 @@ import SignupPage from "@/pages/authentications/signupPage";
 import { withAuth } from "@/utils/withAuth";
 import { Roles } from "@/constrants/constrants";
 import type { TRole } from "@/types";
+import UpdatePasswordPage from "@/pages/universelPages/updatepasswordPage";
+import UpdateProfilePage from "@/pages/universelPages/profileUpdatePage";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ export const router = createBrowserRouter([
       {
         path: "pricing",
         Component: PricingPage,
+      },
+      {
+        path: "change-password",
+        Component: withAuth(UpdatePasswordPage),
+      },
+      {
+        path: "update-profile",
+        Component: withAuth(UpdateProfilePage),
       },
     ],
   },

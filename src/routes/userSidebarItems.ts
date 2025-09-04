@@ -1,4 +1,3 @@
-import UpdateProfilePage from "@/pages/universelPages/profileUpdatePage";
 import AllTransactions from "@/pages/user/allTransaction";
 import CashOutPage from "@/pages/user/userCashOutPage";
 import UserDashBoad from "@/pages/user/userDashboad";
@@ -28,11 +27,6 @@ export const userSidebarItems: ISidebarItems[] = [
         title: "History",
         url: "histroy",
         Component: AllTransactions,
-      },
-      {
-        title: "Update Profile",
-        url: "update-profile",
-        Component: UpdateProfilePage,
       },
     ],
   },
