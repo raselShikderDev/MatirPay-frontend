@@ -38,8 +38,8 @@ export default function ProfileUpdatedConfirmMessage({
             )}
             <DialogTitle>
               {status === true
-                ? "Transaction Successful"
-                : "Transaction Failed"}
+                ? "Successfully profile updated"
+                : "Updating profile Failed"}
             </DialogTitle>
           </div>
           <DialogDescription>

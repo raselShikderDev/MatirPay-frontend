@@ -1,7 +1,6 @@
 import { baseApi } from "@/redux/baseApi";
 import type { IResponse, IUser, TRole } from "@/types";
 
-
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     updateUser: builder.mutation<IResponse<IUser>, null>({
@@ -19,19 +18,25 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["USER"],
     }),
-    approveAgent: builder.mutation<IResponse<null>, {id:string}>({
+    approveAgent: builder.mutation<IResponse<null>, string>({
+      query: (id) => ({
+        url: `/users/agent-approve/${id}`,
+        method: "PATCH",
+      }),
+    }),
+    suspendAgent: builder.mutation<IResponse<null>, string>({
+      query: (id) => ({
+        url: `/users/agent-suspend/${id}`,
+        method: "PATCH",
+      }),
+    }),
+    toggleAgentStatus: builder.mutation<IResponse<null>, string>({
       query: (id) => ({
         url: `/users/agent-approve/:${id}`,
         method: "POST",
       }),
     }),
-    toggleAgentStatus: builder.mutation<IResponse<null>, {id:string}>({
-      query: (id) => ({
-        url: `/users/agent-approve/:${id}`,
-        method: "POST",
-      }),
-    }),
-    getAllUser: builder.query<IResponse<IUser[]>, { role?:TRole; page?: number }>({
+    getAllUser: builder.query<IResponse<IUser[]>,{ role?: TRole; page?: number }>({
       query: (params) => ({
         url: "/users/all-user",
         method: "GET",
@@ -39,14 +44,14 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["USER"],
     }),
-    getSingelUser: builder.query<IResponse<IUser>, {id:string}>({
+    getSingelUser: builder.query<IResponse<IUser>, string>({
       query: (id) => ({
         url: `/users/:${id}`,
         method: "GET",
       }),
       providesTags: ["USER"],
     }),
-    getSingelAgent: builder.query<IResponse<IUser>, {id:string}>({
+    getSingelAgent: builder.query<IResponse<IUser>, string>({
       query: (id) => ({
         url: `/users/agents/:${id}`,
         method: "GET",
@@ -78,5 +83,6 @@ export const {
   useGetSingelAgentQuery,
   useGetMeQuery,
   useUpdateUserMutation,
-  useGetApprovedAgentCountQuery
+  useGetApprovedAgentCountQuery,
+  useSuspendAgentMutation
 } = userApi;

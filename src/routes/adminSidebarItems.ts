@@ -2,6 +2,7 @@
 import AgentApprovePage from "@/pages/admin/agentApprovePage";
 import AllUsers from "@/pages/admin/allUsers";
 import { DashboardAdmin } from "@/pages/admin/dashboardAdmin";
+import AgentSuspendPage from "@/pages/admin/suspendAgentPage";
 import UpdateProfilePage from "@/pages/universelPages/profileUpdatePage";
 import AllTransactions from "@/pages/user/allTransaction";
 import type { ISidebarItems } from "@/types";
@@ -26,6 +27,11 @@ export const adminSidebarItems:ISidebarItems[] = [
         title: "Agent approvals",
         url: "approve-agent",
         Component: AgentApprovePage,
+      },
+      {
+        title: "Suspend Agent",
+        url: "suspend-agent",
+        Component: AgentSuspendPage,
       },
       {
         title: "Transactions",

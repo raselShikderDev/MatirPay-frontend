@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { profileUpdateFormZodSchema } from "@/schema/userSchmea";
 import { useUpdateUserMutation } from "@/redux/features/users/user.api";
-import ProfileUpdatedConfirmMessage from "@/components/ProfileUpdatedConfirmMessage";
+import ProfileUpdatedConfirmMessage from "@/components/module/universal/ProfileUpdatedConfirmMessage";
 import { useState } from "react";
 import { LoadingSpinner } from "@/components/loading";
 

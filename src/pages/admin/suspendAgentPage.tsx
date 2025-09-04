@@ -22,16 +22,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { userIdZodSchema } from "@/schema/adminSchema";
 import { useState } from "react";
-import { useApproveAgentMutation } from "@/redux/features/users/user.api";
-import { ApprovalConfirmationModal } from "@/components/module/admin/approvalConfirmationModal";
-import ApprovedMessage from "@/components/module/admin/approvedMessage";
 import { LoadingSpinner } from "@/components/loading";
+import { useSuspendAgentMutation } from "@/redux/features/users/user.api";
+import SuspendedMessage from "@/components/module/admin/suspendedMesseage";
+import { SuspendConfirmationModal } from "@/components/module/admin/suspendConfirmatoinModal";
 
-const AgentApprovePage = () => {
+const AgentSuspendPage = () => {
   const [payload, setPayload] = useState<string | null>(null);
   const [confirmStatus, setConfirmStatus] = useState<boolean>(false);
   const [isShowForm, setIsShowForm] = useState<boolean>(true);
-  const [approveAgent] = useApproveAgentMutation();
+  const [suspendAgent] = useSuspendAgentMutation();
   const form = useForm<z.infer<typeof userIdZodSchema>>({
     resolver: zodResolver(userIdZodSchema),
     mode: "onChange",
@@ -45,22 +45,22 @@ const AgentApprovePage = () => {
   const handleApprove = async () => {
     if (!payload) return;
     try {
-      const res = await approveAgent(payload).unwrap();
+      const res = await suspendAgent(payload).unwrap();
       // eslint-disable-next-line no-console
       console.log(res);
       if (res.success) {
         form.reset();
         setIsShowForm(false);
         setConfirmStatus(res.success);
-        const toastId = toast.loading("Approving agent is processing...");
-        toast.success("Agent successfully Approved", { id: toastId });
+        const toastId = toast.loading("Agent suspening is processing...");
+        toast.success("Agent successfully suspended", { id: toastId });
       }
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
       console.error(error);
       setIsShowForm(false);
       form.reset();
-      toast.error("Approving agent falied");
+      toast.error("Suspending agent falied");
     }
   };
 
@@ -75,7 +75,7 @@ const AgentApprovePage = () => {
       <Card className="w-full max-w-md rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-800">
         {isLoading && !isShowForm && <LoadingSpinner />}
         {!isShowForm && (
-          <ApprovedMessage
+          <SuspendedMessage
             status={confirmStatus}
             setIsShowForm={() => setIsShowForm(true)}
           />
@@ -84,9 +84,9 @@ const AgentApprovePage = () => {
         {isShowForm && (
           <>
             <CardHeader>
-              <CardTitle className="text-xl">Approve agent</CardTitle>
+              <CardTitle className="text-xl">Suspended agent</CardTitle>
               <CardDescription>
-                Enter Agent ID you want to aprrove as agent.
+                Enter Agent ID you want to suspend as agent.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
@@ -118,7 +118,7 @@ const AgentApprovePage = () => {
                     )}
                   />
                   {payload ? (
-                    <ApprovalConfirmationModal
+                    <SuspendConfirmationModal
                       onConfirm={() => handleApprove()}
                     >
                       <Button
@@ -127,9 +127,9 @@ const AgentApprovePage = () => {
                         variant={"default"}
                         disabled={isLoading}
                       >
-                        Approve
+                        Suspend
                       </Button>
-                    </ApprovalConfirmationModal>
+                    </SuspendConfirmationModal>
                   ) : (
                     <Button
                       disabled={isLoading}
@@ -137,7 +137,7 @@ const AgentApprovePage = () => {
                       type="submit"
                       variant={"default"}
                     >
-                      Approve
+                      Suspend
                     </Button>
                   )}
                 </form>
@@ -150,4 +150,4 @@ const AgentApprovePage = () => {
   );
 };
 
-export default AgentApprovePage;
+export default AgentSuspendPage;

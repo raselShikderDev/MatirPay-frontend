@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useUserCashOutMutation } from "@/redux/features/wallet/wallet.api";
-import { SendConfirmationModal } from "@/components/sendConfirmationModal";
+import { SendConfirmationModal } from "@/components/module/universal/sendConfirmationModal";
 import { transactionTypeText } from "@/constrants/constrants";
 import { DollarSign, Wallet } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,7 +28,7 @@ import { toast } from "sonner";
 import type { TansactionType } from "@/types";
 import ConfirmationMessage, {
   type TransactionDetails,
-} from "@/components/confrimMessage";
+} from "@/components/module/universal/confrimMessage";
 import { LoadingSpinner } from "@/components/loading";
 
 interface IPayload {
@@ -89,7 +89,7 @@ const CashOutPage = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <Card className="w-full max-w-md rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-800">
-         {isLoading && !isShowForm && <LoadingSpinner />}
+        {isLoading && !isShowForm && <LoadingSpinner />}
         {!isShowForm && (
           <ConfirmationMessage
             transaction={confirmStatus ? confirmMessage : null}
