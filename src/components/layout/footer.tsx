@@ -34,7 +34,6 @@ const defaultSections = [
     links: [
       { name: "Overview", href: "#" },
       { name: "Pricing", href: "#" },
-      { name: "Marketplace", href: "#" },
       { name: "Features", href: "#" },
     ],
   },
@@ -51,7 +50,6 @@ const defaultSections = [
     title: "Resources",
     links: [
       { name: "Help", href: "#" },
-      { name: "Sales", href: "#" },
       { name: "Advertise", href: "#" },
       { name: "Privacy", href: "#" },
     ],
@@ -73,7 +71,7 @@ const defaultLegalLinks = [
 const Footer = ({
 
   sections = defaultSections,
-  description = "A collection of components for your startup business or side project.",
+  description = "Empowering digital finance in every corner of Bangladesh",
   socialLinks = defaultSocialLinks,
   copyright = "© 2024 Shadcnblocks.com. All rights reserved.",
   legalLinks = defaultLegalLinks,

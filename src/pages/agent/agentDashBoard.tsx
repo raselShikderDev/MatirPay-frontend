@@ -24,7 +24,7 @@ import { Send, Wallet } from "lucide-react"; // Lucide icons
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-export default function UserDashboard() {
+export default function AgentDashboard() {
   const navigator = useNavigate();
   const { data, isLoading, isError } = useGetMyRecentTransactionQuery(null);
   const [alltransactions, setAlltransactions] = useState<TransactionDetails[]>(

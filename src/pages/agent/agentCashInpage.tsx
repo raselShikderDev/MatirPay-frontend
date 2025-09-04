@@ -35,7 +35,7 @@ interface IPayload {
   toWallet: string;
 }
 
-const CashOutPage = () => {
+const AgentCashInPage = () => {
   const [userCashOut, { isLoading }] = useUserCashOutMutation();
   const [payload, setPayload] = useState<IPayload | null>(null);
   const [confirmMessage, setConfirmMessage] =
@@ -99,9 +99,9 @@ const CashOutPage = () => {
         {isShowForm && (
           <>
             <CardHeader>
-              <CardTitle className="text-xl">Cash Out</CardTitle>
+              <CardTitle className="text-xl">Cash In</CardTitle>
               <CardDescription>
-                Enter your wallet ID and the amount you want to cash out.
+                Enter wallet ID and the amount you want to cash In.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
@@ -169,7 +169,7 @@ const CashOutPage = () => {
                         variant={"default"}
                         disabled={isLoading}
                       >
-                        Cash Out
+                        Cash In
                       </Button>
                     </SendConfirmationModal>
                   ) : (
@@ -179,7 +179,7 @@ const CashOutPage = () => {
                       type="submit"
                       variant={"default"}
                     >
-                      Cash Out
+                      Cash In
                     </Button>
                   )}
                 </form>
@@ -192,4 +192,4 @@ const CashOutPage = () => {
   );
 };
 
-export default CashOutPage;
+export default AgentCashInPage;

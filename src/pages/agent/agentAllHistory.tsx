@@ -27,7 +27,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-export default function AllTransactions() {
+export default function AgentAllTransactions() {
   const [meta, setMeta] = useState<{ totalPages: number; page: number }>({
     totalPages: 1,
     page: 1,
@@ -151,9 +151,7 @@ export default function AllTransactions() {
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
-                className={`cursor-pointer ${
-                  currentpage === 1 && "pointer-events-none"
-                }`}
+                className="cursor-pointer"
                 onClick={() => setCurrentpage((prev) => Math.max(prev - 1, 1))}
                 href="#"
               />
@@ -166,9 +164,7 @@ export default function AllTransactions() {
             </PaginationItem>
             <PaginationItem>
               <PaginationNext
-                className={`cursor-pointer ${
-                  currentpage === meta.totalPages && "pointer-events-none"
-                }`}
+                className="cursor-pointer"
                 onClick={() =>
                   setCurrentpage((prev) =>
                     prev < meta.totalPages ? prev + 1 : prev

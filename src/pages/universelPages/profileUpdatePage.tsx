@@ -13,68 +13,47 @@ import {
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import PasswordToggler from "@/components/passwordToggler";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import type { ISignUp } from "@/types/auth.type";
 import { toast } from "sonner";
-import { useCreateUserMutation } from "@/redux/features/auth/auth.api";
-import { signUpFormZodSchema } from "@/schema/userSchmea";
+import { profileUpdateFormZodSchema } from "@/schema/userSchmea";
+import { useUpdateUserMutation } from "@/redux/features/users/users.api";
 
-interface SignUpProps {
+
+
+interface UpdateProfileProps {
   heading?: string;
-  buttonText?: string;
-  googleText?: string;
-  sinInText?: string;
-  signInUrl?: string;
 }
 
 
-
-const SignupPage = ({
-  heading = "Sign Up",
-  sinInText = "Already have an account?",
-  signInUrl = "/signin",
-}: SignUpProps) => {
+const UpdateProfilePage = ({
+  heading = "Update Profile Info",
+}: UpdateProfileProps) => {
   // Hooks
   const navigator = useNavigate();
-  const [singUp, { isLoading }] = useCreateUserMutation();
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   // default values
-  const form = useForm<z.infer<typeof signUpFormZodSchema>>({
-    resolver: zodResolver(signUpFormZodSchema),
+  const form = useForm<z.infer<typeof profileUpdateFormZodSchema>>({
+    resolver: zodResolver(profileUpdateFormZodSchema),
     mode: "onChange",
     defaultValues: {
       name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      role: "USER",
       phone: "",
       address: "",
     },
   });
 
   //Handling onsubmit
-  const onSubmit = async (value: z.infer<typeof signUpFormZodSchema>) => {
+  const onSubmit = async (value: z.infer<typeof profileUpdateFormZodSchema>) => {
     console.log(value);
 
-    const payload: ISignUp = {
+    const payload = {
       name: value.name,
-      email: value.email,
-      password: value.password,
-      role: value.role,
       phone: value.phone,
       address: value.address,
     };
 
     try {
-      const res = await singUp(payload).unwrap();
+      const res = await updateUser(payload).unwrap();
       console.log(res.data);
       if (res.success) {
         const toastId = toast.loading("Signing up");
@@ -102,19 +81,7 @@ const SignupPage = ({
             <Link to={"/"} className="mb-4">
               <MatirPayLogo />
             </Link>
-
-            {/* Text and link centered */}
-            <div className="text-muted-foreground flex items-center gap-1 text-sm ">
-              <p>{sinInText}</p>
-              <Link
-                to={signInUrl}
-                className="text-primary font-medium hover:underline"
-              >
-                SignIn
-              </Link>
-            </div>
           </div>
-
           <div className="">
             <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-5 py-10 shadow-md dark:bg-gray-900">
               {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
@@ -132,64 +99,6 @@ const SignupPage = ({
                           <Input required placeholder="Full name" {...field} />
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input required placeholder="Your email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <PasswordToggler {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <PasswordToggler {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="role"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select your Role" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="USER">USER</SelectItem>
-                            <SelectItem value="AGENT">AGENT</SelectItem>
-                          </SelectContent>
-                        </Select>
                       </FormItem>
                     )}
                   />
@@ -234,4 +143,4 @@ const SignupPage = ({
   );
 };
 
-export default SignupPage;
+export default UpdateProfilePage;
