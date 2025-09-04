@@ -27,6 +27,9 @@ import { ApprovalConfirmationModal } from "@/components/approvalConfirmationModa
 import ApprovedMessage from "@/components/approvedMessage";
 import { LoadingSpinner } from "@/components/loading";
 
+
+
+
 const AgentApprovePage = () => {
   const [payload, setPayload] = useState<string | null>(null);
     const [confirmStatus, setConfirmStatus] = useState<boolean>(false);
@@ -45,7 +48,7 @@ const AgentApprovePage = () => {
   const handleApprove = async () => {
     if (!payload) return;
     try {
-      const res = await approveAgent(payload).unwrap();
+      const res = await approveAgent({id:payload}).unwrap();
       // eslint-disable-next-line no-console
       console.log(res);
       if (res.success) {
@@ -84,7 +87,7 @@ const AgentApprovePage = () => {
         {isShowForm && (
           <>
             <CardHeader>
-              <CardTitle className="text-xl">Cash In</CardTitle>
+              <CardTitle className="text-xl">Approve agent</CardTitle>
               <CardDescription>
                 Enter recipient wallet ID and the amount you want to cash In.
               </CardDescription>

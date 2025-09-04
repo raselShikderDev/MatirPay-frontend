@@ -1,4 +1,5 @@
 // import AllUsers from "@/pages/admin/allUsers";
+import AgentApprovePage from "@/pages/admin/agentApprovePage";
 import AllUsers from "@/pages/admin/allUsers";
 import { DashboardAdmin } from "@/pages/admin/dashboardAdmin";
 import UpdateProfilePage from "@/pages/universelPages/profileUpdatePage";
@@ -20,6 +21,11 @@ export const adminSidebarItems:ISidebarItems[] = [
         title: "Users & Agents",
         url: "users",
         Component: AllUsers,
+      },
+      {
+        title: "Agent approvals",
+        url: "approve-agent",
+        Component: AgentApprovePage,
       },
       {
         title: "Transactions",
