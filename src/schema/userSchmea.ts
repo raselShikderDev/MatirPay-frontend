@@ -116,3 +116,24 @@ export const signUpFormZodSchema = z.object({
     message: "Password does not match",
     path: ["confirmPassword"],
   });
+
+
+
+export const resetPasswordFormZodSchema = z.object({
+    newPlainPassword: z
+      .string({ message: "Invalid password type" })
+      .regex(
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}:;<>,.?~\\/-]).{8,}$/,
+        "Password must be at least 8 characters long, include one uppercase letter, one number, and one special character"
+      ),
+    confirmPassword: z
+      .string({ message: "Invalid password type" })
+      .regex(
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}:;<>,.?~\\/-]).{8,}$/,
+        "Password must be at least 8 characters long, include one uppercase letter, one number, and one special character"
+      ),
+  })
+  .refine((data) => data.newPlainPassword === data.confirmPassword, {
+    message: "Password does not match",
+    path: ["confirmPassword"],
+  });
