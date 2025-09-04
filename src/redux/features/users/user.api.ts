@@ -60,6 +60,13 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["USER"],
     }),
+    getApprovedAgentCount: builder.query<IResponse<number>, null>({
+      query: () => ({
+        url: "/users/all-approved-agents-count",
+        method: "GET",
+      }),
+      providesTags: ["USER"],
+    }),
   }),
 });
 
@@ -71,4 +78,5 @@ export const {
   useGetSingelAgentQuery,
   useGetMeQuery,
   useUpdateUserMutation,
+  useGetApprovedAgentCountQuery
 } = userApi;

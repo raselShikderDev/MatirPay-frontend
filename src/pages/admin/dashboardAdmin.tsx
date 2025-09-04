@@ -1,5 +1,7 @@
 import {
   Table,
+  TableBody,
+  TableCell,
   // TableBody,
   // TableCell,
   TableHead,
@@ -11,62 +13,85 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 // import { ErrorAlert } from "@/components/error";
 import { LoadingSpinner } from "@/components/loading";
-import { useGetAllUserQuery } from "@/redux/features/users/user.api"
-import { useGetAllTransactionQuery } from "@/redux/features/transaxtions/transactions.api"
+import {
+  useGetAllUserQuery,
+  useGetApprovedAgentCountQuery,
+} from "@/redux/features/users/user.api";
+import { useGetAllTransactionQuery } from "@/redux/features/transaxtions/transactions.api";
+import { useEffect, useState } from "react";
+import formatTrxId from "@/utils/trxIdTransfrom";
+import { Badge } from "@/components/ui/badge";
+import formatDate from "@/utils/dateFormate";
+import { ErrorAlert } from "@/components/error";
+import { Roles } from "@/constrants/constrants";
 
 export function DashboardAdmin() {
-  const {data:users} = useGetAllUserQuery({role:"USER"})
-  const {data:approvedAgent} = useGetAllUserQuery({isAgentApproved: true})
-  const {data:alltransactions} = useGetAllTransactionQuery(null)
+  const { data: users } = useGetAllUserQuery({ role: "USER" });
+  const { data: approvedAgent } = useGetApprovedAgentCountQuery(null);
+  const { data: alltransactions, isLoading:allTransactionLoading, isError:allTransactionIsError } = useGetAllTransactionQuery(null);
+  const {
+    data: allUsers,
+    isLoading: allUsersLoading,
+    isError: allUsersIsError,
+  } = useGetAllUserQuery({ page: 1 });
 
-  const isLoading = false
-  // need to customize in api for gettin glimitation in all tractiontions 
-  
+  const [approvedAgentCount, setApprovedAgentCount] = useState<number>(0);
+  const [activeUsersCount, setActiveUsersCount] = useState<number>(0);
+
+
+  useEffect(() => {
+    if (approvedAgent?.data) {
+      setApprovedAgentCount(approvedAgent?.data);
+    }
+    if (users?.meta?.total) {
+      setActiveUsersCount(users?.meta?.total);
+    }
+  }, [approvedAgent?.data, users?.meta?.total]);
 
   return (
     <div>
-     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4 sm:px-6 lg:px-8">
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Active User</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
-            {users?.meta.totalUser ? users?.meta.totalUser : 0}
-          </CardTitle>
-        </CardHeader>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Approved Agents</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
-           {approvedAgent?.meta.totalUser ? approvedAgent?.meta.totalUser : 0}
-          </CardTitle>
-        </CardHeader>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>total Transactions</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
-            {alltransactions?.meta?.total ? alltransactions?.meta?.total : 0}
-          </CardTitle>
-        </CardHeader>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
-            4.5%
-          </CardTitle>
-        </CardHeader>
-      </Card>
-     </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4 sm:px-6 lg:px-8">
+        <Card className="@container/card">
+          <CardHeader>
+            <CardDescription>Active User</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
+              {activeUsersCount}
+            </CardTitle>
+          </CardHeader>
+        </Card>
+        <Card className="@container/card">
+          <CardHeader>
+            <CardDescription>Approved Agents</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
+              {approvedAgentCount}
+            </CardTitle>
+          </CardHeader>
+        </Card>
+        <Card className="@container/card">
+          <CardHeader>
+            <CardDescription>total Transactions</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
+              {alltransactions?.meta?.total ? alltransactions?.meta?.total : 0}
+            </CardTitle>
+          </CardHeader>
+        </Card>
+        <Card className="@container/card">
+          <CardHeader>
+            <CardDescription> Transactions Growth Rate</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
+              4.5%
+            </CardTitle>
+          </CardHeader>
+        </Card>
+      </div>
       <div className="p-4 mt-3 w-full max-w-6xl mx-auto">
         <h2 className="text-2xl font-bold mb-4"> Recent transaction History</h2>
         <div className="rounded-md border">
-          {/* {isError && <ErrorAlert />} */}
-          {isLoading ? (
+          {allTransactionIsError && <ErrorAlert />}
+          {allTransactionLoading ? (
             <LoadingSpinner />
           ) : (
             <Table>
@@ -75,12 +100,13 @@ export function DashboardAdmin() {
                   <TableHead>Trx ID</TableHead>
                   <TableHead>Type</TableHead>
                   <TableHead>Amount</TableHead>
-                  <TableHead>Wallet Involved</TableHead>
+                  <TableHead>Sender Wallet</TableHead>
+                  <TableHead>Reciver Wallet</TableHead>
                   <TableHead>Date</TableHead>
                 </TableRow>
               </TableHeader>
-              {/* <TableBody>
-                {alltransactions.map((tx) => (
+              <TableBody>
+                {alltransactions?.data.map((tx) => (
                   <TableRow key={tx._id}>
                     <TableCell className="font-mono text-xs text-gray-700 dark:text-gray-300">
                       {formatTrxId(tx._id)}
@@ -107,9 +133,14 @@ export function DashboardAdmin() {
                     <TableCell>
                       <div className="text-sm">
                         <span className="block text-gray-700 dark:text-gray-300">
-                          {tx.fromWallet === tx._id
-                            ? tx.toWallet
-                            : tx.fromWallet}
+                          {tx.fromWallet}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-sm">
+                        <span className="block text-gray-700 dark:text-gray-300">
+                          {tx.toWallet}
                         </span>
                       </div>
                     </TableCell>
@@ -118,7 +149,57 @@ export function DashboardAdmin() {
                     </TableCell>
                   </TableRow>
                 ))}
-              </TableBody> */}
+              </TableBody>
+            </Table>
+          )}
+        </div>
+      </div>
+      <div className="p-4 mt-3 w-full max-w-6xl mx-auto">
+        <h2 className="text-2xl font-bold mb-4">Recenet registed Users & Agents</h2>
+        <div className="rounded-md border">
+          {allUsersIsError && <ErrorAlert />}
+          {allUsersLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Registed By</TableHead>
+                  <TableHead>Last activities</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {allUsers?.data.map(
+                  (tx) =>
+                    tx.role !== Roles.admin &&
+                    tx.role !== Roles.superAdmin && (
+                      <TableRow key={tx._id}>
+                        <TableCell className="font-mono text-xs text-gray-700 dark:text-gray-300">
+                          {tx.name}
+                        </TableCell>
+                        <TableCell className="font-semibold">
+                          {tx.role}
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-sm">
+                            <span className="block text-gray-700 dark:text-gray-300">
+                              {tx.status}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="font-semibold">
+                          {tx.auths[0].provider}
+                        </TableCell>
+                        <TableCell className="text-sm text-gray-600 dark:text-gray-400">
+                          {formatDate(tx.updatedAt)}
+                        </TableCell>
+                      </TableRow>
+                    )
+                )}
+              </TableBody>
             </Table>
           )}
         </div>

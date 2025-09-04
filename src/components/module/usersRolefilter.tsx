@@ -12,21 +12,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import {
-  Roles
-} from "@/constrants/constrants";
 import { useEffect } from "react";
 
 const UsersRoleFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const role = searchParams.get("role") ;
+  const role = searchParams.get("role");
 
   const form = useForm<z.infer<typeof HistoryFilterFormSchema>>({
     resolver: zodResolver(HistoryFilterFormSchema),
-    defaultValues:{
-        filter: ""
-    }
+    defaultValues: {
+      filter: "",
+    },
   });
 
   useEffect(() => {
@@ -40,11 +37,9 @@ const UsersRoleFilter = () => {
     params.set("role", data.filter);
     setSearchParams(params);
     // eslint-disable-next-line no-console
-    console.log("params setted: ", params.get("role"));
+    console.log("Filtering: ", params.get("role"));
   }
-
-  // eslint-disable-next-line no-console
-  console.log(role);
+  
   return (
     <>
       <Form {...form}>
@@ -55,22 +50,15 @@ const UsersRoleFilter = () => {
               name="filter"
               render={({ field }) => (
                 <FormItem>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl className="">
                       <SelectTrigger className="cursor-pointer">
                         <SelectValue placeholder="Select role" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value={Roles.agent}>
-                        Agent
-                      </SelectItem>
-                      <SelectItem value={Roles.user}>
-                        User
-                      </SelectItem>
+                      <SelectItem value={"AGENT"}>Agent</SelectItem>
+                      <SelectItem value={"USER"}>User</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItem>

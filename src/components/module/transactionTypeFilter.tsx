@@ -44,8 +44,7 @@ const TransactionTypeFilter = () => {
     console.log("params setted: ", params.get("type"));
   }
 
-  // eslint-disable-next-line no-console
-  console.log(type);
+  
   return (
     <>
       <Form {...form}>

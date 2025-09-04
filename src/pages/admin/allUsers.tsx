@@ -9,7 +9,7 @@ import {
 import { LoadingSpinner } from "@/components/loading";
 import { ErrorAlert } from "@/components/error";
 import { useEffect, useState } from "react";
-import type { IUser } from "@/types";
+import type { IUser, TRole } from "@/types";
 import formatDate from "@/utils/dateFormate";
 import { useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
@@ -33,12 +33,15 @@ export default function AllUsers() {
   });
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const role = searchParams.get("type") || undefined;
+  const role = searchParams.get("role") || undefined;
   const [currentpage, setCurrentpage] = useState(1);
-  const queryArgs: { role?: string; page: number } = { page: currentpage };
-
+  const queryArgs: { role?: TRole; page: number } = { page: currentpage };
+  // console.log("queryArgs: ", queryArgs);
+  // console.log(" top after queryArgs role: ", role);
+  
   if (role) {
-    queryArgs.role = role;
+  // console.log("role in if block: ", role);
+    queryArgs.role = role as TRole;
   }
 
   const { data, isLoading, isError } = useGetAllUserQuery(queryArgs);
@@ -63,13 +66,14 @@ export default function AllUsers() {
 
   // console.log(currentpage);
   // console.log(alltransactions);
+  // console.log(allUsers);
 
   return (
     <div>
       <div className="p-4 w-full max-w-6xl mx-auto">
         <div className=" w-full flex justify-between">
           <div className="justify-items-start">
-            <h2 className="text-2xl font-bold mb-4">Transaction History</h2>
+            <h2 className="text-2xl font-bold mb-4">All Users & Agents</h2>
           </div>
           <div className="flex gap-3">
             <UsersRoleFilter />
@@ -95,34 +99,37 @@ export default function AllUsers() {
                   <TableHead>Name</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead>Registed By</TableHead>
                   <TableHead>Last activities</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {allUsers.map(
                   (tx) =>
-                    tx.role === Roles.agent ||
-                    (Roles.user && (
+                    tx.role !== Roles.admin && tx.role !== Roles.superAdmin && (
                       <TableRow key={tx._id}>
                         <TableCell className="font-mono text-xs text-gray-700 dark:text-gray-300">
                           {tx.name}
                         </TableCell>
                         <TableCell className="font-semibold">
-                          ${tx.role}
+                          {tx.role}
                         </TableCell>
                         <TableCell>
                           <div className="text-sm">
                             <span className="block text-gray-700 dark:text-gray-300">
-                              {tx.role}
+                              {tx.status}
                             </span>
                           </div>
+                        </TableCell>
+                        <TableCell className="font-semibold">
+                          {tx.auths[0].provider}
                         </TableCell>
                         <TableCell className="text-sm text-gray-600 dark:text-gray-400">
                           {formatDate(tx.updatedAt)}
                         </TableCell>
                       </TableRow>
                     ))
-                )}
+                }
               </TableBody>
             </Table>
           )}
