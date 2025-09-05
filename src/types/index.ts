@@ -15,6 +15,7 @@ export type {
 export type {
   TansactionType,
   TransactionDetails,
+  IWallet,
 } from "@/types/transactionstypes";
 
 export interface IResponse<T> {

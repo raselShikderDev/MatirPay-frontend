@@ -17,6 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useGetMyRecentTransactionQuery } from "@/redux/features/transaxtions/transactions.api";
+import { useGetMyWalletQuery } from "@/redux/features/wallet/wallet.api";
 import type { TransactionDetails } from "@/types";
 import formatDate from "@/utils/dateFormate";
 import formatTrxId from "@/utils/trxIdTransfrom";
@@ -27,6 +28,8 @@ import { useNavigate } from "react-router";
 export default function AgentDashboard() {
   const navigator = useNavigate();
   const { data, isLoading, isError } = useGetMyRecentTransactionQuery(null);
+    const { data:myWallet} = useGetMyWalletQuery(null);
+
   const [alltransactions, setAlltransactions] = useState<TransactionDetails[]>(
     []
   );
@@ -55,7 +58,7 @@ export default function AgentDashboard() {
             className="text-3xl font-extrabold mt-1"
             style={{ color: "oklch(0.488 0.243 264.376)" }}
           >
-            $1,250
+            <span>&#2547; </span>{myWallet?.data.balance || 0}
           </p>
           <CardDescription className="text-gray-400 dark:text-gray-500 text-sm mt-1">
             Updated just now
