@@ -1,6 +1,6 @@
 import { baseApi } from "@/redux/baseApi";
 import type { ILogin, ILogInRespone, IResponse, ISendOtp, IUser } from "@/types";
-import type { IResetPassword, ISignUp, IUpdatePassword, IVerifyOtp } from "@/types/auth.type";
+import type { IForgetPassword, IResetPassword, ISignUp, IUpdatePassword, IVerifyOtp } from "@/types/auth.type";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -45,9 +45,19 @@ export const authApi = baseApi.injectEndpoints({
         data:payload,
       }),
     }),
-    resetPassword: builder.mutation<IResponse<null>, IResetPassword>({
+    resetPassword: builder.mutation<IResponse<null>, {payload:IResetPassword, resetToken:string}>({
+      query: ({payload, resetToken}) => ({
+        url: "/auth/reset-password",
+        method: "PATCH",
+        data:payload,
+        headers:{
+          Authorization:resetToken,
+        }
+      }),
+    }),
+    forgetPassword: builder.mutation<IResponse<null>, IForgetPassword>({
       query: (payload) => ({
-        url: "/auth/change-password",
+        url: `/auth/forget-password`,
         method: "PATCH",
         data:payload,
       }),
@@ -55,4 +65,4 @@ export const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const {useLoginMutation, useCreateUserMutation, useSendVerifyOtpMutation, useVerifyOtpMutation, useLogOutMutation, useChangePasswordMutation, useResetPasswordMutation } = authApi
+export const {useLoginMutation, useCreateUserMutation, useSendVerifyOtpMutation, useVerifyOtpMutation, useLogOutMutation, useChangePasswordMutation, useResetPasswordMutation, useForgetPasswordMutation } = authApi

@@ -10,6 +10,7 @@ export type {
   IUpdateUser,
   IUpdatePassword,
   IResetPassword,
+  IForgetPassword,
 } from "@/types/auth.type";
 export type {
   TansactionType,

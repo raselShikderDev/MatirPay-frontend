@@ -46,7 +46,7 @@ export default function PasswordUpdatedConfirmMessage({
           </div>
           <DialogDescription>
             {status === true
-              ? "Your password successfully updated by new details in"
+              ? "Your password successfully updated by new details at your profile"
               : "Faild to update password"}
           </DialogDescription>
         </DialogHeader>

@@ -72,9 +72,14 @@ export interface IUpdatePassword{
   oldPassword: string;
   newPassowrd:string;
 }
+
+
 export interface IResetPassword{
-  email:string;
-  newPlainPassword:string;
+  id:string;
+  newPassword:string;
 }
 
 
+export interface IForgetPassword{
+  email: string;
+}

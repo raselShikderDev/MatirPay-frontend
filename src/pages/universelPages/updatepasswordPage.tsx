@@ -17,9 +17,9 @@ import type { IUpdatePassword } from "@/types";
 import { useForm } from "react-hook-form";
 import { useChangePasswordMutation } from "@/redux/features/auth/auth.api";
 import { useState } from "react";
-import PasswordUpdatedConfirmMessage from "@/components/module/universal/passwordUpdatedConfirmMessage";
+import PasswordUpdatedConfirmMessage from "@/components/module/authentications/passwordUpdatedConfirmMessage";
 import { LoadingSpinner } from "@/components/loading";
-import { PasswordChangedConfirmationModal } from "@/components/module/universal/passwordUpdatedConfirmationModal";
+import { PasswordChangedConfirmationModal } from "@/components/module/authentications/passwordUpdatedConfirmationModal";
 
 interface SignUpProps {
   heading?: string;
@@ -32,8 +32,8 @@ const UpdatePasswordPage = ({
   const [isShowForm, setIsShowForm] = useState<boolean>(true);
   // Hooks
   const [changePassword, { isLoading }] = useChangePasswordMutation();
-    const [payload, setPayload] = useState<IUpdatePassword | null>(null);
-  
+  const [payload, setPayload] = useState<IUpdatePassword | null>(null);
+
   // default values
   const form = useForm<z.infer<typeof updatePasswordFormZodSchema>>({
     resolver: zodResolver(updatePasswordFormZodSchema),
@@ -57,7 +57,7 @@ const UpdatePasswordPage = ({
     });
   };
 
-  const handleUpdatePassword = async ()=>{
+  const handleUpdatePassword = async () => {
     if (!payload) {
       return;
     }
@@ -77,7 +77,7 @@ const UpdatePasswordPage = ({
       setConfirmStatus(true);
       toast.error("Changing password is falied");
     }
-  }
+  };
 
   return (
     <section className="bg-muted h-screen dark:bg-blue-950/50">

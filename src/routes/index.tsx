@@ -18,6 +18,8 @@ import { Roles } from "@/constrants/constrants";
 import type { TRole } from "@/types";
 import UpdatePasswordPage from "@/pages/universelPages/updatepasswordPage";
 import UpdateProfilePage from "@/pages/universelPages/profileUpdatePage";
+import ResetPasswordPage from "@/pages/authentications/resetPasswordPage";
+import ForgetPasswordPage from "@/pages/authentications/forgetPasswordPage";
 
 export const router = createBrowserRouter([
   {
@@ -41,7 +43,11 @@ export const router = createBrowserRouter([
         Component: PricingPage,
       },
       {
-        path: "change-password",
+        path: "forget-password",
+        Component: ForgetPasswordPage,
+      },
+      {
+        path: "update-password",
         Component: withAuth(UpdatePasswordPage),
       },
       {
@@ -89,5 +95,9 @@ export const router = createBrowserRouter([
   {
     path: "unauthorized",
     Component: UnauthorizedPage,
+  },
+  {
+    path: "reset-password",
+    Component: ResetPasswordPage,
   },
 ]);

@@ -98,7 +98,7 @@ export default function AvatarOptionsIcon() {
               <Button
                 variant={"ghost"}
                 className="cursor-pointer"
-                onClick={() => navigate(`/change-password`)}
+                onClick={() => navigate(`/update-password`)}
               >
                 Change Password
               </Button>
