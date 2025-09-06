@@ -1,25 +1,39 @@
 import App from "@/App";
-import DashboardLayout from "@/components/layout/dashboardLayout";
-import AboutPage from "@/pages/aboutPage";
-import Login from "@/pages/authentications/loginPage";
-import VerifyPage from "@/pages/authentications/verifyPage";
-import ContactPage from "@/pages/contactPage";
-import HomePage from "@/pages/homePage";
-import PricingPage from "@/pages/pricingPage";
-import UnauthorizedPage from "@/pages/unauthorizedPage";
 import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { agentSidebarItems } from "./agentSidebarItems";
 import { userSidebarItems } from "./userSidebarItems";
-import SignupPage from "@/pages/authentications/signupPage";
 import { withAuth } from "@/utils/withAuth";
 import { Roles } from "@/constrants/constrants";
 import type { TRole } from "@/types";
-import UpdatePasswordPage from "@/pages/universelPages/updatepasswordPage";
-import UpdateProfilePage from "@/pages/universelPages/profileUpdatePage";
-import ResetPasswordPage from "@/pages/authentications/resetPasswordPage";
-import ForgetPasswordPage from "@/pages/authentications/forgetPasswordPage";
+import { lazy } from "react";
+
+const DashboardLayout = lazy(
+  () => import("@/components/layout/dashboardLayout")
+);
+const AboutPage = lazy(() => import("@/pages/aboutPage"));
+const Login = lazy(() => import("@/pages/authentications/loginPage"));
+const VerifyPage = lazy(() => import("@/pages/authentications/verifyPage"));
+const ContactPage = lazy(() => import("@/pages/contactPage"));
+const HomePage = lazy(() => import("@/pages/homePage"));
+const PricingPage = lazy(() => import("@/pages/pricingPage"));
+const UnauthorizedPage = lazy(() => import("@/pages/unauthorizedPage"));
+const SignupPage = lazy(() => import("@/pages/authentications/signupPage"));
+const UpdatePasswordPage = lazy(
+  () => import("@/pages/universelPages/updatepasswordPage")
+);
+const UpdateProfilePage = lazy(
+  () => import("@/pages/universelPages/profileUpdatePage")
+);
+const ResetPasswordPage = lazy(
+  () => import("@/pages/authentications/resetPasswordPage")
+);
+const ForgetPasswordPage = lazy(
+  () => import("@/pages/authentications/forgetPasswordPage")
+);
+
+
 
 export const router = createBrowserRouter([
   {

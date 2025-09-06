@@ -28,8 +28,8 @@ import type { TansactionType } from "@/types";
 import ConfirmationMessage, {
   type TransactionDetails,
 } from "@/components/module/universal/confrimMessage";
-import { useUserCashInMutation } from "@/redux/features/wallet/wallet.api";
 import { LoadingSpinner } from "@/components/loading";
+import { useAgentCashInMutation } from "@/redux/features/wallet/wallet.api";
 
 interface IPayload {
   amount: number;
@@ -37,7 +37,7 @@ interface IPayload {
 }
 
 const AgentCashInPage = () => {
-  const [userCashOut, { isLoading }] = useUserCashInMutation();
+  const [agentCashIn, { isLoading }] = useAgentCashInMutation();
   const [payload, setPayload] = useState<IPayload | null>(null);
   const [confirmMessage, setConfirmMessage] =
     useState<TransactionDetails | null>(null);
@@ -56,7 +56,7 @@ const AgentCashInPage = () => {
   const handleSendMoney = async () => {
     if (!payload) return;
     try {
-      const res = await userCashOut(payload).unwrap();
+      const res = await agentCashIn(payload).unwrap();
       // eslint-disable-next-line no-console
       console.log(...res.data);
       if (res.success) {
@@ -162,7 +162,7 @@ const AgentCashInPage = () => {
                       data={{
                         amount: payload.amount,
                         walletId: payload.toWallet,
-                        type: transactionTypeText.cashOut as TansactionType,
+                        type: transactionTypeText.cashIn as TansactionType,
                       }}
                     >
                       <Button

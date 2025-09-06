@@ -1,13 +1,18 @@
-import AgentApprovePage from "@/pages/admin/agentApprovePage";
-import AllUsers from "@/pages/admin/allUsers";
-import { DashboardAdmin } from "@/pages/admin/dashboardAdmin";
-import AgentSuspendPage from "@/pages/admin/suspendAgentPage";
-import AllTransactions from "@/pages/user/allTransaction";
+// import AgentApprovePage from "@/pages/admin/agentApprovePage";
+// import AllUsers from "@/pages/admin/allUsers";
+// import { DashboardAdmin } from "@/pages/admin/dashboardAdmin";
+// import AgentSuspendPage from "@/pages/admin/suspendAgentPage";
+// import AllTransactions from "@/pages/user/allTransaction";
 import type { ISidebarItems } from "@/types";
+import { lazy } from "react";
 
+const AgentApprovePage = lazy(() => import("@/pages/admin/agentApprovePage"));
+const AllUsers = lazy(() => import("@/pages/admin/allUsers"));
+const DashboardAdmin = lazy(() => import("@/pages/admin/dashboardAdmin"));
+const AgentSuspendPage = lazy(() => import("@/pages/admin/suspendAgentPage"));
+const AllTransactions = lazy(() => import("@/pages/user/allTransaction"));
 
-
-export const adminSidebarItems:ISidebarItems[] = [
+export const adminSidebarItems: ISidebarItems[] = [
   {
     title: "Admin Options",
     items: [

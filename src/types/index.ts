@@ -27,7 +27,7 @@ export interface IResponse<T> {
     page?: number;
     limit?: number;
     total?: number;
-    totalPage?: number;
+    totalpage?: number;
   };
 }
 

@@ -22,13 +22,22 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useGetAllUserQuery } from "@/redux/features/users/user.api";
+import {
+  useApproveAgentMutation,
+  useBlockUserMutation,
+  useGetAllUserQuery,
+  useSuspendAgentMutation,
+  useUnblockUserMutation,
+} from "@/redux/features/users/user.api";
 import UsersRoleFilter from "@/components/module/usersRolefilter";
-import { Roles } from "@/constrants/constrants";
+import { Roles, USER_STATUS } from "@/constrants/constrants";
+import { Ban, MinusCircle, Power, UserCheck } from "lucide-react";
+import { StatusChangeConfirmationModal } from "@/components/module/admin/statusChangeConfirmationModal";
+import { toast } from "sonner";
 
 export default function AllUsers() {
-  const [meta, setMeta] = useState<{ totalPages: number; page: number }>({
-    totalPages: 1,
+  const [meta, setMeta] = useState<{ totalpages: number; page: number }>({
+    totalpages: 1,
     page: 1,
   });
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
@@ -36,25 +45,29 @@ export default function AllUsers() {
   const role = searchParams.get("role") || undefined;
   const [currentpage, setCurrentpage] = useState(1);
   const queryArgs: { role?: TRole; page: number } = { page: currentpage };
-  // console.log("queryArgs: ", queryArgs);
-  // console.log(" top after queryArgs role: ", role);
-  
+
   if (role) {
-  // console.log("role in if block: ", role);
     queryArgs.role = role as TRole;
   }
 
   const { data, isLoading, isError } = useGetAllUserQuery(queryArgs);
+  const [blockUser, { isLoading: blockUserloading }] = useBlockUserMutation();
+  const [unlockUser, { isLoading: unblockUserloading }] =
+    useUnblockUserMutation();
+  const [approveAgent, { isLoading: approveAgentloading }] =
+    useApproveAgentMutation();
+  const [suspendAgent, { isLoading: suspendAgentloading }] =
+    useSuspendAgentMutation();
 
   useEffect(() => {
     if (data?.data) {
       setAllUsers(data?.data ?? []);
       setMeta({
-        totalPages: data?.meta?.totalPage || 1,
+        totalpages: Math.ceil((data?.meta?.total ?? 0) / (data?.meta?.limit ?? 10)),
         page: data?.meta?.page || 1,
       });
     }
-  }, [data?.data, data?.meta?.page, data?.meta?.totalPage]);
+  }, [data?.data, data?.meta?.limit, data?.meta?.page, data?.meta?.total, data?.meta?.totalpage]);
 
   const handleFilterClear = () => {
     const params = new URLSearchParams();
@@ -64,9 +77,75 @@ export default function AllUsers() {
     console.log("paramsa cleared");
   };
 
-  // console.log(currentpage);
-  // console.log(alltransactions);
-  // console.log(allUsers);
+  // handling blcoking
+  const handleBlockuserBtn = async (id: string) => {
+    try {
+      const res = await blockUser(id).unwrap();
+      // eslint-disable-next-line no-console
+      console.log(res);
+      if (res.success) {
+        const toastId = toast.loading("Blocking is under processing...");
+        toast.success("Successfully Blocked", { id: toastId });
+      }
+    } catch (error: unknown) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      toast.error("Blocking is falied");
+    }
+  };
+
+  // handling unblcoking
+  const handleUnBlockuserBtn = async (id: string) => {
+    try {
+      const res = await unlockUser(id).unwrap();
+      // eslint-disable-next-line no-console
+      console.log(res);
+      if (res.success) {
+        const toastId = toast.loading("Unblocking is under processing...");
+        toast.success("Successfully unblocked", { id: toastId });
+      }
+    } catch (error: unknown) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      toast.error("unblocking is falied");
+    }
+  };
+
+  // handling approving agent
+  const handleAgentApproveBtn = async (id: string) => {
+    try {
+      const res = await approveAgent(id).unwrap();
+      // eslint-disable-next-line no-console
+      console.log(res);
+      if (res.success) {
+        const toastId = toast.loading("Approving agent is processing...");
+        toast.success("Agent approved", { id: toastId });
+      }
+    } catch (error: unknown) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      toast.error("Approving is falied");
+    }
+  };
+
+  // handling suspending agent
+  const handleAgentSuspendBtn = async (id: string) => {
+    try {
+      const res = await suspendAgent(id).unwrap();
+      // eslint-disable-next-line no-console
+      console.log(res);
+      if (res.success) {
+        const toastId = toast.loading(
+          "Suspending agent is under processing..."
+        );
+        toast.success("Agent Suspended", { id: toastId });
+      }
+    } catch (error: unknown) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      toast.error("Suspending is falied");
+    }
+  };
 
   return (
     <div>
@@ -99,14 +178,16 @@ export default function AllUsers() {
                   <TableHead>Name</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead>Registed By</TableHead>
                   <TableHead>Last activities</TableHead>
+                  <TableHead>Block/Unblcok</TableHead>
+                  <TableHead>Approve/Suspend </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {allUsers.map(
                   (tx) =>
-                    tx.role !== Roles.admin && tx.role !== Roles.superAdmin && (
+                    tx.role !== Roles.admin &&
+                    tx.role !== Roles.superAdmin && (
                       <TableRow key={tx._id}>
                         <TableCell className="font-mono text-xs text-gray-700 dark:text-gray-300">
                           {tx.name}
@@ -121,16 +202,108 @@ export default function AllUsers() {
                             </span>
                           </div>
                         </TableCell>
-                        <TableCell className="font-semibold">
-                          {tx.auths[0].provider}
-                        </TableCell>
                         <TableCell className="text-sm text-gray-600 dark:text-gray-400">
                           {formatDate(tx.updatedAt)}
                         </TableCell>
-                        
+                        <TableCell className="">
+                          {tx.status !== USER_STATUS.blocked && (
+                            <StatusChangeConfirmationModal
+                              action="block"
+                              type="user"
+                              onConfirm={() => handleBlockuserBtn(tx._id)}
+                            >
+                              <Button
+                                disabled={
+                                  tx.status === USER_STATUS.blocked &&
+                                  blockUserloading
+                                }
+                                variant={"ghost"}
+                                className="cursor-pointer"
+                              >
+                                <Ban
+                                  size={50}
+                                  className={`cursor-pointer font-bold ${
+                                    tx.status === USER_STATUS.blocked
+                                      ? "text-foreground opacity-30"
+                                      : "text-red-600 opacity-95"
+                                  }`}
+                                  aria-hidden="true"
+                                />
+                              </Button>
+                            </StatusChangeConfirmationModal>
+                          )}
+                          {tx.status !== USER_STATUS.active && (
+                            <StatusChangeConfirmationModal
+                              action="unblock"
+                              type="user"
+                              onConfirm={() => handleUnBlockuserBtn(tx._id)}
+                            >
+                              <Button
+                                disabled={
+                                  tx.status === USER_STATUS.active &&
+                                  unblockUserloading
+                                }
+                                variant={"ghost"}
+                                className="cursor-pointer"
+                              >
+                                <UserCheck
+                                  size={50}
+                                  className={`cursor-pointer font-bold  ${
+                                    tx.status === USER_STATUS.active
+                                      ? "text-foreground opacity-30"
+                                      : "text-green-600 opacity-95"
+                                  }`}
+                                  aria-hidden="true"
+                                />
+                              </Button>
+                            </StatusChangeConfirmationModal>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {tx.role === Roles.agent &&
+                            tx.isAgentApproved === true && (
+                              <StatusChangeConfirmationModal
+                                action="suspend"
+                                type="agent"
+                                onConfirm={() => handleAgentSuspendBtn(tx._id)}
+                              >
+                                <Button
+                                  disabled={suspendAgentloading}
+                                  variant={"ghost"}
+                                  className="cursor-pointer"
+                                >
+                                  <MinusCircle
+                                    size={50}
+                                    className={`cursor-pointer font-bold text-red-600`}
+                                    aria-hidden="true"
+                                  />
+                                </Button>
+                              </StatusChangeConfirmationModal>
+                            )}
+                          {tx.role === Roles.agent &&
+                            tx.isAgentApproved === false && (
+                              <StatusChangeConfirmationModal
+                                action="approve"
+                                type="agent"
+                                onConfirm={() => handleAgentApproveBtn(tx._id)}
+                              >
+                                <Button
+                                  disabled={approveAgentloading}
+                                  variant={"ghost"}
+                                  className="cursor-pointer"
+                                >
+                                  <Power
+                                    size={50}
+                                    className={`cursor-pointer font-bold text-green-600`}
+                                    aria-hidden="true"
+                                  />
+                                </Button>
+                              </StatusChangeConfirmationModal>
+                            )}
+                        </TableCell>
                       </TableRow>
-                    ))
-                }
+                    )
+                )}
               </TableBody>
             </Table>
           )}
@@ -149,7 +322,7 @@ export default function AllUsers() {
               />
             </PaginationItem>
             {Array.from(
-              { length: meta.totalPages },
+              { length: meta.totalpages },
               (_, index) => index + 1
             ).map((page) => {
               return (
@@ -170,15 +343,15 @@ export default function AllUsers() {
             <PaginationItem>
               <PaginationNext
                 className={`cursor-pointer ${
-                  currentpage === meta.totalPages &&
+                  currentpage === meta.totalpages &&
                   "pointer-events-none text-gray-500"
                 }`}
                 onClick={() =>
                   setCurrentpage((prev) =>
-                    prev < meta.totalPages ? prev + 1 : prev
+                    prev < meta.totalpages ? prev + 1 : prev
                   )
                 }
-                aria-disabled={currentpage === meta.totalPages}
+                aria-disabled={currentpage === meta.totalpages}
               />
             </PaginationItem>
           </PaginationContent>

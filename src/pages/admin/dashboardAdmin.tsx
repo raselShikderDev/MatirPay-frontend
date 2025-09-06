@@ -28,7 +28,10 @@ import formatDate from "@/utils/dateFormate";
 import { ErrorAlert } from "@/components/error";
 import { Roles } from "@/constrants/constrants";
 
-export function DashboardAdmin() {
+
+
+
+export default function DashboardAdmin() {
   const { data: users } = useGetAllUserQuery({ role: "USER" });
   const { data: approvedAgent } = useGetApprovedAgentCountQuery(null);
   const { data: alltransactions, isLoading:allTransactionLoading, isError:allTransactionIsError } = useGetAllTransactionQuery(null);

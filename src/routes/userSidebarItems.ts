@@ -1,8 +1,10 @@
-import AllTransactions from "@/pages/user/allTransaction";
-import CashOutPage from "@/pages/user/userCashOutPage";
-import UserDashBoad from "@/pages/user/userDashboad";
-import UserSendMoney from "@/pages/user/userSendMoney";
 import type { ISidebarItems } from "@/types";
+import { lazy } from "react";
+
+const AllTransactions = lazy(() => import("@/pages/user/allTransaction"));
+const CashOutPage = lazy(() => import("@/pages/user/userCashOutPage"));
+const UserDashBoad = lazy(() => import("@/pages/user/userDashboad"));
+const UserSendMoney = lazy(() => import("@/pages/user/userSendMoney"));
 
 export const userSidebarItems: ISidebarItems[] = [
   {

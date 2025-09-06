@@ -9,8 +9,8 @@ export const userApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: payload,
       }),
+      invalidatesTags: ["USER"],
     }),
-
     getMe: builder.query<IResponse<IUser>, null>({
       query: () => ({
         url: "/users/me",
@@ -23,12 +23,28 @@ export const userApi = baseApi.injectEndpoints({
         url: `/users/agent-approve/${id}`,
         method: "PATCH",
       }),
+      invalidatesTags: ["USER"],
     }),
     suspendAgent: builder.mutation<IResponse<null>, string>({
       query: (id) => ({
         url: `/users/agent-suspend/${id}`,
         method: "PATCH",
       }),
+      invalidatesTags: ["USER"],
+    }),
+    blockUser: builder.mutation<IResponse<null>, string>({
+      query: (id) => ({
+        url: `/users/block/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
+    unblockUser: builder.mutation<IResponse<null>, string>({
+      query: (id) => ({
+        url: `/users/activate/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
     }),
     toggleAgentStatus: builder.mutation<IResponse<null>, string>({
       query: (id) => ({
@@ -84,5 +100,7 @@ export const {
   useGetMeQuery,
   useUpdateUserMutation,
   useGetApprovedAgentCountQuery,
-  useSuspendAgentMutation
+  useSuspendAgentMutation,
+  useBlockUserMutation,
+  useUnblockUserMutation,
 } = userApi;

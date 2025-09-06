@@ -19,15 +19,10 @@ interface IProps{
 }
 
 
-// How to send the function call
-//  <ChildComponent onButtonClick={handleClick} />
-
 export function ApprovalConfirmationModal({children, onConfirm}:IProps) {
 
   const handleConfrim = ()=>{
       onConfirm()
-      // eslint-disable-next-line no-console
-      console.log("Successfully Approved Agent")
   }
  
   return (
