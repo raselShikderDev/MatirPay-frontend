@@ -10,10 +10,9 @@ import {
 } from "../ui/navigation-menu";
 import { ModeToggle } from "../mode-toggle";
 import { Roles } from "@/constrants/constrants";
-import React, { useEffect, useState } from "react";
 import AvatarOptionsIcon from "../avatarsOptionsicon";
 import { useGetMeQuery } from "@/redux/features/users/user.api";
-import GuidedTour from "../joyRideGuidedTour";
+import React from "react";
 
 const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
@@ -43,20 +42,6 @@ export default function Navbar() {
   });
 
 
-
-
-  const tourDone = userRole
-    ? localStorage.getItem(`${userRole}-guidedTourDone`) === "true"
-    : true;
-
-  
-  const [joyrideReady, setJoyrideReady] = useState(false);
-
-  useEffect(() => {
-    if (!tourDone && userRole) {
-      setJoyrideReady(true);
-    }
-  }, [tourDone, userRole]);
 
 
   return (
@@ -112,14 +97,14 @@ export default function Navbar() {
             </PopoverContent>
           </Popover>
           <div className="flex items-center gap-6">
-            <div className="navbar">
+            <div className="logo">
               <MatirPayLogo />
             </div>
-            <NavigationMenu className="max-md:hidden">
+            <NavigationMenu className="navbar max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {filterLinks.map((link, index) => (
                   <React.Fragment key={index}>
-                    <NavigationMenuItem>
+                    <NavigationMenuItem className={`${link.label === "Dashboard" && "view-dashboard"}`}>
                       <>
                         {link.role === "PUBLIC" && (
                           <NavigationMenuLink
@@ -162,7 +147,6 @@ export default function Navbar() {
           )}
         </div>
       </div>
-    {joyrideReady && <GuidedTour role={userRole!} />}
     </header>
   );
 }

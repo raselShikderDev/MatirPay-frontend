@@ -40,6 +40,7 @@ export interface ILogin{
       providerId: string;
     }[];
     isAgentApproved: boolean;
+    isTourGuideShown?:boolean
     createdAt: string;
     updatedAt: string;
     walletId: string;

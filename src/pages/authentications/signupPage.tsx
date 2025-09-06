@@ -87,10 +87,6 @@ const SignupPage = ({
     }
   };
 
-  // if (isLoading) {
-  //   return <LoadingSpinner />;
-  // }
-
   return (
     <section className="bg-muted h-screen dark:bg-blue-950/50">
       <div className="flex h-full items-center justify-center">
@@ -117,6 +113,7 @@ const SignupPage = ({
           <div className="">
             <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center rounded-md border px-5 py-3 shadow-md dark:bg-gray-900">
               {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
+
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -131,7 +128,12 @@ const SignupPage = ({
                           Name
                         </FormLabel>
                         <FormControl>
-                          <Input className="py-0" required placeholder="Full name" {...field} />
+                          <Input
+                            className="py-0"
+                            required
+                            placeholder="Full name"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -242,7 +244,7 @@ const SignupPage = ({
                     )}
                   />
                   <Button
-                    disabled={isLoading}
+                    disabled={!form.formState.isValid || isLoading}
                     className="cursor-pointer"
                     type="submit"
                   >

@@ -46,6 +46,13 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
+    tourGuideDone: builder.mutation<IResponse<null>, null>({
+      query: () => ({
+        url: `/users/tourGuideDone`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
     toggleAgentStatus: builder.mutation<IResponse<null>, string>({
       query: (id) => ({
         url: `/users/agent-approve/:${id}`,
@@ -103,4 +110,5 @@ export const {
   useSuspendAgentMutation,
   useBlockUserMutation,
   useUnblockUserMutation,
+  useTourGuideDoneMutation,
 } = userApi;

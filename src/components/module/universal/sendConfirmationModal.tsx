@@ -13,7 +13,7 @@ import type { TansactionType } from "@/types"
 import type { ReactNode } from "react"
 
 
-interface ISendMoneyCOnfirmationData{
+export interface ISendMoneyCOnfirmationData{
   amount: number,
   walletId: string,
   type: TansactionType,

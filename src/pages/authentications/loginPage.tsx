@@ -29,9 +29,6 @@ interface Login1Props {
   signupUrl?: string;
 }
 
-
-
-
 const Login = ({
   heading = "Login",
   signupText = "Need an account?",
@@ -44,7 +41,7 @@ const Login = ({
   // default values
   const form = useForm<z.infer<typeof LoginformZodSchema>>({
     resolver: zodResolver(LoginformZodSchema),
-    mode:"onChange",
+    mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
@@ -68,11 +65,11 @@ const Login = ({
       }
 
       // console.log("res.data?.message: ", res.data?.message);
-      
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log("In my error block", error);
-      
+
       if (error.data.message === "User is not verified") {
         toast.error("Your account is not verified.");
         navigator("/verify", { state: value.email });
@@ -86,7 +83,7 @@ const Login = ({
   };
 
   if (isLoading) {
-    return <LoadingSpinner/>
+    return <LoadingSpinner />;
   }
 
   return (
@@ -99,46 +96,47 @@ const Login = ({
           </Link>
           <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-5 py-8 shadow-md dark:bg-gray-900">
             {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="w-full space-y-6"
-              >
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input required placeholder="Your email" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <PasswordToggler {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button
-                  disabled={isLoading}
-                  className="cursor-pointer"
-                  type="submit"
+           
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="w-full space-y-6"
                 >
-                  Submit
-                </Button>
-              </form>
-            </Form>
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input required placeholder="Your email" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <PasswordToggler {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    disabled={!form.formState.isValid || isLoading}
+                    className="cursor-pointer"
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                </form>
+              </Form>
           </div>
           <div className="text-muted-foreground flex justify-center gap-1 text-sm">
             <p>{signupText}</p>

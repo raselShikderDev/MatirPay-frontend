@@ -50,11 +50,11 @@ export default function AllTransactions() {
     if (data?.data) {
       setAlltransactions(data?.data ?? []);
       setMeta({
-        totalPages: data?.meta?.totalPage || 1,
+        totalPages: data?.meta?.totalpage || 1,
         page: data?.meta?.page || 1,
       });
     }
-  }, [data?.data, data?.meta?.page, data?.meta?.totalPage]);
+  }, [data?.data, data?.meta?.page, data?.meta?.totalpage]);
 
   const handleFilterClear = () => {
     const params = new URLSearchParams();

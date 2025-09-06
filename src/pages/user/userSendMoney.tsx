@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,8 +19,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useUserSendMoneyMutation } from "@/redux/features/wallet/wallet.api";
-import { SendConfirmationModal } from "@/components/module/universal/sendConfirmationModal";
+import { useGetMyWalletQuery, useUserSendMoneyMutation } from "@/redux/features/wallet/wallet.api";
+import { SendConfirmationModal, type ISendMoneyCOnfirmationData } from "@/components/module/universal/sendConfirmationModal";
 import { transactionTypeText } from "@/constrants/constrants";
 import { DollarSign, Wallet } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,19 +30,28 @@ import ConfirmationMessage, {
   type TransactionDetails,
 } from "@/components/module/universal/confrimMessage";
 import { LoadingSpinner } from "@/components/loading";
+import { InsufficientBalanceModal } from "@/components/module/universal/insufficientBalance";
 
 interface IPayload {
   amount: number;
   toWallet: string;
 }
 
+
 const UserSendMoney = () => {
   const [userSendMoney, { isLoading }] = useUserSendMoneyMutation();
+  const { data:myWallet} = useGetMyWalletQuery(null);
   const [payload, setPayload] = useState<IPayload | null>(null);
   const [confirmMessage, setConfirmMessage] =
     useState<TransactionDetails | null>(null);
   const [confirmStatus, setConfirmStatus] = useState<boolean>(false);
   const [isShowForm, setIsShowForm] = useState<boolean>(true);
+  const [isBalanceAvailable, setIsBalanceAvailable] = useState<boolean>(true);
+  const [data, setData] = useState<ISendMoneyCOnfirmationData>({
+        amount: 0,
+        walletId: "toWallet",
+        type: transactionTypeText.sendMoney as TansactionType,
+      });
 
   const form = useForm<z.infer<typeof userTransactionZodSchema>>({
     resolver: zodResolver(userTransactionZodSchema),
@@ -54,7 +63,7 @@ const UserSendMoney = () => {
   });
 
   const handleSendMoney = async () => {
-    if (!payload) return;
+    if (!payload || !isBalanceAvailable) return;
     try {
       const res = await userSendMoney(payload).unwrap();
       // eslint-disable-next-line no-console
@@ -70,7 +79,6 @@ const UserSendMoney = () => {
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
       console.error(error);
-      form.reset();
       setIsShowForm(false);
       toast.error("Send Money falied");
     }
@@ -79,6 +87,11 @@ const UserSendMoney = () => {
   const onsubmit = (value: z.infer<typeof userTransactionZodSchema>) => {
     // eslint-disable-next-line no-console
     console.log(value);
+    if (Number(value.amount) > Number(myWallet?.data.balance)) {
+      setIsBalanceAvailable(false)
+      setIsShowForm(false)
+    }
+
     const payload: IPayload = {
       amount: Number(value.amount),
       toWallet: value.toWallet,
@@ -86,10 +99,21 @@ const UserSendMoney = () => {
     setPayload(payload);
   };
 
+  useEffect(() => {
+    if (payload) {
+      setData({
+        amount: Number(payload.amount),
+        walletId: payload?.toWallet as string,
+        type: transactionTypeText.sendMoney as TansactionType,
+      });
+    } 
+  }, [payload]);
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <Card className="w-full max-w-md rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-800">
-        {isLoading && !isShowForm && <LoadingSpinner />}
+        {!isBalanceAvailable && <InsufficientBalanceModal setIsBalanceAvailable={()=>setIsBalanceAvailable(true)} setIsShowForm={()=>setIsShowForm(true)} currentBalance={myWallet?.data.balance} requiredAmount={payload?.amount}/>}
+        {isLoading && <LoadingSpinner />}
         {!isShowForm && (
           <ConfirmationMessage
             transaction={confirmStatus ? confirmMessage : null}
@@ -156,34 +180,19 @@ const UserSendMoney = () => {
                       </FormItem>
                     )}
                   />
-                  {payload ? (
-                    <SendConfirmationModal
-                      onConfirm={() => handleSendMoney()}
-                      data={{
-                        amount: payload.amount,
-                        walletId: payload.toWallet,
-                        type: transactionTypeText.sendMoney as TansactionType,
-                      }}
-                    >
-                      <Button
-                        className="cursor-pointer dark:text-white"
-                        type="submit"
-                        variant={"default"}
-                        disabled={isLoading}
-                      >
-                        Send Money
-                      </Button>
-                    </SendConfirmationModal>
-                  ) : (
+                  <SendConfirmationModal
+                    onConfirm={() => handleSendMoney()}
+                    data={data as ISendMoneyCOnfirmationData}
+                  >
                     <Button
-                      disabled={isLoading}
                       className="cursor-pointer dark:text-white"
                       type="submit"
                       variant={"default"}
+                      disabled={!form.formState.isValid || isLoading}
                     >
                       Send Money
                     </Button>
-                  )}
+                  </SendConfirmationModal>
                 </form>
               </Form>
             </CardContent>

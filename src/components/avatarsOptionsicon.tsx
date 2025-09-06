@@ -108,7 +108,7 @@ export default function AvatarOptionsIcon() {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-          <Button onClick={handleLogout} variant={"ghost"}>
+          <Button onClick={handleLogout} className="cursor-pointer" variant={"ghost"}>
             Logout
           </Button>
         </DropdownMenuItem>
