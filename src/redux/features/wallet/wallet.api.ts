@@ -1,4 +1,5 @@
 import { baseApi } from "@/redux/baseApi";
+import type { IResponse, IWallet } from "@/types";
 
 export const walletApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,22 +17,21 @@ export const walletApi = baseApi.injectEndpoints({
         data: payload,
       }),
     }),
-    userCashIn: builder.mutation({
+    agentCashIn: builder.mutation({
       query: (payload) => ({
-        url: "/wallet/user-cash-out",
+        url: "wallet/agent-cash-in",
         method: "POST",
         data: payload,
       }),
     }),
-    // getMyTransaction: builder.query({
-    //   query: (params) => ({
-    //     url: "/transactions/",
-    //     method: "GET",
-    //     params,
-    //   }),
-    //   providesTags:["TRANSACTION"]
-    // }),
+    getMyWallet: builder.query<IResponse<IWallet>, null>({
+      query: () => ({
+        url: "/wallet/my-wallet",
+        method: "GET",
+      }),
+      providesTags:["WALLET"]
+    }),
   }),
 });
 
-export const { useUserSendMoneyMutation, useUserCashOutMutation, useUserCashInMutation } = walletApi
+export const { useUserSendMoneyMutation, useUserCashOutMutation, useAgentCashInMutation, useGetMyWalletQuery } = walletApi

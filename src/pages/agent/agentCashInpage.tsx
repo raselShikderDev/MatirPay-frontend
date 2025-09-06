@@ -19,7 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { SendConfirmationModal } from "@/components/sendConfirmationModal";
+import { SendConfirmationModal } from "@/components/module/universal/sendConfirmationModal";
 import { transactionTypeText } from "@/constrants/constrants";
 import { DollarSign, Wallet } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,9 +27,9 @@ import { toast } from "sonner";
 import type { TansactionType } from "@/types";
 import ConfirmationMessage, {
   type TransactionDetails,
-} from "@/components/confrimMessage";
-import { useUserCashInMutation } from "@/redux/features/wallet/wallet.api";
+} from "@/components/module/universal/confrimMessage";
 import { LoadingSpinner } from "@/components/loading";
+import { useAgentCashInMutation } from "@/redux/features/wallet/wallet.api";
 
 interface IPayload {
   amount: number;
@@ -37,7 +37,7 @@ interface IPayload {
 }
 
 const AgentCashInPage = () => {
-  const [userCashOut, { isLoading }] = useUserCashInMutation();
+  const [agentCashIn, { isLoading }] = useAgentCashInMutation();
   const [payload, setPayload] = useState<IPayload | null>(null);
   const [confirmMessage, setConfirmMessage] =
     useState<TransactionDetails | null>(null);
@@ -56,7 +56,7 @@ const AgentCashInPage = () => {
   const handleSendMoney = async () => {
     if (!payload) return;
     try {
-      const res = await userCashOut(payload).unwrap();
+      const res = await agentCashIn(payload).unwrap();
       // eslint-disable-next-line no-console
       console.log(...res.data);
       if (res.success) {
@@ -89,7 +89,7 @@ const AgentCashInPage = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <Card className="w-full max-w-md rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-800">
-         {isLoading && <LoadingSpinner />}
+        {isLoading && <LoadingSpinner />}
         {!isShowForm && (
           <ConfirmationMessage
             transaction={confirmStatus ? confirmMessage : null}
@@ -103,7 +103,7 @@ const AgentCashInPage = () => {
             <CardHeader>
               <CardTitle className="text-xl">Cash In</CardTitle>
               <CardDescription>
-               Enter recipient wallet ID and the amount you want to cash In.
+                Enter recipient wallet ID and the amount you want to cash In.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
@@ -162,7 +162,7 @@ const AgentCashInPage = () => {
                       data={{
                         amount: payload.amount,
                         walletId: payload.toWallet,
-                        type: transactionTypeText.cashOut as TansactionType,
+                        type: transactionTypeText.cashIn as TansactionType,
                       }}
                     >
                       <Button

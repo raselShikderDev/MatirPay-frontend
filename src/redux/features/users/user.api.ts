@@ -1,17 +1,16 @@
 import { baseApi } from "@/redux/baseApi";
-import type { IResponse, IUser, TRole } from "@/types";
-
+import type { IResponse, IUpdateUser, IUser, TRole } from "@/types";
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    updateUser: builder.mutation<IResponse<IUser>, null>({
+    updateUser: builder.mutation<IResponse<IUser>, IUpdateUser>({
       query: (payload) => ({
         url: "/users/update-user",
         method: "PATCH",
         data: payload,
       }),
+      invalidatesTags: ["USER"],
     }),
-
     getMe: builder.query<IResponse<IUser>, null>({
       query: () => ({
         url: "/users/me",
@@ -19,19 +18,41 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["USER"],
     }),
-    approveAgent: builder.mutation<IResponse<null>, {id:string}>({
+    approveAgent: builder.mutation<IResponse<null>, string>({
+      query: (id) => ({
+        url: `/users/agent-approve/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
+    suspendAgent: builder.mutation<IResponse<null>, string>({
+      query: (id) => ({
+        url: `/users/agent-suspend/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
+    blockUser: builder.mutation<IResponse<null>, string>({
+      query: (id) => ({
+        url: `/users/block/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
+    unblockUser: builder.mutation<IResponse<null>, string>({
+      query: (id) => ({
+        url: `/users/activate/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
+    toggleAgentStatus: builder.mutation<IResponse<null>, string>({
       query: (id) => ({
         url: `/users/agent-approve/:${id}`,
         method: "POST",
       }),
     }),
-    toggleAgentStatus: builder.mutation<IResponse<null>, {id:string}>({
-      query: (id) => ({
-        url: `/users/agent-approve/:${id}`,
-        method: "POST",
-      }),
-    }),
-    getAllUser: builder.query<IResponse<IUser[]>, { role?:TRole; page?: number }>({
+    getAllUser: builder.query<IResponse<IUser[]>,{ role?: TRole; page?: number }>({
       query: (params) => ({
         url: "/users/all-user",
         method: "GET",
@@ -39,14 +60,14 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["USER"],
     }),
-    getSingelUser: builder.query<IResponse<IUser>, {id:string}>({
+    getSingelUser: builder.query<IResponse<IUser>, string>({
       query: (id) => ({
         url: `/users/:${id}`,
         method: "GET",
       }),
       providesTags: ["USER"],
     }),
-    getSingelAgent: builder.query<IResponse<IUser>, {id:string}>({
+    getSingelAgent: builder.query<IResponse<IUser>, string>({
       query: (id) => ({
         url: `/users/agents/:${id}`,
         method: "GET",
@@ -78,5 +99,8 @@ export const {
   useGetSingelAgentQuery,
   useGetMeQuery,
   useUpdateUserMutation,
-  useGetApprovedAgentCountQuery
+  useGetApprovedAgentCountQuery,
+  useSuspendAgentMutation,
+  useBlockUserMutation,
+  useUnblockUserMutation,
 } = userApi;

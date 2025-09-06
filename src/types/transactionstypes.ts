@@ -19,3 +19,23 @@ export interface TransactionDetails {
   createdAt: string;
   updatedAt: string;
 }
+
+
+export type TWALLET_CURRENCY = "BDT" |"USD" | "EUR"
+
+
+export type TWALLET_STATUS = "ACTIVE" | "BLOCKED"
+
+
+export interface IWallet {
+  _id: string;
+  user: string;
+  limit: number;
+  currency: TWALLET_CURRENCY;
+  walletStatus: TWALLET_STATUS; 
+  balance: number;
+  transactions: string[]; 
+  createdAt: string; 
+  updatedAt: string; 
+}
+

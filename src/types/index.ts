@@ -7,10 +7,15 @@ export type {
   ILogInRespone,
   TRole,
   IUser,
+  IUpdateUser,
+  IUpdatePassword,
+  IResetPassword,
+  IForgetPassword,
 } from "@/types/auth.type";
 export type {
   TansactionType,
   TransactionDetails,
+  IWallet,
 } from "@/types/transactionstypes";
 
 export interface IResponse<T> {
@@ -22,7 +27,7 @@ export interface IResponse<T> {
     page?: number;
     limit?: number;
     total?: number;
-    totalPage?: number;
+    totalpage?: number;
   };
 }
 

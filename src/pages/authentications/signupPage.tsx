@@ -8,6 +8,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
@@ -33,8 +34,6 @@ interface SignUpProps {
   sinInText?: string;
   signInUrl?: string;
 }
-
-
 
 const SignupPage = ({
   heading = "Sign Up",
@@ -79,7 +78,7 @@ const SignupPage = ({
       if (res.success) {
         const toastId = toast.loading("Signing up");
         toast.success("Successfully Signed up", { id: toastId });
-        navigator("/verify", { state: res.data.email});
+        navigator("/verify", { state: res.data.email });
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -116,20 +115,23 @@ const SignupPage = ({
           </div>
 
           <div className="">
-            <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-5 py-10 shadow-md dark:bg-gray-900">
+            <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center rounded-md border px-5 py-3 shadow-md dark:bg-gray-900">
               {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="w-full space-y-4"
+                  className="w-full space-y-2"
                 >
                   <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="">
+                        <FormLabel className="text-muted-foreground text-sm">
+                          Name
+                        </FormLabel>
                         <FormControl>
-                          <Input required placeholder="Full name" {...field} />
+                          <Input className="py-0" required placeholder="Full name" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -140,6 +142,9 @@ const SignupPage = ({
                     name="email"
                     render={({ field }) => (
                       <FormItem>
+                        <FormLabel className="text-muted-foreground text-sm">
+                          Email
+                        </FormLabel>
                         <FormControl>
                           <Input required placeholder="Your email" {...field} />
                         </FormControl>
@@ -152,6 +157,9 @@ const SignupPage = ({
                     name="password"
                     render={({ field }) => (
                       <FormItem>
+                        <FormLabel className="text-muted-foreground text-sm">
+                          Password
+                        </FormLabel>
                         <FormControl>
                           <PasswordToggler {...field} />
                         </FormControl>
@@ -164,6 +172,9 @@ const SignupPage = ({
                     name="confirmPassword"
                     render={({ field }) => (
                       <FormItem>
+                        <FormLabel className="text-muted-foreground text-sm">
+                          Confirm Password
+                        </FormLabel>
                         <FormControl>
                           <PasswordToggler {...field} />
                         </FormControl>
@@ -176,6 +187,9 @@ const SignupPage = ({
                     name="role"
                     render={({ field }) => (
                       <FormItem>
+                        <FormLabel className="text-muted-foreground text-sm">
+                          Role
+                        </FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
@@ -198,6 +212,9 @@ const SignupPage = ({
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
+                        <FormLabel className="text-muted-foreground text-sm">
+                          Phone
+                        </FormLabel>
                         <FormControl>
                           <Input required placeholder="Your Phone" {...field} />
                         </FormControl>
@@ -210,6 +227,9 @@ const SignupPage = ({
                     name="address"
                     render={({ field }) => (
                       <FormItem>
+                        <FormLabel className="text-muted-foreground text-sm">
+                          Address
+                        </FormLabel>
                         <FormControl>
                           <Input
                             required
@@ -221,8 +241,12 @@ const SignupPage = ({
                       </FormItem>
                     )}
                   />
-                  <Button disabled={isLoading} className="cursor-pointer" type="submit">
-                    Submit
+                  <Button
+                    disabled={isLoading}
+                    className="cursor-pointer"
+                    type="submit"
+                  >
+                    SignUp
                   </Button>
                 </form>
               </Form>

@@ -28,8 +28,8 @@ export const LoginformZodSchema = z.object({
     ),
 });
 
-
-export const signUpFormZodSchema = z.object({
+export const signUpFormZodSchema = z
+  .object({
     name: z
       .string({ message: "name must be a string" })
       .min(3, { message: "name must be at least three character" })
@@ -71,18 +71,73 @@ export const signUpFormZodSchema = z.object({
     path: ["confirmPassword"],
   });
 
-  export const profileUpdateFormZodSchema = z.object({
-    name: z
-      .string({ message: "name must be a string" })
-      .min(3, { message: "name must be at least three character" })
-      .max(50, { message: "name should contain maximum 50 chacacter" }),
-    phone: z
-      .string({ message: "Invalid phone type" })
+export const profileUpdateFormZodSchema = z.object({
+  name: z
+    .string({ message: "name must be a string" })
+    .min(3, { message: "name must be at least three character" })
+    .max(50, { message: "name should contain maximum 50 chacacter" }),
+  phone: z
+    .string({ message: "Invalid phone type" })
+    .regex(
+      /^(?:\+880|880|0)1[3-9]\d{8}$/,
+      "Invalid Bangladeshi phone number format"
+    ),
+  address: z
+    .string({ message: "Invalid address type" })
+    .max(200, { message: "Addres must no more than 200 character" }),
+});
+
+export const updatePasswordFormZodSchema = z
+  .object({
+    oldPassword: z
+      .string({ message: "Invalid password type" })
       .regex(
-        /^(?:\+880|880|0)1[3-9]\d{8}$/,
-        "Invalid Bangladeshi phone number format"
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}:;<>,.?~\\/-]).{8,}$/,
+        "Password must be at least 8 characters long, include one uppercase letter, one number, and one special character"
       ),
-    address: z
-      .string({ message: "Invalid address type" })
-      .max(200, { message: "Addres must no more than 200 character" }),
+    newPassowrd: z
+      .string({ message: "Invalid password type" })
+      .regex(
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}:;<>,.?~\\/-]).{8,}$/,
+        "Password must be at least 8 characters long, include one uppercase letter, one number, and one special character"
+      ),
+    confirmPassword: z
+      .string({ message: "Invalid password type" })
+      .regex(
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}:;<>,.?~\\/-]).{8,}$/,
+        "Password must be at least 8 characters long, include one uppercase letter, one number, and one special character"
+      ),
+  })
+  .refine((data) => data.newPassowrd === data.confirmPassword, {
+    message: "Password does not match",
+    path: ["confirmPassword"],
+  });
+
+export const resetPasswordFormZodSchema = z
+  .object({
+    newPassword: z
+      .string({ message: "Invalid password type" })
+      .regex(
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}:;<>,.?~\\/-]).{8,}$/,
+        "Password must be at least 8 characters long, include one uppercase letter, one number, and one special character"
+      ),
+    confirmPassword: z
+      .string({ message: "Invalid password type" })
+      .regex(
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}:;<>,.?~\\/-]).{8,}$/,
+        "Password must be at least 8 characters long, include one uppercase letter, one number, and one special character"
+      ),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Password does not match",
+    path: ["confirmPassword"],
+  });
+
+
+  export const forgetPasswordFormZodSchema =z.object({
+    email: z
+      .string({ message: "Invalid email address formate" })
+      .min(5, { message: "email should be at least 5 character" })
+      .max(50, { message: "email should contain maximum 50 chacacter" })
+      .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/),
   })

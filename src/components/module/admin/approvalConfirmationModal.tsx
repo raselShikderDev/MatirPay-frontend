@@ -12,28 +12,17 @@ import {
 import type { ReactNode } from "react"
 
 
-interface IUpdateProfileConfirmationData{
-  name: number,
-  phone: string,
-  address: string,
-}
 
 interface IProps{
     children:ReactNode,
     onConfirm:()=> void,
-    data:IUpdateProfileConfirmationData,
 }
 
 
+export function ApprovalConfirmationModal({children, onConfirm}:IProps) {
 
-
-export function ProfileUpdateConfirmationModal({children, onConfirm, data}:IProps) {
-// eslint-disable-next-line no-console
-console.log("Data wating for confirmation", data)
   const handleConfrim = ()=>{
       onConfirm()
-      // eslint-disable-next-line no-console
-      console.log("Successfully Updated :", data)
   }
  
   return (
@@ -43,14 +32,9 @@ console.log("Data wating for confirmation", data)
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm Payment</AlertDialogTitle>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to update profile by following details?
-            <ul className="mt-4 space-y-1.5 text-sm text-left">
-              <li><strong>Name: </strong>{data.name}</li>
-              <li><strong>Phone: </strong>{data.phone}</li>
-              <li><strong>Address: </strong>{data.address}</li>
-            </ul>
+           This action cannot be undone. This will grant approval and allow the agent to perform actions.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

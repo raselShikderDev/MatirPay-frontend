@@ -12,22 +12,16 @@ import {
 import type { ReactNode } from "react"
 
 
-
 interface IProps{
     children:ReactNode,
     onConfirm:()=> void,
 }
 
 
-// How to send the function call
-//  <ChildComponent onButtonClick={handleClick} />
-
-export function ApprovalConfirmationModal({children, onConfirm}:IProps) {
+export function PasswordChangedConfirmationModal({children, onConfirm}:IProps) {
 
   const handleConfrim = ()=>{
       onConfirm()
-      // eslint-disable-next-line no-console
-      console.log("Successfully Approved Agent")
   }
  
   return (
@@ -37,9 +31,9 @@ export function ApprovalConfirmationModal({children, onConfirm}:IProps) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Confirm Update</AlertDialogTitle>
           <AlertDialogDescription>
-           This action cannot be undone. This will grant approval and allow the agent to perform actions.
+            This action cannot be undone. Are you sure about chnaging password? 
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

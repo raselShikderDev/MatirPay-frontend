@@ -16,3 +16,10 @@ export const TtransactionTypeValueBackend = {
     cashOut: "CASH_OUT",
     cashIn: "CASH_IN", 
 }
+
+
+
+export const  USER_STATUS ={
+  active: "ACTIVE",
+  blocked: "BLOCKED",
+}

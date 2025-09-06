@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle } from "lucide-react";
 
 
-export default function ApprovedMessage({
+export default function SuspendedMessage({
   status, 
   setIsShowForm,
 }: {
@@ -38,14 +38,14 @@ export default function ApprovedMessage({
             )}
             <DialogTitle>
               {status === true
-                ? "Transaction Successful"
-                : "Transaction Failed"}
+                ? "Successfully the agent suspend"
+                : "Failed to suspend agent"}
             </DialogTitle>
           </div>
           <DialogDescription>
             {status === true
-              ? "From now on, the agent will be allowed to perform actions."
-              : "Something went wrong. Your approval request could not be processed."}
+              ? "From now on, the agent will not be able to perform actions."
+              : "Something went wrong. Your suspentional request could not be processed."}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

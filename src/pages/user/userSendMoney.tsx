@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useUserSendMoneyMutation } from "@/redux/features/wallet/wallet.api";
-import { SendConfirmationModal } from "@/components/sendConfirmationModal";
+import { SendConfirmationModal } from "@/components/module/universal/sendConfirmationModal";
 import { transactionTypeText } from "@/constrants/constrants";
 import { DollarSign, Wallet } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,7 +28,7 @@ import { toast } from "sonner";
 import type { TansactionType } from "@/types";
 import ConfirmationMessage, {
   type TransactionDetails,
-} from "@/components/confrimMessage";
+} from "@/components/module/universal/confrimMessage";
 import { LoadingSpinner } from "@/components/loading";
 
 interface IPayload {
