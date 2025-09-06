@@ -34,7 +34,7 @@ const processQueue = (error: unknown) => {
       promise.resolve(null);
     }
   });
-  pendingQueue = []
+  pendingQueue = [];
 };
 
 axiosInstance.interceptors.response.use(
@@ -61,13 +61,12 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const res = await axiosInstance.post("/auth/refresh-token");
-        console.log("new token arrived", res);
+        await axiosInstance.post("/auth/refresh-token");
+        console.log("new token arrived");
         processQueue(null);
         return axiosInstance(originalRequest);
       } catch (error) {
         processQueue(error);
-        console.error(error);
       } finally {
         isRefreshing = false;
       }

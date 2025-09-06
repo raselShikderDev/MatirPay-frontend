@@ -2,7 +2,6 @@ import { ErrorAlert } from "@/components/error";
 import { LoadingSpinner } from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import Joyride from "react-joyride"
 import {
   Card,
   CardContent,
@@ -25,7 +24,6 @@ import formatTrxId from "@/utils/trxIdTransfrom";
 import { Send, Wallet } from "lucide-react"; // Lucide icons
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { steps } from "@/joyride/steps";
 
 export default function UserDashboard() {
   const navigator = useNavigate();
@@ -52,7 +50,7 @@ export default function UserDashboard() {
             Your Balance
           </CardTitle>
           <p
-            className="text-3xl font-extrabold mt-1 balance"
+            className="text-3xl font-extrabold mt-1 user-balance"
             style={{ color: "oklch(0.488 0.243 264.376)" }}
           >
             <span>&#2547; </span>{myWallet?.data.balance || 0}
@@ -73,7 +71,7 @@ export default function UserDashboard() {
             color: "white",
           }}
         >
-          <h3 className="text-3xl sendMoney">
+          <h3 className="text-3xl send-money-btn">
             <Send className="w-20 h-20" />
           </h3>
           Send Money
@@ -97,7 +95,7 @@ export default function UserDashboard() {
       {/* Transaction Table */}
       <div className="p-4 mt-3 w-full max-w-6xl mx-auto">
         <h2 className="text-2xl font-bold mb-4"> Recent transaction History</h2>
-        <div className="rounded-md border">
+        <div className="rounded-md border recent-transaction">
           {isError && <ErrorAlert />}
           {isLoading ? (
             <LoadingSpinner />
@@ -156,7 +154,6 @@ export default function UserDashboard() {
           )}
         </div>
       </div>
-      <Joyride steps={steps}/>
     </div>
   );
 }

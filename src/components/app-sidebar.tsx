@@ -15,10 +15,8 @@ import { Link } from "react-router";
 import getSidebarItems from "@/utils/getSidebarItems";
 import type { TRole } from "@/types";
 import { useGetMeQuery } from "@/redux/features/users/user.api";
-// import AvatarOptionsIcon from "./avatarsOptionsicon";
 import { MatirPayLogo } from "./module/logo";
 
-// This is sample data.
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data } = useGetMeQuery(null);
@@ -35,21 +33,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <MatirPayLogo />
           </Link>
         </div>
-        {/* <div className="flex flex-1 justify-end items-center h-8 px-5">
-          <div className="flex items-center h-8 w-8">
-            <AvatarOptionsIcon />
-          </div>
-        </div> */}
       </SidebarHeader>
       <SidebarContent>
-        {/* We create a SidebarGroup for each parent. */}
         {getsidebar.navMain.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItem key={item.title} className={`${item.url === "users" && "manage-user-and-agent"} ${item.url === "transactions" && "view-all-transactions"} `}>
                     <SidebarMenuButton asChild>
                       <Link to={item.url}>{item.title}</Link>
                     </SidebarMenuButton>

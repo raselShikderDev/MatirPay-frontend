@@ -60,7 +60,7 @@ export default function DashboardAdmin() {
         <Card className="@container/card">
           <CardHeader>
             <CardDescription>Active User</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
+            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl active-user">
               {activeUsersCount}
             </CardTitle>
           </CardHeader>
@@ -68,7 +68,7 @@ export default function DashboardAdmin() {
         <Card className="@container/card">
           <CardHeader>
             <CardDescription>Approved Agents</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
+            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl approved-agent">
               {approvedAgentCount}
             </CardTitle>
           </CardHeader>
