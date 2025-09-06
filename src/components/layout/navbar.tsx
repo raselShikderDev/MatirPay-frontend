@@ -20,6 +20,8 @@ const navigationLinks = [
   { href: "/about", label: "About", role: "PUBLIC" },
   { href: "/contact", label: "Contact", role: "PUBLIC" },
   { href: "/pricing", label: "Pricing", role: "PUBLIC" },
+  { href: "/faq", label: "FAQ", role: "PUBLIC" },
+  { href: "/features", label: "Features", role: "PUBLIC" },
   { href: "/admin", label: "Dashboard", role: Roles.admin },
   { href: "/admin", label: "Dashboard", role: Roles.superAdmin },
   { href: "/user", label: "Dashboard", role: Roles.user },
@@ -96,8 +98,9 @@ export default function Navbar() {
           </Popover>
           {/* Main nav */}
           <div className="flex items-center gap-6">
-            <MatirPayLogo />
-
+            <div className="navbar-logo">
+              <MatirPayLogo />
+            </div>
             {/* Navigation menu */}
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
@@ -132,7 +135,7 @@ export default function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-2 h-10">
           {/* Mode Toggle */}
-          <ModeToggle  />
+          <ModeToggle />
 
           {/* User Avatar / Log In */}
           {data?.data.email ? (

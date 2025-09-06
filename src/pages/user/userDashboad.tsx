@@ -2,6 +2,7 @@ import { ErrorAlert } from "@/components/error";
 import { LoadingSpinner } from "@/components/loading";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import Joyride from "react-joyride"
 import {
   Card,
   CardContent,
@@ -24,6 +25,7 @@ import formatTrxId from "@/utils/trxIdTransfrom";
 import { Send, Wallet } from "lucide-react"; // Lucide icons
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { steps } from "@/joyride/steps";
 
 export default function UserDashboard() {
   const navigator = useNavigate();
@@ -40,11 +42,9 @@ export default function UserDashboard() {
     }
   }, [data]);
 
-   // eslint-disable-next-line no-console
-  alltransactions.map((transaction) => console.log(transaction));
-
+ 
   return (
-    <div className="flex flex-col min-h-screen p-4 bg-gray-50 dark:bg-gray-900">
+    <div className="dashboard flex flex-col min-h-screen p-4 bg-gray-50 dark:bg-gray-900">
       {/* Balance Card */}
       <Card className="mx-auto w-full max-w-sm rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-900 mb-6">
         <CardContent className="text-center">
@@ -52,7 +52,7 @@ export default function UserDashboard() {
             Your Balance
           </CardTitle>
           <p
-            className="text-3xl font-extrabold mt-1"
+            className="text-3xl font-extrabold mt-1 balance"
             style={{ color: "oklch(0.488 0.243 264.376)" }}
           >
             <span>&#2547; </span>{myWallet?.data.balance || 0}
@@ -73,7 +73,7 @@ export default function UserDashboard() {
             color: "white",
           }}
         >
-          <h3 className="text-3xl">
+          <h3 className="text-3xl sendMoney">
             <Send className="w-20 h-20" />
           </h3>
           Send Money
@@ -87,7 +87,7 @@ export default function UserDashboard() {
             color: "white",
           }}
         >
-          <h3 className="text-3xl">
+          <h3 className="text-3xl cashOut">
             <Wallet className="w-20 h-20" />
           </h3>
           <h3>Cash Out</h3>
@@ -156,6 +156,7 @@ export default function UserDashboard() {
           )}
         </div>
       </div>
+      <Joyride steps={steps}/>
     </div>
   );
 }

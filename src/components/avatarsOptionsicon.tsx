@@ -59,7 +59,7 @@ export default function AvatarOptionsIcon() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <p className="h-auto cursor-pointer p-0 hover:bg-transparent flex items-center justify-center gap-1">
-          <Avatar>
+          <Avatar className="avatar-option">
             <User size={40} className="opacity-90" aria-hidden="true" />
           </Avatar>
           <ChevronDownIcon

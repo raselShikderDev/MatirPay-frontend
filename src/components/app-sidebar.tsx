@@ -28,7 +28,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   };
 
   return (
-    <Sidebar {...props}>
+    <Sidebar className="sidebar-menu" {...props}>
       <SidebarHeader className="flex flex-row justify-between">
         <div>
           <Link to={"/"} className="mb-4">

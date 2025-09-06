@@ -63,11 +63,19 @@ export default function AllUsers() {
     if (data?.data) {
       setAllUsers(data?.data ?? []);
       setMeta({
-        totalpages: Math.ceil((data?.meta?.total ?? 0) / (data?.meta?.limit ?? 10)),
+        totalpages: Math.ceil(
+          (data?.meta?.total ?? 0) / (data?.meta?.limit ?? 10)
+        ),
         page: data?.meta?.page || 1,
       });
     }
-  }, [data?.data, data?.meta?.limit, data?.meta?.page, data?.meta?.total, data?.meta?.totalpage]);
+  }, [
+    data?.data,
+    data?.meta?.limit,
+    data?.meta?.page,
+    data?.meta?.total,
+    data?.meta?.totalpage,
+  ]);
 
   const handleFilterClear = () => {
     const params = new URLSearchParams();
@@ -174,13 +182,16 @@ export default function AllUsers() {
           ) : (
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Last activities</TableHead>
-                  <TableHead>Block/Unblcok</TableHead>
-                  <TableHead>Approve/Suspend </TableHead>
+                <TableRow className="space-x-2">
+                  <TableHead className="text-center">Name</TableHead>
+                  <TableHead className="text-center">ID</TableHead>
+                  <TableHead className="text-center">Role</TableHead>
+                  <TableHead className="text-center">Status</TableHead>
+                  <TableHead className="text-center">Last activities</TableHead>
+                  <TableHead className="text-center">Block/Unblcok</TableHead>
+                  <TableHead className="text-center">
+                    Approve/Suspend{" "}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -189,23 +200,26 @@ export default function AllUsers() {
                     tx.role !== Roles.admin &&
                     tx.role !== Roles.superAdmin && (
                       <TableRow key={tx._id}>
-                        <TableCell className="font-mono text-xs text-gray-700 dark:text-gray-300">
+                        <TableCell className="font-mono text-center text-xs text-gray-700 dark:text-gray-300">
                           {tx.name}
                         </TableCell>
-                        <TableCell className="font-semibold">
+                        <TableCell className="font-mono text-center text-xs text-gray-700 dark:text-gray-300">
+                          {tx._id}
+                        </TableCell>
+                        <TableCell className="font-semibold text-center">
                           {tx.role}
                         </TableCell>
-                        <TableCell>
-                          <div className="text-sm">
-                            <span className="block text-gray-700 dark:text-gray-300">
+                        <TableCell className="text-center">
+                          <div className="text-sm text-center">
+                            <span className="block text-gray-700 text-center dark:text-gray-300">
                               {tx.status}
                             </span>
                           </div>
                         </TableCell>
-                        <TableCell className="text-sm text-gray-600 dark:text-gray-400">
+                        <TableCell className="text-sm text-center text-gray-600 dark:text-gray-400">
                           {formatDate(tx.updatedAt)}
                         </TableCell>
-                        <TableCell className="">
+                        <TableCell className="text-center">
                           {tx.status !== USER_STATUS.blocked && (
                             <StatusChangeConfirmationModal
                               action="block"
@@ -218,11 +232,11 @@ export default function AllUsers() {
                                   blockUserloading
                                 }
                                 variant={"ghost"}
-                                className="cursor-pointer"
+                                className="cursor-pointer text-center"
                               >
                                 <Ban
                                   size={50}
-                                  className={`cursor-pointer font-bold ${
+                                  className={`cursor-pointer font-bold text-center ${
                                     tx.status === USER_STATUS.blocked
                                       ? "text-foreground opacity-30"
                                       : "text-red-600 opacity-95"
@@ -244,11 +258,11 @@ export default function AllUsers() {
                                   unblockUserloading
                                 }
                                 variant={"ghost"}
-                                className="cursor-pointer"
+                                className="cursor-pointer text-center"
                               >
                                 <UserCheck
                                   size={50}
-                                  className={`cursor-pointer font-bold  ${
+                                  className={`cursor-pointer font-bold text-center ${
                                     tx.status === USER_STATUS.active
                                       ? "text-foreground opacity-30"
                                       : "text-green-600 opacity-95"
@@ -259,7 +273,7 @@ export default function AllUsers() {
                             </StatusChangeConfirmationModal>
                           )}
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="text-center">
                           {tx.role === Roles.agent &&
                             tx.isAgentApproved === true && (
                               <StatusChangeConfirmationModal
@@ -274,7 +288,7 @@ export default function AllUsers() {
                                 >
                                   <MinusCircle
                                     size={50}
-                                    className={`cursor-pointer font-bold text-red-600`}
+                                    className={`cursor-pointer font-bold text-center text-red-600`}
                                     aria-hidden="true"
                                   />
                                 </Button>
@@ -290,11 +304,11 @@ export default function AllUsers() {
                                 <Button
                                   disabled={approveAgentloading}
                                   variant={"ghost"}
-                                  className="cursor-pointer"
+                                  className="cursor-pointer text-center"
                                 >
                                   <Power
                                     size={50}
-                                    className={`cursor-pointer font-bold text-green-600`}
+                                    className={`cursor-pointer text-center font-bold text-green-600`}
                                     aria-hidden="true"
                                   />
                                 </Button>
