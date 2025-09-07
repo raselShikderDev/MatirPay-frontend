@@ -72,8 +72,7 @@ const CashOutPage = () => {
     if (!payload || !isBalanceAvailable) return;
     try {
       const res = await userCashOut(payload).unwrap();
-      // eslint-disable-next-line no-console
-      console.log(...res.data);
+
       if (res.success) {
         setConfirmMessage(res.data[0]);
         setConfirmStatus(res.success);
@@ -82,21 +81,22 @@ const CashOutPage = () => {
         const toastId = toast.loading("Cash Out processing...");
         toast.success("Cash Out successfully processed", { id: toastId });
       }
-    } catch (error: unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error("Cash Out falied");
+      setIsShowForm(false);
       // eslint-disable-next-line no-console
       console.error(error);
-      setIsShowForm(false);
-      toast.error("Cash Out falied");
     }
   };
 
   const onsubmit = (value: z.infer<typeof userTransactionZodSchema>) => {
-    // eslint-disable-next-line no-console
-    console.log(value);
-
+setConfirmMessage(null);
+    setConfirmStatus(false);
     if (Number(value.amount) > Number(myWallet?.data.balance)) {
       setIsBalanceAvailable(false);
       setIsShowForm(false);
+      return
     }
     const payload: IPayload = {
       amount: Number(value.amount),

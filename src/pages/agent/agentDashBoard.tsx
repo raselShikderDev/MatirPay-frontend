@@ -34,8 +34,6 @@ export default function AgentDashboard() {
     []
   );
 
-    // need to get my wallet balance to update balance and status and need create api
-
 
   useEffect(() => {
     if (data) {
@@ -43,8 +41,7 @@ export default function AgentDashboard() {
     }
   }, [data]);
 
-   // eslint-disable-next-line no-console
-  alltransactions.map((transaction) => console.log(transaction));
+
 
   return (
     <div className="flex flex-col min-h-screen p-4 bg-gray-50 dark:bg-gray-900">

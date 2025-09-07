@@ -21,9 +21,12 @@ const ContactPage = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const onSubmit = async (data: FormData) => {
+    const dontShow = false
     try {
-      // eslint-disable-next-line no-console
-      console.log(data);
+      if(dontShow){
+       // eslint-disable-next-line no-console
+       console.log(data);
+     }
       
       setSubmitted(true);
       reset();

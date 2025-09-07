@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import { MatirPayLogo } from "@/components/module/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +26,7 @@ import type { ISignUp } from "@/types/auth.type";
 import { toast } from "sonner";
 import { useCreateUserMutation } from "@/redux/features/auth/auth.api";
 import { signUpFormZodSchema } from "@/schema/userSchmea";
+import { LoadingSpinner } from "@/components/loading";
 
 interface SignUpProps {
   heading?: string;
@@ -61,8 +62,7 @@ const SignupPage = ({
 
   //Handling onsubmit
   const onSubmit = async (value: z.infer<typeof signUpFormZodSchema>) => {
-    console.log(value);
-
+ 
     const payload: ISignUp = {
       name: value.name,
       email: value.email,
@@ -74,7 +74,7 @@ const SignupPage = ({
 
     try {
       const res = await singUp(payload).unwrap();
-      console.log(res.data);
+ 
       if (res.success) {
         const toastId = toast.loading("Signing up");
         toast.success("Successfully Signed up", { id: toastId });
@@ -82,6 +82,7 @@ const SignupPage = ({
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      // eslint-disable-next-line no-console
       console.error(error);
       toast.error("Sign up falied");
     }
@@ -113,7 +114,7 @@ const SignupPage = ({
           <div className="">
             <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center rounded-md border px-5 py-3 shadow-md dark:bg-gray-900">
               {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
-
+              {isLoading && <LoadingSpinner/>}
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}

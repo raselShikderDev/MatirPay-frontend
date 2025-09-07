@@ -60,12 +60,8 @@ export default function AllTransactions() {
     const params = new URLSearchParams();
     params.delete("type");
     setSearchParams(params);
-    // eslint-disable-next-line no-console
-    console.log("paramsa cleared");
   };
 
-  // console.log(currentpage);
-  // console.log(alltransactions);
 
   return (
     <div>

@@ -192,17 +192,17 @@ Currently no unit tests are implemented. You can add Jest / Supertest to test AP
 ### Admin
 
 - **Email:** admin@matirpay.com
-- **Password:** Admin123
+- **Password:** Admin@123
 
 ### Agent
 
 - **Email:** agent@matirpay.com
-- **Password:** Agent123
+- **Password:** Agent@123
 
 ### User
 
 - **Email:** user@matirpay.com
-- **Password:** User123
+- **Password:** User@123
 
 ---
 

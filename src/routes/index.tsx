@@ -35,8 +35,6 @@ const ForgetPasswordPage = lazy(
   () => import("@/pages/authentications/forgetPasswordPage")
 );
 
-
-
 export const router = createBrowserRouter([
   {
     Component: App,
@@ -70,7 +68,7 @@ export const router = createBrowserRouter([
         path: "forget-password",
         Component: ForgetPasswordPage,
       },
-      
+
       {
         path: "update-password",
         Component: withAuth(UpdatePasswordPage),
@@ -82,7 +80,10 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    Component: withAuth(DashboardLayout, Roles.superAdmin as TRole),
+    Component: withAuth(DashboardLayout, [
+      Roles.admin as TRole,
+      Roles.superAdmin as TRole,
+    ]),
     path: "/admin",
     children: [
       { index: true, element: <Navigate to={"/admin/dashboard"} /> },
@@ -90,7 +91,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    Component: withAuth(DashboardLayout, Roles.user as TRole),
+    Component: withAuth(DashboardLayout, [Roles.user as TRole]),
     path: "/user",
     children: [
       { index: true, element: <Navigate to={"/user/dashboard"} /> },
@@ -98,7 +99,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    Component: withAuth(DashboardLayout, Roles.agent as TRole),
+    Component: withAuth(DashboardLayout, [Roles.agent as TRole]),
     path: "/agent",
     children: [
       { index: true, element: <Navigate to={"/agent/dashboard"} /> },

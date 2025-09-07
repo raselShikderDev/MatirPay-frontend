@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import { MatirPayLogo } from "@/components/module/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,9 @@ import type { ILogin } from "@/types";
 import { toast } from "sonner";
 import { LoadingSpinner } from "@/components/loading";
 import { LoginformZodSchema } from "@/schema/userSchmea";
+import { useGetMeQuery } from "@/redux/features/users/user.api";
+import { useEffect, useState } from "react";
+import AlreadyLoggedIn from "../universelPages/alreadyloggedin";
 
 interface Login1Props {
   heading?: string;
@@ -37,7 +40,8 @@ const Login = ({
   // Hooks
   const [logIn, { isLoading }] = useLoginMutation();
   const navigator = useNavigate();
-
+  const { data } = useGetMeQuery(null);
+  const [alreadyLoggedin, setAlreadyLoggedin] = useState<boolean>(false);
   // default values
   const form = useForm<z.infer<typeof LoginformZodSchema>>({
     resolver: zodResolver(LoginformZodSchema),
@@ -48,28 +52,35 @@ const Login = ({
     },
   });
 
+  useEffect(() => {
+    if (data?.success || data?.data?.email) {
+      setAlreadyLoggedin(true);
+
+      const timer = setTimeout(() => {
+        navigator("/");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [data, navigator]);
+
   //Handling onsubmit
   const onSubmit = async (value: z.infer<typeof LoginformZodSchema>) => {
-    console.log(value);
+  
     const payload: ILogin = {
       email: value.email,
       password: value.password,
     };
     try {
       const res = await logIn(payload).unwrap();
-      console.log(res.data);
       if (res.success) {
         const toastId = toast.loading("Logging in");
         toast.success("Successfully logged in", { id: toastId });
         navigator(`/`);
       }
 
-      // console.log("res.data?.message: ", res.data?.message);
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.log("In my error block", error);
-
       if (error.data.message === "User is not verified") {
         toast.error("Your account is not verified.");
         navigator("/verify", { state: value.email });
@@ -82,10 +93,6 @@ const Login = ({
     }
   };
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <section className="bg-muted h-screen dark:bg-blue-950/50">
       <div className="flex h-full items-center justify-center">
@@ -96,12 +103,16 @@ const Login = ({
           </Link>
           <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-5 py-8 shadow-md dark:bg-gray-900">
             {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
-           
+            {isLoading && <LoadingSpinner />}
+            {alreadyLoggedin ? (
+              <AlreadyLoggedIn />
+            ) : (
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="w-full space-y-6"
                 >
+                  {/* email */}
                   <FormField
                     control={form.control}
                     name="email"
@@ -115,6 +126,7 @@ const Login = ({
                       </FormItem>
                     )}
                   />
+                  {/* password */}
                   <FormField
                     control={form.control}
                     name="password"
@@ -137,15 +149,30 @@ const Login = ({
                   </Button>
                 </form>
               </Form>
+            )}
           </div>
-          <div className="text-muted-foreground flex justify-center gap-1 text-sm">
-            <p>{signupText}</p>
-            <Link
-              to={signupUrl}
-              className="text-primary font-medium hover:underline"
-            >
-              Sign up
-            </Link>
+          <div className={`space-y-1.5 ${alreadyLoggedin && "hidden"}`}>
+            <div className="text-muted-foreground flex justify-center gap-1 text-sm">
+              <p>{signupText}</p>
+              <Link
+                to={signupUrl}
+                className="text-primary font-medium hover:underline"
+              >
+                Sign up
+              </Link>
+            </div>
+            <div className="text-muted-foreground flex justify-center gap-1 text-sm">
+              <p>
+                If you forgot your password, visit{" "}
+                <Link
+                  to={"/forget-password"}
+                  className="text-primary font-medium hover:underline"
+                >
+                  Forget password
+                </Link>{" "}
+                to reset it.
+              </p>
+            </div>
           </div>
         </div>
       </div>

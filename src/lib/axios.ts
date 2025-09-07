@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import { envVars } from "@/config/envVarriables";
 import axios, { type AxiosRequestConfig } from "axios";
 
@@ -48,7 +48,6 @@ axiosInstance.interceptors.response.use(
       error.response.status === 501 &&
       error.response.data.message === "jwt expired"
     ) {
-      console.log("Your token is expired");
 
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -62,7 +61,7 @@ axiosInstance.interceptors.response.use(
 
       try {
         await axiosInstance.post("/auth/refresh-token");
-        console.log("new token arrived");
+
         processQueue(null);
         return axiosInstance(originalRequest);
       } catch (error) {

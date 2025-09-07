@@ -4,10 +4,11 @@ import type { TRole } from "@/types";
 import { useEffect, type ComponentType } from "react";
 import { useNavigate } from "react-router";
 
-export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
+export const withAuth = (Component: ComponentType, requiredRole?: TRole[]) => {
   return function AuthWrapper() {
     const navigate = useNavigate();
     const { data, isLoading } = useGetMeQuery(null);
+
 
     useEffect(() => {
       if (!data?.data.email && !isLoading) {
@@ -15,7 +16,12 @@ export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
         return;
       }
 
-      if (requiredRole && !isLoading && data?.data.role !== requiredRole) {
+      if (
+        requiredRole &&
+        !isLoading &&
+        data?.data.role &&
+        !requiredRole.includes(data?.data.role as TRole)
+      ) {
         navigate("/unauthorized", { state: true });
         return;
       }
@@ -25,8 +31,6 @@ export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
       return <LoadingSpinner />;
     }
 
-    // eslint-disable-next-line no-console
-    console.log("In withAuth: ", requiredRole);
 
     return <Component />;
   };

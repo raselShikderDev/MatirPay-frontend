@@ -34,8 +34,8 @@ export default function UnauthorizedPage() {
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           <Button onClick={() => navigate("/")}>Go back home</Button>
-          <Button variant="outline" onClick={() => navigate("/signin")}>
-            Login with a valid account
+          <Button variant="outline" onClick={() => navigate("/")}>
+            Login with a valid account, Go Home
           </Button>
         </CardContent>
       </Card>

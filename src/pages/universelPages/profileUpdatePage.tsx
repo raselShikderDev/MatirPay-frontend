@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -52,8 +52,6 @@ const UpdateProfilePage = ({
   const onSubmit = async (
     value: z.infer<typeof profileUpdateFormZodSchema>
   ) => {
-    console.log(value);
-
     setPayload({
       name: value.name,
       phone: value.phone,
@@ -67,7 +65,7 @@ const UpdateProfilePage = ({
     }
     try {
       const res = await updateUser(payload).unwrap();
-      console.log(res.data);
+
       if (res.success) {
         const toastId = toast.loading("Updating profile...");
         toast.success("Successfully Profile updated", { id: toastId });
@@ -76,6 +74,7 @@ const UpdateProfilePage = ({
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      // eslint-disable-next-line no-console
       console.error(error);
       setIsShowForm(false);
       toast.error("Updating profile falied");
