@@ -48,7 +48,7 @@ export const userApi = baseApi.injectEndpoints({
     }),
     tourGuideDone: builder.mutation<IResponse<null>, null>({
       query: () => ({
-        url: `/users/tourGuideDone`,
+        url: `/users/done-tour-guide`,
         method: "PATCH",
       }),
       invalidatesTags: ["USER"],
@@ -59,7 +59,10 @@ export const userApi = baseApi.injectEndpoints({
         method: "POST",
       }),
     }),
-    getAllUser: builder.query<IResponse<IUser[]>,{ role?: TRole; page?: number }>({
+    getAllUser: builder.query<
+      IResponse<IUser[]>,
+      { role?: TRole; page?: number }
+    >({
       query: (params) => ({
         url: "/users/all-user",
         method: "GET",

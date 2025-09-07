@@ -1,40 +1,49 @@
 import React, { useState } from "react";
-import Joyride from "react-joyride";
-import type { Step } from "react-joyride";
+import Joyride, { STATUS } from "react-joyride";
+import type { CallBackProps, Step } from "react-joyride";
 
-const GuidedTour: React.FC = () => {
-  const [run, setRun] = useState(true); // Start tour immediately
+
+interface GuidedTourProps {
+  onComplete: () => void;
+}
+
+const GuidedTour: React.FC<GuidedTourProps>= ({onComplete}) => {
+  const [run, setRun] = useState<boolean>(true); 
   const steps: Step[] = [
     {
       target: ".logo",
       content: "This is the logo and you can use it as buton to back to home.",
     },
-    { target: ".navbar", content: "This is your main navigation menu." },
+    { target: ".navbar", content: "This is your main navigation menu to navigate pages." },
     {
       target: ".dark-mode-toggle",
       content: "Use this button to switch between light and dark mode.",
     },
     {
       target: ".avatar-menu",
-      content: "Manage your profile and password here.",
+      content: "Manage your profile's information and password here.",
     },
-    // {
-    //   target: ".password-chnage",
-    //   content: "Use this button to change your password.",
-    // },
     {
       target: ".view-dashboard",
-      content: "Use this option to access your dashboard actions.",
+      content: "Use this navbar option to access your dashboard actions.",
     },
   ];
+
+  // For stopping run and inform commonlayout
+  const handleCallback = (data: CallBackProps) => {
+    if (data.status === STATUS.FINISHED || data.status === STATUS.SKIPPED) {
+      setRun(false);
+      onComplete(); 
+    }
+  };
 
   return (
     <Joyride
       steps={steps}
       run={run}
-      continuous={true} // Automatically moves to the next step
-      showSkipButton={true} // Allow user to skip
-      showProgress={true} // Show step number
+      continuous={true} 
+      showSkipButton={true}
+      showProgress={true} 
       styles={{
         options: {
           arrowColor: "#fff",
@@ -44,11 +53,12 @@ const GuidedTour: React.FC = () => {
           zIndex: 10000,
         },
       }}
-      callback={(data) => {
-        if (data.status === "finished" || data.status === "skipped") {
-          setRun(false); // Stop tour
-        }
-      }}
+      callback={handleCallback}
+      // callback={(data) => {
+      //   if (data.status === "finished" || data.status === "skipped") {
+      //     setRun(false);
+      //   }
+      // }}
     />
   );
 };

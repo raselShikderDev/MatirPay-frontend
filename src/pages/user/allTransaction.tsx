@@ -125,7 +125,7 @@ export default function AllTransactions() {
                       </Badge>
                     </TableCell>
                     <TableCell className="font-semibold">
-                      ${tx.amount}
+                      ৳ {tx.amount}
                     </TableCell>
                     <TableCell>
                       <div className="text-sm">

@@ -180,102 +180,103 @@ export default function AllUsers() {
           {isLoading ? (
             <LoadingSpinner />
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow className="space-x-2">
-                  <TableHead className="text-center">Name</TableHead>
-                  <TableHead className="text-center">ID</TableHead>
-                  <TableHead className="text-center">Role</TableHead>
-                  <TableHead className="text-center">Status</TableHead>
-                  <TableHead className="text-center">Last activities</TableHead>
-                  <TableHead className="text-center">Block/Unblcok</TableHead>
-                  <TableHead className="text-center">
-                    Approve/Suspend{" "}
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {allUsers.map(
-                  (tx) =>
-                    tx.role !== Roles.admin &&
-                    tx.role !== Roles.superAdmin && (
-                      <TableRow key={tx._id}>
-                        <TableCell className="font-mono text-center text-xs text-gray-700 dark:text-gray-300">
-                          {tx.name}
-                        </TableCell>
-                        <TableCell className="font-mono text-center text-xs text-gray-700 dark:text-gray-300">
-                          {tx._id}
-                        </TableCell>
-                        <TableCell className="font-semibold text-center">
-                          {tx.role}
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <div className="text-sm text-center">
-                            <span className="block text-gray-700 text-center dark:text-gray-300">
+            <div className="w-full overflow-x-auto">
+              <Table className="min-w-full border border-gray-200 dark:border-gray-700">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-center">Name</TableHead>
+                    <TableHead className="text-center">ID</TableHead>
+                    <TableHead className="text-center">Role</TableHead>
+                    <TableHead className="text-center">Status</TableHead>
+                    <TableHead className="text-center">
+                      Last activities
+                    </TableHead>
+                    <TableHead className="text-center">Block/Unblock</TableHead>
+                    <TableHead className="text-center">
+                      Approve/Suspend
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  {allUsers.map(
+                    (tx) =>
+                      tx.role !== Roles.admin &&
+                      tx.role !== Roles.superAdmin && (
+                        <TableRow key={tx._id} className="text-center">
+                          <TableCell className="font-mono text-xs text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                            {tx.name}
+                          </TableCell>
+                          <TableCell className="font-mono text-xs text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                            {tx._id}
+                          </TableCell>
+                          <TableCell className="font-semibold">
+                            {tx.role}
+                          </TableCell>
+                          <TableCell>
+                            <span className="block text-sm text-gray-700 dark:text-gray-300">
                               {tx.status}
                             </span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-sm text-center text-gray-600 dark:text-gray-400">
-                          {formatDate(tx.updatedAt)}
-                        </TableCell>
-                        <TableCell className="text-center">
-                          {tx.status !== USER_STATUS.blocked && (
-                            <StatusChangeConfirmationModal
-                              action="block"
-                              type="user"
-                              onConfirm={() => handleBlockuserBtn(tx._id)}
-                            >
-                              <Button
-                                disabled={
-                                  tx.status === USER_STATUS.blocked &&
-                                  blockUserloading
-                                }
-                                variant={"ghost"}
-                                className="cursor-pointer text-center"
+                          </TableCell>
+                          <TableCell className="text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                            {formatDate(tx.updatedAt)}
+                          </TableCell>
+
+                          {/* Block / Unblock */}
+                          <TableCell>
+                            {tx.status !== USER_STATUS.blocked && (
+                              <StatusChangeConfirmationModal
+                                action="block"
+                                type="user"
+                                onConfirm={() => handleBlockuserBtn(tx._id)}
                               >
-                                <Ban
-                                  size={50}
-                                  className={`cursor-pointer font-bold text-center ${
-                                    tx.status === USER_STATUS.blocked
-                                      ? "text-foreground opacity-30"
-                                      : "text-red-600 opacity-95"
-                                  }`}
-                                  aria-hidden="true"
-                                />
-                              </Button>
-                            </StatusChangeConfirmationModal>
-                          )}
-                          {tx.status !== USER_STATUS.active && (
-                            <StatusChangeConfirmationModal
-                              action="unblock"
-                              type="user"
-                              onConfirm={() => handleUnBlockuserBtn(tx._id)}
-                            >
-                              <Button
-                                disabled={
-                                  tx.status === USER_STATUS.active &&
-                                  unblockUserloading
-                                }
-                                variant={"ghost"}
-                                className="cursor-pointer text-center"
+                                <Button
+                                  disabled={
+                                    tx.status === USER_STATUS.blocked &&
+                                    blockUserloading
+                                  }
+                                  variant="ghost"
+                                >
+                                  <Ban
+                                    size={32}
+                                    className={`${
+                                      tx.status === USER_STATUS.blocked
+                                        ? "text-foreground opacity-30"
+                                        : "text-red-600 opacity-95"
+                                    }`}
+                                  />
+                                </Button>
+                              </StatusChangeConfirmationModal>
+                            )}
+                            {tx.status !== USER_STATUS.active && (
+                              <StatusChangeConfirmationModal
+                                action="unblock"
+                                type="user"
+                                onConfirm={() => handleUnBlockuserBtn(tx._id)}
                               >
-                                <UserCheck
-                                  size={50}
-                                  className={`cursor-pointer font-bold text-center ${
-                                    tx.status === USER_STATUS.active
-                                      ? "text-foreground opacity-30"
-                                      : "text-green-600 opacity-95"
-                                  }`}
-                                  aria-hidden="true"
-                                />
-                              </Button>
-                            </StatusChangeConfirmationModal>
-                          )}
-                        </TableCell>
-                        <TableCell className="text-center">
-                          {tx.role === Roles.agent &&
-                            tx.isAgentApproved === true && (
+                                <Button
+                                  disabled={
+                                    tx.status === USER_STATUS.active &&
+                                    unblockUserloading
+                                  }
+                                  variant="ghost"
+                                >
+                                  <UserCheck
+                                    size={32}
+                                    className={`${
+                                      tx.status === USER_STATUS.active
+                                        ? "text-foreground opacity-30"
+                                        : "text-green-600 opacity-95"
+                                    }`}
+                                  />
+                                </Button>
+                              </StatusChangeConfirmationModal>
+                            )}
+                          </TableCell>
+
+                          {/* Approve / Suspend */}
+                          <TableCell>
+                            {tx.role === Roles.agent && tx.isAgentApproved && (
                               <StatusChangeConfirmationModal
                                 action="suspend"
                                 type="agent"
@@ -283,19 +284,16 @@ export default function AllUsers() {
                               >
                                 <Button
                                   disabled={suspendAgentloading}
-                                  variant={"ghost"}
-                                  className="cursor-pointer"
+                                  variant="ghost"
                                 >
                                   <MinusCircle
-                                    size={50}
-                                    className={`cursor-pointer font-bold text-center text-red-600`}
-                                    aria-hidden="true"
+                                    size={32}
+                                    className="text-red-600"
                                   />
                                 </Button>
                               </StatusChangeConfirmationModal>
                             )}
-                          {tx.role === Roles.agent &&
-                            tx.isAgentApproved === false && (
+                            {tx.role === Roles.agent && !tx.isAgentApproved && (
                               <StatusChangeConfirmationModal
                                 action="approve"
                                 type="agent"
@@ -303,23 +301,19 @@ export default function AllUsers() {
                               >
                                 <Button
                                   disabled={approveAgentloading}
-                                  variant={"ghost"}
-                                  className="cursor-pointer text-center"
+                                  variant="ghost"
                                 >
-                                  <Power
-                                    size={50}
-                                    className={`cursor-pointer text-center font-bold text-green-600`}
-                                    aria-hidden="true"
-                                  />
+                                  <Power size={32} className="text-green-600" />
                                 </Button>
                               </StatusChangeConfirmationModal>
                             )}
-                        </TableCell>
-                      </TableRow>
-                    )
-                )}
-              </TableBody>
-            </Table>
+                          </TableCell>
+                        </TableRow>
+                      )
+                  )}
+                </TableBody>
+              </Table>
+            </div>
           )}
         </div>
       </div>
