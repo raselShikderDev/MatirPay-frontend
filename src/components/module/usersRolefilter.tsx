@@ -21,6 +21,7 @@ const UsersRoleFilter = () => {
 
   const form = useForm<z.infer<typeof HistoryFilterFormSchema>>({
     resolver: zodResolver(HistoryFilterFormSchema),
+    mode:"onChange",
     defaultValues: {
       filter: "",
     },
@@ -31,13 +32,10 @@ const UsersRoleFilter = () => {
   }, [form, role]);
 
   function onSubmit(data: z.infer<typeof HistoryFilterFormSchema>) {
-    // // eslint-disable-next-line no-console
-    // console.log(data);
+
     const params = new URLSearchParams();
     params.set("role", data.filter);
     setSearchParams(params);
-    // eslint-disable-next-line no-console
-    console.log("Filtering: ", params.get("role"));
   }
   
   return (

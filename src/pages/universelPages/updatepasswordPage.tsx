@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -49,7 +49,6 @@ const UpdatePasswordPage = ({
   const onSubmit = async (
     value: z.infer<typeof updatePasswordFormZodSchema>
   ) => {
-    console.log(value);
 
     setPayload({
       oldPassword: value.oldPassword,
@@ -63,7 +62,7 @@ const UpdatePasswordPage = ({
     }
     try {
       const res = await changePassword(payload).unwrap();
-      console.log(res.data);
+    
       if (res.success) {
         const toastId = toast.loading("Chnaging password..");
         toast.success("Successfully password change", { id: toastId });
@@ -72,6 +71,7 @@ const UpdatePasswordPage = ({
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      // eslint-disable-next-line no-console
       console.error(error);
       setIsShowForm(false);
       setConfirmStatus(true);

@@ -35,13 +35,10 @@ const TransactionTypeFilter = () => {
   }, [form, type]);
 
   function onSubmit(data: z.infer<typeof HistoryFilterFormSchema>) {
-    // // eslint-disable-next-line no-console
-    // console.log(data);
+  
     const params = new URLSearchParams();
     params.set("type", data.filter);
     setSearchParams(params);
-    // eslint-disable-next-line no-console
-    console.log("params setted: ", params.get("type"));
   }
 
   

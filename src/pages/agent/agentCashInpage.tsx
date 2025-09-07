@@ -73,8 +73,6 @@ const AgentCashInPage = () => {
     if (!payload || !isBalanceAvailable) return;
     try {
       const res = await agentCashIn(payload).unwrap();
-      // eslint-disable-next-line no-console
-      console.log(...res.data);
       if (res.success) {
         setConfirmMessage(res.data[0]);
         setConfirmStatus(res.success);
@@ -92,12 +90,12 @@ const AgentCashInPage = () => {
   };
 
   const onsubmit = (value: z.infer<typeof userTransactionZodSchema>) => {
-    // eslint-disable-next-line no-console
-    console.log(value);
-
+    setConfirmMessage(null);
+    setConfirmStatus(false);
     if (Number(value.amount) > Number(myWallet?.data.balance)) {
       setIsBalanceAvailable(false);
       setIsShowForm(false);
+      return;
     }
     const payload: IPayload = {
       amount: Number(value.amount),
@@ -194,30 +192,19 @@ const AgentCashInPage = () => {
                       </FormItem>
                     )}
                   />
-                  {payload ? (
-                    <SendConfirmationModal
-                      onConfirm={() => handleSendMoney()}
-                      data={data as ISendMoneyCOnfirmationData}
-                    >
-                      <Button
-                        className="cursor-pointer dark:text-white"
-                        type="submit"
-                        variant={"default"}
-                        disabled={isLoading}
-                      >
-                        Cash In
-                      </Button>
-                    </SendConfirmationModal>
-                  ) : (
+                  <SendConfirmationModal
+                    onConfirm={() => handleSendMoney()}
+                    data={data as ISendMoneyCOnfirmationData}
+                  >
                     <Button
-                      disabled={isLoading}
                       className="cursor-pointer dark:text-white"
                       type="submit"
                       variant={"default"}
+                      disabled={!form.formState.isValid || isLoading}
                     >
                       Cash In
                     </Button>
-                  )}
+                  </SendConfirmationModal>
                 </form>
               </Form>
             </CardContent>

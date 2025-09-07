@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import { useEffect, useState, type ReactNode } from "react";
 import { Footer } from "./footer";
 import Navbar from "./navbar";
@@ -19,35 +19,30 @@ const CommonLayout = ({ children }: IProps) => {
   const [showGuideTour, setShowGuideTour] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log("Started checking tour guide completion");
-
     if (currentUser?.success && currentUser.data.email) {
       if (currentUser.data.isTourGuideShown === false) {
         setShowGuideTour(true);
-        console.log("Tour guide not completed yet! will start soon");
       } else {
         setShowGuideTour(false);
-        console.log("Tour already guide completed");
       }
     }
-    console.log(`Checking tour guide completion is successfully completed `);
   }, [currentUser]);
 
   const handleTourCompleted = async () => {
     try {
       const res = await tourGuideDone(null).unwrap();
-      console.log(res.data);
+
       if (res.success) {
         const toastId = toast.loading("Completing tour guide..");
         toast.success("Tour guide completed", { id: toastId });
         setShowGuideTour(false);
       } else {
         setShowGuideTour(true);
-        console.log("Tour guide already completed");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error("Completion of tour guide is falied");
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   };

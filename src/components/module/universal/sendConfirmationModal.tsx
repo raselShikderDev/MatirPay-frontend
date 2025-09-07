@@ -29,12 +29,9 @@ interface IProps{
 
 
 export function SendConfirmationModal({children, onConfirm, data}:IProps) {
-// eslint-disable-next-line no-console
-console.log("Data wating for confirmation", data)
+
   const handleConfrim = ()=>{
       onConfirm()
-      // eslint-disable-next-line no-console
-      console.log("Successfully send :", data)
   }
  
   return (

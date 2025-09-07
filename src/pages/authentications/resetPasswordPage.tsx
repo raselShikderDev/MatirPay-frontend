@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -57,12 +57,12 @@ const ResetPasswordPage = ({
       newPassword: value.newPassword,
       id: id as string,
     });
-    console.log(value);
   };
 
   const handleUpdatePassword = async () => {
    
     if (!payload || !resetToken) {
+      // eslint-disable-next-line no-console
       console.error("fullfill requirment first");
 
       return;
@@ -72,7 +72,6 @@ const ResetPasswordPage = ({
         payload,
         resetToken: resetToken,
       }).unwrap();
-      console.log(res.data);
       if (res.success) {
         const toastId = toast.loading("Reseting password..");
         toast.success("Successfully reset password", { id: toastId });
@@ -83,6 +82,7 @@ const ResetPasswordPage = ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error("Reseting password is falied");
+      // eslint-disable-next-line no-console
       console.error(error);
       setIsShowForm(false);
       setConfirmStatus(false);

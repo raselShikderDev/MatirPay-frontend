@@ -46,8 +46,7 @@ const AgentApprovePage = () => {
     if (!payload) return;
     try {
       const res = await approveAgent(payload).unwrap();
-      // eslint-disable-next-line no-console
-      console.log(res);
+
       if (res.success) {
         form.reset();
         setIsShowForm(false);
@@ -65,8 +64,7 @@ const AgentApprovePage = () => {
   };
 
   const onHandleSubmit = (value: z.infer<typeof userIdZodSchema>) => {
-    // eslint-disable-next-line no-console
-    console.log(value);
+
     setPayload(value.userId);
   };
 

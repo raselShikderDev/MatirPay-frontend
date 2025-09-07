@@ -76,8 +76,6 @@ const VerifyPage = () => {
     };
     try {
       const res = await sendOtp(data).unwrap();
-      // eslint-disable-next-line no-console
-      console.log(res);
 
       if (res.success) {
         const toastId = toast.loading("Sending OTP");
@@ -105,13 +103,9 @@ const VerifyPage = () => {
       email: email,
       otp: data.otp,
     };
-    // eslint-disable-next-line no-console
-    console.log(paylaod);
+
     try {
       const res = await verifyOtp(paylaod).unwrap();
-      // eslint-disable-next-line no-console
-      console.log(res);
-
       if (res.success) {
         const toastId = toast.loading("Verifying OTP");
         toast.success("OTP successfully verified", { id: toastId });

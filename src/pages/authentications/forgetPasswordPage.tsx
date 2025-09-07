@@ -12,7 +12,7 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LoadingSpinner } from "@/components/loading";
 import { forgetPasswordFormZodSchema } from "@/schema/userSchmea";
 import { Input } from "@/components/ui/input";
@@ -26,7 +26,7 @@ interface forgetPasswordProps {
 }
 
 const ForgetPasswordPage = ({
-  heading = "Send password reset email",
+  heading = "Send me a password reset email",
 }: forgetPasswordProps) => {
   const [confirmStatus, setConfirmStatus] = useState<boolean>(false);
   // const [timer, setTimer] = useState<number>(60 * 5);
@@ -51,7 +51,6 @@ const ForgetPasswordPage = ({
     setPayload({
       email: value.email,
     });
-    console.log(value);
   };
 
   const handleForgetPassword = async () => {
@@ -60,7 +59,7 @@ const ForgetPasswordPage = ({
     }
     try {
       const res = await forgetPassword(payload).unwrap();
-      console.log(res.data);
+   
       if (res.success) {
         const toastId = toast.loading("Sending forget password email..");
         toast.success("Successfully sent forget password email", {
@@ -78,9 +77,6 @@ const ForgetPasswordPage = ({
       setConfirmStatus(false);
     }
   };
-  useEffect(() => {
-    if (payload?.email) console.log(payload?.email);
-  }, [payload?.email]);
 
 
   return (
@@ -89,7 +85,7 @@ const ForgetPasswordPage = ({
         <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-20 lg:justify-start">
           <div className="">
             <div className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-5 py-10 shadow-md dark:bg-gray-900">
-              {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
+              {heading && <h1 className="text-xl pb-4 font-semibold">{heading}</h1>}
               {isLoading && <LoadingSpinner />}
               {!isShowForm && (
                 <ForgetPasswordConfirmMessage

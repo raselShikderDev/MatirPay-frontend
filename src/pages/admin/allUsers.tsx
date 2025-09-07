@@ -81,16 +81,14 @@ export default function AllUsers() {
     const params = new URLSearchParams();
     params.delete("type");
     setSearchParams(params);
-    // eslint-disable-next-line no-console
-    console.log("paramsa cleared");
+
   };
 
   // handling blcoking
   const handleBlockuserBtn = async (id: string) => {
     try {
       const res = await blockUser(id).unwrap();
-      // eslint-disable-next-line no-console
-      console.log(res);
+
       if (res.success) {
         const toastId = toast.loading("Blocking is under processing...");
         toast.success("Successfully Blocked", { id: toastId });
@@ -106,8 +104,7 @@ export default function AllUsers() {
   const handleUnBlockuserBtn = async (id: string) => {
     try {
       const res = await unlockUser(id).unwrap();
-      // eslint-disable-next-line no-console
-      console.log(res);
+
       if (res.success) {
         const toastId = toast.loading("Unblocking is under processing...");
         toast.success("Successfully unblocked", { id: toastId });
@@ -123,8 +120,7 @@ export default function AllUsers() {
   const handleAgentApproveBtn = async (id: string) => {
     try {
       const res = await approveAgent(id).unwrap();
-      // eslint-disable-next-line no-console
-      console.log(res);
+
       if (res.success) {
         const toastId = toast.loading("Approving agent is processing...");
         toast.success("Agent approved", { id: toastId });
@@ -140,8 +136,7 @@ export default function AllUsers() {
   const handleAgentSuspendBtn = async (id: string) => {
     try {
       const res = await suspendAgent(id).unwrap();
-      // eslint-disable-next-line no-console
-      console.log(res);
+
       if (res.success) {
         const toastId = toast.loading(
           "Suspending agent is under processing..."
@@ -236,10 +231,11 @@ export default function AllUsers() {
                                     blockUserloading
                                   }
                                   variant="ghost"
+                                  className="cursor-pointer"
                                 >
                                   <Ban
                                     size={32}
-                                    className={`${
+                                    className={`cursor-pointer ${
                                       tx.status === USER_STATUS.blocked
                                         ? "text-foreground opacity-30"
                                         : "text-red-600 opacity-95"
@@ -260,10 +256,11 @@ export default function AllUsers() {
                                     unblockUserloading
                                   }
                                   variant="ghost"
+                                  className="cursor-pointer"
                                 >
                                   <UserCheck
                                     size={32}
-                                    className={`${
+                                    className={`cursor-pointer ${
                                       tx.status === USER_STATUS.active
                                         ? "text-foreground opacity-30"
                                         : "text-green-600 opacity-95"
@@ -285,10 +282,11 @@ export default function AllUsers() {
                                 <Button
                                   disabled={suspendAgentloading}
                                   variant="ghost"
+                                  className="cursor-pointer"
                                 >
                                   <MinusCircle
                                     size={32}
-                                    className="text-red-600"
+                                    className="text-red-600 cursor-pointer"
                                   />
                                 </Button>
                               </StatusChangeConfirmationModal>
@@ -302,8 +300,9 @@ export default function AllUsers() {
                                 <Button
                                   disabled={approveAgentloading}
                                   variant="ghost"
+                                  className="cursor-pointer"
                                 >
-                                  <Power size={32} className="text-green-600" />
+                                  <Power size={32} className="text-green-600 cursor-pointer" />
                                 </Button>
                               </StatusChangeConfirmationModal>
                             )}

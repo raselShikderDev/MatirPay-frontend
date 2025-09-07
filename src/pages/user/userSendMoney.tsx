@@ -19,8 +19,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useGetMyWalletQuery, useUserSendMoneyMutation } from "@/redux/features/wallet/wallet.api";
-import { SendConfirmationModal, type ISendMoneyCOnfirmationData } from "@/components/module/universal/sendConfirmationModal";
+import {
+  useGetMyWalletQuery,
+  useUserSendMoneyMutation,
+} from "@/redux/features/wallet/wallet.api";
+import {
+  SendConfirmationModal,
+  type ISendMoneyCOnfirmationData,
+} from "@/components/module/universal/sendConfirmationModal";
 import { transactionTypeText } from "@/constrants/constrants";
 import { DollarSign, Wallet } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,10 +43,9 @@ interface IPayload {
   toWallet: string;
 }
 
-
 const UserSendMoney = () => {
   const [userSendMoney, { isLoading }] = useUserSendMoneyMutation();
-  const { data:myWallet} = useGetMyWalletQuery(null);
+  const { data: myWallet } = useGetMyWalletQuery(null);
   const [payload, setPayload] = useState<IPayload | null>(null);
   const [confirmMessage, setConfirmMessage] =
     useState<TransactionDetails | null>(null);
@@ -48,10 +53,10 @@ const UserSendMoney = () => {
   const [isShowForm, setIsShowForm] = useState<boolean>(true);
   const [isBalanceAvailable, setIsBalanceAvailable] = useState<boolean>(true);
   const [data, setData] = useState<ISendMoneyCOnfirmationData>({
-        amount: 0,
-        walletId: "toWallet",
-        type: transactionTypeText.sendMoney as TansactionType,
-      });
+    amount: 0,
+    walletId: "toWallet",
+    type: transactionTypeText.sendMoney as TansactionType,
+  });
 
   const form = useForm<z.infer<typeof userTransactionZodSchema>>({
     resolver: zodResolver(userTransactionZodSchema),
@@ -66,8 +71,6 @@ const UserSendMoney = () => {
     if (!payload || !isBalanceAvailable) return;
     try {
       const res = await userSendMoney(payload).unwrap();
-      // eslint-disable-next-line no-console
-      console.log(...res.data);
       if (res.success) {
         setConfirmMessage(res.data[0]);
         setConfirmStatus(res.success);
@@ -79,17 +82,19 @@ const UserSendMoney = () => {
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
       console.error(error);
+      setConfirmStatus(false);
       setIsShowForm(false);
       toast.error("Send Money falied");
     }
   };
 
   const onsubmit = (value: z.infer<typeof userTransactionZodSchema>) => {
-    // eslint-disable-next-line no-console
-    console.log(value);
+    setConfirmMessage(null);
+    setConfirmStatus(false);
     if (Number(value.amount) > Number(myWallet?.data.balance)) {
-      setIsBalanceAvailable(false)
-      setIsShowForm(false)
+      setIsBalanceAvailable(false);
+      setIsShowForm(false);
+      return;
     }
 
     const payload: IPayload = {
@@ -106,13 +111,20 @@ const UserSendMoney = () => {
         walletId: payload?.toWallet as string,
         type: transactionTypeText.sendMoney as TansactionType,
       });
-    } 
+    }
   }, [payload]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <Card className="w-full max-w-md rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-800">
-        {!isBalanceAvailable && <InsufficientBalanceModal setIsBalanceAvailable={()=>setIsBalanceAvailable(true)} setIsShowForm={()=>setIsShowForm(true)} currentBalance={myWallet?.data.balance} requiredAmount={payload?.amount}/>}
+        {!isBalanceAvailable && (
+          <InsufficientBalanceModal
+            setIsBalanceAvailable={() => setIsBalanceAvailable(true)}
+            setIsShowForm={() => setIsShowForm(true)}
+            currentBalance={myWallet?.data.balance}
+            requiredAmount={payload?.amount}
+          />
+        )}
         {isLoading && <LoadingSpinner />}
         {!isShowForm && (
           <ConfirmationMessage
