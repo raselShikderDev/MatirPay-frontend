@@ -46,13 +46,23 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
+    tourGuideDone: builder.mutation<IResponse<null>, null>({
+      query: () => ({
+        url: `/users/done-tour-guide`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
     toggleAgentStatus: builder.mutation<IResponse<null>, string>({
       query: (id) => ({
         url: `/users/agent-approve/:${id}`,
         method: "POST",
       }),
     }),
-    getAllUser: builder.query<IResponse<IUser[]>,{ role?: TRole; page?: number }>({
+    getAllUser: builder.query<
+      IResponse<IUser[]>,
+      { role?: TRole; page?: number }
+    >({
       query: (params) => ({
         url: "/users/all-user",
         method: "GET",
@@ -103,4 +113,5 @@ export const {
   useSuspendAgentMutation,
   useBlockUserMutation,
   useUnblockUserMutation,
+  useTourGuideDoneMutation,
 } = userApi;

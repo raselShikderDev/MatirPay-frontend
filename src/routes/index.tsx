@@ -8,11 +8,13 @@ import { withAuth } from "@/utils/withAuth";
 import { Roles } from "@/constrants/constrants";
 import type { TRole } from "@/types";
 import { lazy } from "react";
+import FeaturePage from "@/pages/featurePage";
 
 const DashboardLayout = lazy(
   () => import("@/components/layout/dashboardLayout")
 );
 const AboutPage = lazy(() => import("@/pages/aboutPage"));
+const FaqPage = lazy(() => import("@/pages/faqPage"));
 const Login = lazy(() => import("@/pages/authentications/loginPage"));
 const VerifyPage = lazy(() => import("@/pages/authentications/verifyPage"));
 const ContactPage = lazy(() => import("@/pages/contactPage"));
@@ -57,9 +59,18 @@ export const router = createBrowserRouter([
         Component: PricingPage,
       },
       {
+        path: "features",
+        Component: FeaturePage,
+      },
+      {
+        path: "faq",
+        Component: FaqPage,
+      },
+      {
         path: "forget-password",
         Component: ForgetPasswordPage,
       },
+      
       {
         path: "update-password",
         Component: withAuth(UpdatePasswordPage),

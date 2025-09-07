@@ -12,6 +12,7 @@ const DashboardAdmin = lazy(() => import("@/pages/admin/dashboardAdmin"));
 const AgentSuspendPage = lazy(() => import("@/pages/admin/suspendAgentPage"));
 const AllTransactions = lazy(() => import("@/pages/user/allTransaction"));
 
+
 export const adminSidebarItems: ISidebarItems[] = [
   {
     title: "Admin Options",

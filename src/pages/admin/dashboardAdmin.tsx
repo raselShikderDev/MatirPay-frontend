@@ -28,13 +28,14 @@ import formatDate from "@/utils/dateFormate";
 import { ErrorAlert } from "@/components/error";
 import { Roles } from "@/constrants/constrants";
 
-
-
-
 export default function DashboardAdmin() {
   const { data: users } = useGetAllUserQuery({ role: "USER" });
   const { data: approvedAgent } = useGetApprovedAgentCountQuery(null);
-  const { data: alltransactions, isLoading:allTransactionLoading, isError:allTransactionIsError } = useGetAllTransactionQuery(null);
+  const {
+    data: alltransactions,
+    isLoading: allTransactionLoading,
+    isError: allTransactionIsError,
+  } = useGetAllTransactionQuery(null);
   const {
     data: allUsers,
     isLoading: allUsersLoading,
@@ -43,7 +44,6 @@ export default function DashboardAdmin() {
 
   const [approvedAgentCount, setApprovedAgentCount] = useState<number>(0);
   const [activeUsersCount, setActiveUsersCount] = useState<number>(0);
-
 
   useEffect(() => {
     if (approvedAgent?.data) {
@@ -60,7 +60,7 @@ export default function DashboardAdmin() {
         <Card className="@container/card">
           <CardHeader>
             <CardDescription>Active User</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
+            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl active-user">
               {activeUsersCount}
             </CardTitle>
           </CardHeader>
@@ -68,7 +68,7 @@ export default function DashboardAdmin() {
         <Card className="@container/card">
           <CardHeader>
             <CardDescription>Approved Agents</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl">
+            <CardTitle className="text-2xl font-semibold tabular-nums sm:text-3xl approved-agent">
               {approvedAgentCount}
             </CardTitle>
           </CardHeader>
@@ -158,52 +158,57 @@ export default function DashboardAdmin() {
         </div>
       </div>
       <div className="p-4 mt-3 w-full max-w-6xl mx-auto">
-        <h2 className="text-2xl font-bold mb-4">Recenet registed Users & Agents</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          Recenet registed Users & Agents
+        </h2>
         <div className="rounded-md border">
           {allUsersIsError && <ErrorAlert />}
           {allUsersLoading ? (
             <LoadingSpinner />
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Registed By</TableHead>
-                  <TableHead>Last activities</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {allUsers?.data.map(
-                  (tx) =>
-                    tx.role !== Roles.admin &&
-                    tx.role !== Roles.superAdmin && (
-                      <TableRow key={tx._id}>
-                        <TableCell className="font-mono text-xs text-gray-700 dark:text-gray-300">
-                          {tx.name}
-                        </TableCell>
-                        <TableCell className="font-semibold">
-                          {tx.role}
-                        </TableCell>
-                        <TableCell>
-                          <div className="text-sm">
-                            <span className="block text-gray-700 dark:text-gray-300">
+            <div className="w-full overflow-x-auto">
+              <Table className="min-w-full border border-gray-200 dark:border-gray-700">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-center">Name</TableHead>
+                    <TableHead className="text-center">Role</TableHead>
+                    <TableHead className="text-center">Status</TableHead>
+                    <TableHead className="text-center">Registered By</TableHead>
+                    <TableHead className="text-center">
+                      Last activities
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  {allUsers?.data.map(
+                    (tx) =>
+                      tx.role !== Roles.admin &&
+                      tx.role !== Roles.superAdmin && (
+                        <TableRow key={tx._id} className="text-center">
+                          <TableCell className="font-mono text-xs text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                            {tx.name}
+                          </TableCell>
+                          <TableCell className="font-semibold whitespace-nowrap">
+                            {tx.role}
+                          </TableCell>
+                          <TableCell>
+                            <span className="block text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
                               {tx.status}
                             </span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="font-semibold">
-                          {tx.auths[0].provider}
-                        </TableCell>
-                        <TableCell className="text-sm text-gray-600 dark:text-gray-400">
-                          {formatDate(tx.updatedAt)}
-                        </TableCell>
-                      </TableRow>
-                    )
-                )}
-              </TableBody>
-            </Table>
+                          </TableCell>
+                          <TableCell className="font-semibold whitespace-nowrap">
+                            {tx.auths[0].provider}
+                          </TableCell>
+                          <TableCell className="text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                            {formatDate(tx.updatedAt)}
+                          </TableCell>
+                        </TableRow>
+                      )
+                  )}
+                </TableBody>
+              </Table>
+            </div>
           )}
         </div>
       </div>

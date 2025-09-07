@@ -10,16 +10,17 @@ import {
 } from "../ui/navigation-menu";
 import { ModeToggle } from "../mode-toggle";
 import { Roles } from "@/constrants/constrants";
-import React from "react";
 import AvatarOptionsIcon from "../avatarsOptionsicon";
 import { useGetMeQuery } from "@/redux/features/users/user.api";
+import React from "react";
 
-// Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
   { href: "/about", label: "About", role: "PUBLIC" },
   { href: "/contact", label: "Contact", role: "PUBLIC" },
   { href: "/pricing", label: "Pricing", role: "PUBLIC" },
+  { href: "/faq", label: "FAQ", role: "PUBLIC" },
+  { href: "/features", label: "Features", role: "PUBLIC" },
   { href: "/admin", label: "Dashboard", role: Roles.admin },
   { href: "/admin", label: "Dashboard", role: Roles.superAdmin },
   { href: "/user", label: "Dashboard", role: Roles.user },
@@ -40,12 +41,13 @@ export default function Navbar() {
     return false;
   });
 
+
+
+
   return (
     <header className="border-b px-4 sticky z-50 top-0 bg-gray-50 dark:bg-gray-950 ">
       <div className="mx-auto container flex h-16 items-center justify-between gap-4">
-        {/* Left side */}
         <div className="flex items-center gap-2">
-          {/* Mobile menu trigger */}
           <Popover>
             <PopoverTrigger className="cursor-pointer" asChild>
               <Button
@@ -94,16 +96,15 @@ export default function Navbar() {
               </NavigationMenu>
             </PopoverContent>
           </Popover>
-          {/* Main nav */}
           <div className="flex items-center gap-6">
-            <MatirPayLogo />
-
-            {/* Navigation menu */}
-            <NavigationMenu className="max-md:hidden">
+            <div className="logo">
+              <MatirPayLogo />
+            </div>
+            <NavigationMenu className="navbar max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {filterLinks.map((link, index) => (
                   <React.Fragment key={index}>
-                    <NavigationMenuItem>
+                    <NavigationMenuItem className={`${link.label === "Dashboard" && "view-dashboard"}`}>
                       <>
                         {link.role === "PUBLIC" && (
                           <NavigationMenuLink
@@ -129,15 +130,13 @@ export default function Navbar() {
             </NavigationMenu>
           </div>
         </div>
-        {/* Right side */}
         <div className="flex items-center gap-2 h-10">
-          {/* Mode Toggle */}
-          <ModeToggle  />
-
-          {/* User Avatar / Log In */}
+          <div className="dark-mode-toggle">
+            <ModeToggle />
+          </div>
           {data?.data.email ? (
             <div className="flex items-center h-8">
-              <div className="flex items-center h-8 w-8">
+              <div className="flex items-center h-8 w-8 avatar-menu">
                 <AvatarOptionsIcon />
               </div>
             </div>
