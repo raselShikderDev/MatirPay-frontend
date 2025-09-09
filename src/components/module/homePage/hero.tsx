@@ -1,5 +1,4 @@
 import { Star } from "lucide-react";
-
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
@@ -7,7 +6,7 @@ import { Link } from "react-router";
 interface Hero7Props {
   heading?: string;
   description?: string;
-  subdesription?:string;
+  subdesription?: string;
   button?: {
     text: string;
     url: string;
@@ -25,7 +24,7 @@ interface Hero7Props {
 const Hero = ({
   heading = `Your All-in-One Digital Wallet with MatirPay`,
   description = `Secure, fast, and user-friendly — MatirPay is built with modern technologies and UI which will give you seamless financial control`,
-  subdesription =" Send, receive, and manage your money with ease.",
+  subdesription = "Send, receive, and manage your money with ease.",
   button = {
     text: "Explore Our Pricing",
     url: "/pricing",
@@ -58,38 +57,46 @@ const Hero = ({
   },
 }: Hero7Props) => {
   return (
-    <section className="py-32">
-      <div className="container text-center">
-        <div className="mx-auto flex max-w-5xl flex-col gap-6">
-          <h1 className="text-3xl font-extrabold lg:text-6xl">{heading}</h1>
-          <p className="text-muted-foreground text-balance lg:text-lg">
-            {description} <br />{subdesription}
+    <section className="py-24 sm:py-32">
+      <div className="container mx-auto px-4 text-center">
+        {/* Heading + description */}
+        <div className="mx-auto flex max-w-3xl flex-col gap-6">
+          <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
+            {heading}
+          </h1>
+          <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+            {description} <br />
+            {subdesription}
           </p>
         </div>
+
+        {/* Button */}
         <Button asChild size="lg" className="mt-10">
           <Link to={button.url}>{button.text}</Link>
         </Button>
-        <div className="mx-auto mt-10 flex w-fit flex-col items-center gap-4 sm:flex-row">
-          <span className="mx-4 inline-flex items-center -space-x-4">
+
+        {/* Reviews */}
+        <div className="mx-auto mt-10 flex w-full max-w-lg flex-col items-center justify-center gap-6 sm:flex-row">
+          <span className="flex -space-x-4">
             {reviews.avatars.map((avatar, index) => (
-              <Avatar key={index} className="size-14 border">
+              <Avatar key={index} className="size-12 border">
                 <AvatarImage src={avatar.src} alt={avatar.alt} />
               </Avatar>
             ))}
           </span>
-          <div>
-            <div className="flex items-center gap-1">
+          <div className="text-center sm:text-left">
+            <div className="flex items-center justify-center sm:justify-start gap-1">
               {[...Array(5)].map((_, index) => (
                 <Star
                   key={index}
                   className="size-5 fill-yellow-400 text-yellow-400"
                 />
               ))}
-              <span className="mr-1 font-semibold">
+              <span className="ml-1 font-semibold">
                 {reviews.rating?.toFixed(1)}
               </span>
             </div>
-            <p className="text-muted-foreground text-left font-medium">
+            <p className="text-muted-foreground font-medium">
               from {reviews.count}+ reviews
             </p>
           </div>
