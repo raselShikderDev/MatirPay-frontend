@@ -31,40 +31,37 @@ const defaultSections = [
   {
     title: "Product",
     links: [
-      { name: "Overview", href: "#" },
-      { name: "Pricing", href: "#" },
-      { name: "Features", href: "#" },
+      { name: "Pricing", href: "/pricing" },
+      { name: "Features", href: "/features" },
     ],
   },
   {
     title: "Company",
     links: [
-      { name: "About", href: "#" },
-      { name: "Team", href: "#" },
-      { name: "Blog", href: "#" },
-      { name: "Careers", href: "#" },
+      { name: "About", href: "/about" },
+      { name: "Contact", href: "/contact" },
+      { name: "Faq", href: "/faq" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { name: "Help", href: "#" },
-      { name: "Advertise", href: "#" },
-      { name: "Privacy", href: "#" },
+      { name: "Help", href: "/contact" },
+      { name: "Privacy", href: "/privacy-policies" },
     ],
   },
 ];
 
 const defaultSocialLinks = [
   { icon: <FaGithub className="w-5 h-5" />, href: "https://github.com/raselShikderDev", label: "Github" },
-  { icon: <FaFacebook className="w-5 h-5" />, href: "#", label: "Facebook" },
+  { icon: <FaFacebook className="w-5 h-5" />, href: "https://www.linkedin.com/in/raseldev", label: "Facebook" },
   { icon: <FaTwitter className="w-5 h-5" />, href: "https://x.com/raselShikderDev", label: "Twitter" },
   { icon: <FaLinkedin className="w-5 h-5" />, href: "https://www.linkedin.com/in/raseldev", label: "LinkedIn" },
 ];
 
 const defaultLegalLinks = [
-  { name: "Terms and Conditions", href: "#" },
-  { name: "Privacy Policy", href: "#" },
+  { name: "Terms and Conditions", href: "/terms-conditions" },
+  { name: "Privacy Policy", href: "/privacy-policies" },
 ];
 
 const Footer = ({
