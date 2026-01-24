@@ -57,7 +57,7 @@ const Hero = ({
   },
 }: Hero7Props) => {
   return (
-    <section className="py-24 sm:py-32">
+    <section className="py-24 sm:py-32 bg-muted/40">
       <div className="container mx-auto px-4 text-center">
         {/* Heading + description */}
         <div className="mx-auto flex max-w-3xl flex-col gap-6">
@@ -72,7 +72,7 @@ const Hero = ({
 
         {/* Button */}
         <Button asChild size="lg" className="mt-10">
-          <Link to={button.url}>{button.text}</Link>
+          <Link className="dark:text-white" to={button.url}>{button.text}</Link>
         </Button>
 
         {/* Reviews */}

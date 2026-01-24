@@ -142,7 +142,7 @@ export default function Navbar() {
             </div>
           ) : (
             <Button asChild size="sm" className="h-8 flex items-center">
-              <Link to="/signin">Log In</Link>
+              <Link to="/signin" className="dark:text-white">Log In</Link>
             </Button>
           )}
         </div>

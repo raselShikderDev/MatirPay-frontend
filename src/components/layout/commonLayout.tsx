@@ -52,7 +52,7 @@ const CommonLayout = ({ children }: IProps) => {
       {showGuideTour && <GuidedTour onComplete={handleTourCompleted} />}
 
       <Navbar />
-      <div>{children}</div>
+      <div className="bg-gradient-to-r from-primary/10 via-background to-primary/10">{children}</div>
       <Footer />
     </div>
   );

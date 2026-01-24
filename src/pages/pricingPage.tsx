@@ -1,3 +1,4 @@
+import TrustBanner from "@/components/module/homePage/TrustBanner";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -69,6 +70,8 @@ export default function PricingPage() {
       <div className="mt-16 text-center text-muted-foreground text-sm">
         <p>Offers are for a limited time and may change without prior notice.</p>
       </div>
+      <div className="py-4"></div>
+      <TrustBanner/>
     </section>
   );
 }

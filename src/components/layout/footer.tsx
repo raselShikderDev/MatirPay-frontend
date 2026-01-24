@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaFacebook, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { MatirPayLogo } from "../module/logo";
 import { Link } from "react-router";
 
@@ -56,10 +56,10 @@ const defaultSections = [
 ];
 
 const defaultSocialLinks = [
-  { icon: <FaInstagram className="w-5 h-5" />, href: "#", label: "Instagram" },
+  { icon: <FaGithub className="w-5 h-5" />, href: "https://github.com/raselShikderDev", label: "Github" },
   { icon: <FaFacebook className="w-5 h-5" />, href: "#", label: "Facebook" },
-  { icon: <FaTwitter className="w-5 h-5" />, href: "#", label: "Twitter" },
-  { icon: <FaLinkedin className="w-5 h-5" />, href: "#", label: "LinkedIn" },
+  { icon: <FaTwitter className="w-5 h-5" />, href: "https://x.com/raselShikderDev", label: "Twitter" },
+  { icon: <FaLinkedin className="w-5 h-5" />, href: "https://www.linkedin.com/in/raseldev", label: "LinkedIn" },
 ];
 
 const defaultLegalLinks = [
