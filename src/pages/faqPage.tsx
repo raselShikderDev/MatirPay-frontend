@@ -87,7 +87,7 @@ const FaqPage = () => {
           </Accordion>
         </div>
       </section>
-      <section className="py-16 px-4 bg-muted text-center">
+      <section className="py-16 px-4 bg-muted/10 text-center">
         <h2 className="text-2xl font-semibold mb-4">Still need help?</h2>
         <p className="mb-6 text-muted-foreground">
           Can’t find the answer you’re looking for? Please contact our support

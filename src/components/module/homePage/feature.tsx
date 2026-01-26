@@ -44,7 +44,7 @@ export default function FeaturesSection() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="h-full rounded-2xl shadow-sm hover:shadow-md transition">
+              <Card className="h-full bg-muted/10 rounded-2xl shadow-sm hover:shadow-md transition">
                 <CardContent className="p-6 text-center">
                   <feature.icon className="mx-auto h-10 w-10 text-primary mb-4" />
                   <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>

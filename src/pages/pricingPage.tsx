@@ -38,7 +38,7 @@ export default function PricingPage() {
 
       <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 max-w-6xl mx-auto">
         {pricingData.map((item, idx) => (
-          <Card key={idx} className="border rounded-xl">
+          <Card key={idx} className="border rounded-xl bg-muted/15">
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 {item.title}

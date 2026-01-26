@@ -96,7 +96,6 @@ const ContactPage = () => {
             />
             {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>}
           </div>
-
           <div className="text-center">
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Sending..." : "Send Message"}

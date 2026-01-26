@@ -9,7 +9,7 @@ export function RoleComparison() {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <Card className="p-6 rounded-2xl">
+          <Card className="p-6 rounded-2xl bg-muted/10">
             <h3 className="text-xl font-semibold mb-4">Users</h3>
             <ul className="space-y-2 text-muted-foreground">
               <li>• Create and manage wallets</li>
@@ -19,7 +19,7 @@ export function RoleComparison() {
             </ul>
           </Card>
 
-          <Card className="p-6 rounded-2xl">
+          <Card className="p-6 rounded-2xl bg-muted/10">
             <h3 className="text-xl font-semibold mb-4">Agents</h3>
             <ul className="space-y-2 text-muted-foreground">
               <li>• Operate after admin approval</li>

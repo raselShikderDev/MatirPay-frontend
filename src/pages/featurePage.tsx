@@ -28,7 +28,7 @@ const FeaturePage = () => {
           </Link>
         </div>
       </section>
-      <section className="bg-muted py-16 md:py-24">
+      <section className="py-16 md:py-24 bg-muted/15">
         <div className="container mx-auto px-4 md:px-0 text-center">
           <p className="mb-2 text-sm text-muted-foreground lg:text-base">
             FEATURES

@@ -25,7 +25,7 @@ export default function RoleCTABanner() {
 
                 <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                     {/* User Card */}
-                    <Card className="p-8 rounded-2xl hover:shadow-md transition">
+                    <Card className="p-8 rounded-2xl hover:shadow-md transition bg-muted/10">
                         <User className="h-10 w-10 text-primary mb-4" />
                         <h3 className="text-xl font-semibold mb-3">For Users</h3>
                         <p className="text-muted-foreground mb-6">
@@ -40,7 +40,7 @@ export default function RoleCTABanner() {
                     </Card>
 
                     {/* Agent Card */}
-                    <Card className="p-8 rounded-2xl hover:shadow-md transition">
+                    <Card className="p-8 rounded-2xl hover:shadow-md transition bg-muted/10">
                         <Users className="h-10 w-10 text-primary mb-4" />
                         <h3 className="text-xl font-semibold mb-3">For Agents</h3>
                         <p className="text-muted-foreground mb-6">

@@ -32,7 +32,7 @@ export default function LegalSection({
 
         <div className="space-y-6">
           {items.map((item, index) => (
-            <Card key={index} className="rounded-2xl">
+            <Card key={index} className="rounded-2xl bg-muted/10">
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">
