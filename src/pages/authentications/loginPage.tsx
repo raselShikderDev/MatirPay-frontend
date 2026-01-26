@@ -1,4 +1,3 @@
-
 import { MatirPayLogo } from "@/components/module/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +22,8 @@ import { LoginformZodSchema } from "@/schema/userSchmea";
 import { useGetMeQuery } from "@/redux/features/users/user.api";
 import { useEffect, useState } from "react";
 import AlreadyLoggedIn from "../universelPages/alreadyloggedin";
+import DemoLoginModal from "@/components/module/authentications/DemoLoginModal";
+import { Loader2, LogIn } from "lucide-react";
 
 interface Login1Props {
   heading?: string;
@@ -66,7 +67,6 @@ const Login = ({
 
   //Handling onsubmit
   const onSubmit = async (value: z.infer<typeof LoginformZodSchema>) => {
-  
     const payload: ILogin = {
       email: value.email,
       password: value.password,
@@ -142,12 +142,20 @@ const Login = ({
                   />
                   <Button
                     disabled={!form.formState.isValid || isLoading}
-                    className="cursor-pointer"
+                    className="cursor-pointer w-full"
                     type="submit"
                   >
-                    Submit
+                    {isLoading ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <LogIn className="w-5 h-5" />
+                    )}
+                    {!isLoading && "LogIn"}
                   </Button>
                 </form>
+                <div className="space-y-3 w-full">
+                  <DemoLoginModal />
+                </div>
               </Form>
             )}
           </div>

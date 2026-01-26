@@ -24,20 +24,12 @@ import { toast } from "sonner";
 // import { Roles } from "@/constrants/constrants";
 import { useGetMeQuery } from "@/redux/features/users/user.api";
 
-
-
 export default function AvatarOptionsIcon() {
   const navigate = useNavigate();
   const [logOut] = useLogOutMutation();
   const dispatch = useAppDispatch();
   const { data } = useGetMeQuery(null);
   const user = data?.data;
-
-  // const link =
-  //   (data?.data.role === Roles.user && "user") ||
-  //   data?.data.role === Roles.admin ||
-  //   (Roles.superAdmin && "admin") ||
-  //   (data?.data.role === Roles.agent && "agent");
 
   const handleLogout = async () => {
     try {
@@ -46,6 +38,7 @@ export default function AvatarOptionsIcon() {
         const toastId = toast.loading("Logging Out");
         toast.success("Successfully logged out", { id: toastId });
         dispatch(authApi.util.resetApiState());
+        navigate("/signin", { replace: true });
       }
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -108,7 +101,11 @@ export default function AvatarOptionsIcon() {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-          <Button onClick={handleLogout} className="cursor-pointer" variant={"ghost"}>
+          <Button
+            onClick={handleLogout}
+            className="cursor-pointer"
+            variant={"ghost"}
+          >
             Logout
           </Button>
         </DropdownMenuItem>
